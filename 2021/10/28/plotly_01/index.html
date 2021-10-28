@@ -6,15 +6,19 @@
     
 
     
-    <title>Archive: 2021/10 | Hexo Blog</title>
+    <title>Hexo Blog</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
+    <meta name="keywords" content="" />
+    
+    <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo Blog">
-<meta property="og:url" content="http://letsplay2ya.github.io/archives/2021/10/index.html">
+<meta property="og:url" content="http://letsplay2ya.github.io/2021/10/28/plotly_01/index.html">
 <meta property="og:site_name" content="Hexo Blog">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-28T05:37:22.451Z">
+<meta property="article:modified_time" content="2021-10-28T02:30:49.000Z">
 <meta property="article:author" content="Jeon">
 <meta name="twitter:card" content="summary">
     
@@ -143,221 +147,152 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <i class="icon fa fa-archive"></i>Archive: 2021/10
+    uncategorized
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
+                            <article id="post-plotly_01" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/2021/10/28/plotly_01/" class="article-date">
+       <time datetime="2021-10-28T05:37:22.451Z" itemprop="datePublished">2021-10-28</time>
+    </a>
+  </div>
 
-    
-    
-        
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2021" class="archive-year"><i class="icon fa fa-calendar-o"></i>2021</a>
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/2021/10/28/plotly_01/" class="article-date">
+     <time datetime="2021-10-28T02:30:49.000Z" itemprop="dateModified">2021-10-28</time>
+  </a>
+</div>
+
+
+                
+
+                
+                
+
+                
+
             </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
         
-        <a href="/2021/10/28/NumPy/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/NumPy/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
+        <div class="article-entry" itemprop="articleBody">
             
-            </div>
-            <div class="date"><time datetime="2021-10-28T05:37:22.458Z" itemprop="datePublished">2021-10-28</time></div>
+
+            
+
+            
+
+            <iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plotly.com/~letsplay2ya/1.embed" height="525" width="100%"></iframe>
         </div>
-        
-        <p class="article-excerpt">
-            NumPy 기초 연습NumPy 설치1conda install numpy
+        <footer class="article-footer">
+            
 
-또는 
-1pip install numpy
 
-NumPy 가져오기1import numpy as np
 
-어레이란?12a = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12]])print(a[0])
+    <a data-url="http://letsplay2ya.github.io/2021/10/28/plotly_01/" data-id="ckvaiyzak00027ovwccesbgg6" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
 
-[1 2 3 4]
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
 
-기본 배열zeros 0으로 채워진 배열1np.
-        </p>
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Jeon"
+        },
+        
+        "image": "http://letsplay2ya.github.io",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2021-10-28",
+        "dateCreated": "2021-10-28",
+        "dateModified": "2021-10-28",
+        "url": "http://letsplay2ya.github.io/2021/10/28/plotly_01/",
+        "description": "",
+        "wordCount": 8
+    }
+</script>
+
 </article>
-    
 
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/Git&Git%20Hub/" class="thumbnail">
-    
-    
-        <span style="background-image:url(../images/img.png)" alt="Hexo Blog 생성으로 Git Hub 기초 배우기" class="thumbnail-image"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/Git&amp;Git%20Hub/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T05:37:22.454Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/Git&Git%20Hub/">Hexo Blog 생성으로 Git Hub 기초 배우기</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-개요Hexo 블로그를 만들면서 Git Hub 기초를 습득한다.(Window 환경)
-기본 파일 설치
-https://nodejs.org 다운로드 node.js command prompt 사용(높은 처리 성능!) C:\Users\1&gt;node -v 로 설치 확인
-
-https://git-scm.com 다운로드 소스코드를 효과적으로 관리할 수 있다.(Git H
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/plotly_01/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/plotly_01/">0</span>
-    
-</span>
 
 
     
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T05:37:22.451Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-        <p class="article-excerpt">
-            
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/plotly%20graph/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/plotly%20graph/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T05:37:22.447Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/plotly%20graph/">(Python-Plotly) Plotly 그래프 깃헙블로그에 올리기</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            개요깃헙 블로그에 동적 시각화를 올리는 방법을 익힌다.
-필수 라이브러리 설치
-라이브러리 설치 Getting Started with Plotly in Python, https://plotly.com/python/getting-started/ Getting Started with Chart Studio in Python, https://plotly.com/py
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
+    </section>
 
 
 
@@ -419,6 +354,29 @@ https://git-scm.com 다운로드 소스코드를 효과적으로 관리할 수 �
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2021/10/28/Git&Git%20Hub/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            Hexo Blog 생성으로 Git Hub 기초 배우기
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2021/10/28/plotly%20graph/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">(Python-Plotly) Plotly 그래프 깃헙블로그에 올리기</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -589,11 +547,13 @@ https://git-scm.com 다운로드 소스코드를 효과적으로 관리할 수 �
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'http://letsplay2ya.github.io/2021/10/28/plotly_01/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
