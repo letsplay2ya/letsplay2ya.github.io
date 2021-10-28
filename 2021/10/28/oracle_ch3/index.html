@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>오라클 SQL-CSV파일 업로드 | Hexo Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="" />
+    
+    <meta name="description" content="1. SQL Developer 활용 왼쪽 상단에 ➕ 버튼 클릭 후, 테이블(필터링됨) &gt; 오른쪽 마우스버튼 &gt; 데이터 임포트를  클릭  아래와 같이 [데이터 임포트 마법사] 창이 활성화 됨.  여기에서 [찾아보기] 클릭 한다.  해당 파일을 찾아서 불러온다.  파일에 이상이 없는지 확인한다.  테이블 이름을 지정한다.  여기에서 불러오지 않을 컬">
+<meta property="og:type" content="article">
+<meta property="og:title" content="오라클 SQL-CSV파일 업로드">
+<meta property="og:url" content="http://letsplay2ya.github.io/2021/10/28/oracle_ch3/index.html">
+<meta property="og:site_name" content="Hexo Blog">
+<meta property="og:description" content="1. SQL Developer 활용 왼쪽 상단에 ➕ 버튼 클릭 후, 테이블(필터링됨) &gt; 오른쪽 마우스버튼 &gt; 데이터 임포트를  클릭  아래와 같이 [데이터 임포트 마법사] 창이 활성화 됨.  여기에서 [찾아보기] 클릭 한다.  해당 파일을 찾아서 불러온다.  파일에 이상이 없는지 확인한다.  테이블 이름을 지정한다.  여기에서 불러오지 않을 컬">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-28T12:09:33.238Z">
+<meta property="article:modified_time" content="2021-10-28T12:13:19.132Z">
+<meta property="article:author" content="Jeon">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/" title="Hexo Blog" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-oracle_ch3" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        오라클 SQL-CSV파일 업로드
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/2021/10/28/oracle_ch3/" class="article-date">
+       <time datetime="2021-10-28T12:09:33.238Z" itemprop="datePublished">2021-10-28</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/2021/10/28/oracle_ch3/" class="article-date">
+     <time datetime="2021-10-28T12:13:19.132Z" itemprop="dateModified">2021-10-28</time>
+  </a>
+</div>
+
+
+                
+
+                
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <h1 id="1-SQL-Developer-활용"><a href="#1-SQL-Developer-활용" class="headerlink" title="1. SQL Developer 활용"></a>1. SQL Developer 활용</h1><ul>
+<li><p>왼쪽 상단에 ➕ 버튼 클릭 후, <code>테이블(필터링됨) &gt; 오른쪽 마우스버튼 &gt; 데이터 임포트</code>를  클릭</p>
+</li>
+<li><p>아래와 같이 <code>[데이터 임포트 마법사]</code> 창이 활성화 됨.</p>
+</li>
+<li><p>여기에서 <code>[찾아보기]</code> 클릭 한다.</p>
+</li>
+<li><p>해당 파일을 찾아서 불러온다.</p>
+</li>
+<li><p>파일에 이상이 없는지 확인한다.</p>
+</li>
+<li><p>테이블 이름을 지정한다.</p>
+</li>
+<li><p>여기에서 불러오지 않을 컬럼은 삭제가 가능하다.</p>
+</li>
+<li><p>각 데이터 유형을 체크한다.</p>
+</li>
+<li><p>마지막 단계에서 완료 버튼을 누릅니다.</p>
+</li>
+<li><p>파일이 정상적으로 import 되었다면 아래와 같이 DB에 추가가 됩니다.</p>
+</li>
+<li><p>쿼리를 통해서 실제 조회가 되는지 확인한다.</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> air_pollution_train;</span><br></pre></td></tr></table></figure>
+<h1 id="2-명령-프롬트프"><a href="#2-명령-프롬트프" class="headerlink" title="2. 명령 프롬트프"></a>2. 명령 프롬트프</h1><ul>
+<li>이번에는 cmd 창에서 test 데이터를 불러오도록 한다.</li>
+<li>먼저 현재 경로를 확인한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> host cd</span><br><span class="line">C:\Windows\system32</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>해당 데이터는 <code>C:\Users\1\Desktop\tabular-playground-series-jul-2021</code> 에 있기 때문에 이동하도록 한다.</li>
+<li>먼저 <code>exit</code> cmd 터미널로 변환 뒤, 경로를 수정한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> exit</span><br><span class="line">C:\Windows\system32<span class="operator">&gt;</span> cd your_path</span><br><span class="line">C:\your\path<span class="operator">&gt;</span> sqlplus &quot;/ as sysdba&quot;</span><br><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> host cd</span><br><span class="line">C:\your\path</span><br><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> host dir</span><br><span class="line">C 드라이브의 볼륨에는 이름이 없습니다.</span><br><span class="line"> 볼륨 일련 번호: E657<span class="operator">-</span>CFA3</span><br><span class="line"></span><br><span class="line"> C:\your\path 디렉터리</span><br><span class="line"></span><br><span class="line"><span class="number">2021</span><span class="number">-07</span><span class="number">-14</span>  오전 <span class="number">11</span>:<span class="number">51</span>    <span class="operator">&lt;</span>DIR<span class="operator">&gt;</span>          .</span><br><span class="line"><span class="number">2021</span><span class="number">-07</span><span class="number">-14</span>  오전 <span class="number">11</span>:<span class="number">51</span>    <span class="operator">&lt;</span>DIR<span class="operator">&gt;</span>          ..</span><br><span class="line"><span class="number">2021</span><span class="number">-06</span><span class="number">-30</span>  오후 <span class="number">11</span>:<span class="number">44</span>            <span class="number">78</span>,<span class="number">716</span> sample_submission.csv</span><br><span class="line"><span class="number">2021</span><span class="number">-06</span><span class="number">-30</span>  오후 <span class="number">11</span>:<span class="number">44</span>           <span class="number">154</span>,<span class="number">260</span> test.csv</span><br><span class="line"><span class="number">2021</span><span class="number">-06</span><span class="number">-30</span>  오후 <span class="number">11</span>:<span class="number">44</span>           <span class="number">593</span>,<span class="number">980</span> train.csv</span><br><span class="line">               <span class="number">3</span>개 파일             <span class="number">826</span>,<span class="number">956</span> 바이트</span><br><span class="line">               <span class="number">2</span>개 디렉터리  <span class="number">96</span>,<span class="number">819</span>,<span class="number">806</span>,<span class="number">208</span> 바이트 남음</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>먼저 테이블을 생성한다.</li>
+<li>이 때 주의해야 하는 것은 테이블 생성할 때의 데이터 유형과 파일의 데이터 유형이 일치해야 정상적으로 업로드가 되기 때문에 주의 한다.<ul>
+<li>최초 테이블 생성 시, 아래와 같이 작성했다.</li>
+</ul>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> &quot;SCOTT&quot;.&quot;AIR_POLLUTION_TEST&quot; </span><br><span class="line">   (	&quot;DATE_TIME&quot; <span class="type">DATE</span>, </span><br><span class="line">	&quot;DEG_C&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;RELATIVE_HUMIDITY&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;ABSOLUTE_HUMIDITY&quot; NUMBER(<span class="number">38</span>,<span class="number">4</span>), </span><br><span class="line">	&quot;SENSOR_1&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;SENSOR_2&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;SENSOR_3&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;SENSOR_4&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;SENSOR_5&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>)</span><br><span class="line">   ) SEGMENT CREATION IMMEDIATE </span><br><span class="line">  PCTFREE <span class="number">10</span> PCTUSED <span class="number">40</span> INITRANS <span class="number">1</span> MAXTRANS <span class="number">255</span> </span><br><span class="line"> NOCOMPRESS LOGGING</span><br><span class="line">  STORAGE(<span class="keyword">INITIAL</span> <span class="number">65536</span> NEXT <span class="number">1048576</span> MINEXTENTS <span class="number">1</span> MAXEXTENTS <span class="number">2147483645</span></span><br><span class="line">  PCTINCREASE <span class="number">0</span> FREELISTS <span class="number">1</span> FREELIST <span class="keyword">GROUPS</span> <span class="number">1</span></span><br><span class="line">  BUFFER_POOL <span class="keyword">DEFAULT</span> FLASH_CACHE <span class="keyword">DEFAULT</span> CELL_FLASH_CACHE <span class="keyword">DEFAULT</span>)</span><br><span class="line">  TABLESPACE &quot;USERS&quot; ;</span><br><span class="line">테이블이 생성되었습니다.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>위 형태로 데이터를 올렸으나 <code>test.csv</code> 파일의 데이터 형태가 달라서 에러가 생겼다. 그래서 테이블을 아래와 같이 재 생성 했다.</li>
+<li>테이블 삭제는 다음 명령어를 이용한다. <code>DROP TABLE YOUR_TABLE_NAME PURGE;</code></li>
+</ul>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> &quot;SCOTT&quot;.&quot;AIR_POLLUTION_TEST&quot; </span><br><span class="line">   (	&quot;DATE_TIME&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;DEG_C&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;RELATIVE_HUMIDITY&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;ABSOLUTE_HUMIDITY&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_1&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_2&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_3&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_4&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_5&quot; VARCHAR2(<span class="number">20</span> BYTE)</span><br><span class="line">   ) SEGMENT CREATION IMMEDIATE </span><br><span class="line">  PCTFREE <span class="number">10</span> PCTUSED <span class="number">40</span> INITRANS <span class="number">1</span> MAXTRANS <span class="number">255</span> </span><br><span class="line"> NOCOMPRESS LOGGING</span><br><span class="line">  STORAGE(<span class="keyword">INITIAL</span> <span class="number">65536</span> NEXT <span class="number">1048576</span> MINEXTENTS <span class="number">1</span> MAXEXTENTS <span class="number">2147483645</span></span><br><span class="line">  PCTINCREASE <span class="number">0</span> FREELISTS <span class="number">1</span> FREELIST <span class="keyword">GROUPS</span> <span class="number">1</span></span><br><span class="line">  BUFFER_POOL <span class="keyword">DEFAULT</span> FLASH_CACHE <span class="keyword">DEFAULT</span> CELL_FLASH_CACHE <span class="keyword">DEFAULT</span>)</span><br><span class="line">  TABLESPACE &quot;USERS&quot; ;</span><br></pre></td></tr></table></figure>
+</li>
+<li>이제 <code>test.csv</code> 파일을 업로드 하기 위해 <code>.ctl</code> 파일을 생성한다.</li>
+<li>메모장 또는 그 외 에디터에서, <code>control.ctl</code>을 생성한다.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA</span><br><span class="line">INFILE &#x27;test.csv&#x27;</span><br><span class="line">INTO TABLE AIR_POLLUTION_TEST</span><br><span class="line">fields terminated by &#x27;,&#x27;</span><br><span class="line">(</span><br><span class="line">    DATE_TIME,</span><br><span class="line">    DEG_C,</span><br><span class="line">    RELATIVE_HUMIDITY,</span><br><span class="line">    ABSOLUTE_HUMIDITY,</span><br><span class="line">    SENSOR_1, </span><br><span class="line">    SENSOR_2,  </span><br><span class="line">    SENSOR_3, </span><br><span class="line">    SENSOR_4, </span><br><span class="line">    SENSOR_5</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>정상적으로 업데이트가 되는지 확인한다.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\1\Desktop\tabular-playground-series-jul-2021&gt;sqlldr scott/tiger control=control.ctl</span><br><span class="line"></span><br><span class="line">SQL*Loader: Release 19.0.0.0.0 - Production on 목 7월 15 17:15:41 2021</span><br><span class="line">Version 19.3.0.0.0</span><br><span class="line"></span><br><span class="line">Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.</span><br><span class="line"></span><br><span class="line">사용된 경로:      규약</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 250</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 500</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 750</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 1000</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 1250</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 1500</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 1750</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 2000</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 2248</span><br><span class="line">테이블 AIR_POLLUTION_TEST:</span><br><span class="line">  2248 행이(가) 성공적으로 로드되었습니다.</span><br><span class="line"></span><br><span class="line">로드에 대한 자세한 내용은</span><br><span class="line">  control.log</span><br><span class="line">로그 파일을 확인하십시오.</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://letsplay2ya.github.io/2021/10/28/oracle_ch3/" data-id="ckvawvj7800025kvw9bsahguf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Jeon"
+        },
+        "headline": "오라클 SQL-CSV파일 업로드",
+        "image": "http://letsplay2ya.github.io",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2021-10-28",
+        "dateCreated": "2021-10-28",
+        "dateModified": "2021-10-28",
+        "url": "http://letsplay2ya.github.io/2021/10/28/oracle_ch3/",
+        "description": "1. SQL Developer 활용
+왼쪽 상단에 ➕ 버튼 클릭 후, 테이블(필터링됨) &gt; 오른쪽 마우스버튼 &gt; 데이터 임포트를  클릭
+
+아래와 같이 [데이터 임포트 마법사] 창이 활성화 됨.
+
+여기에서 [찾아보기] 클릭 한다.
+
+해당 파일을 찾아서 불러온다.
+
+파일에 이상이 없는지 확인한다.
+
+테이블 이름을 지정한다.
+
+여기에서 불러오지 않을 컬",
+        "wordCount": 968
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/letsplay2ya/letsplay2ya.github.io" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2021/10/28/oracle_ch4/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            오라클 SQL-파이썬 연동
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2021/10/28/oracle_ch2/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">오라클 SQL-SQL Developer 설치</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch4/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch4/" class="title">오라클 SQL-파이썬 연동</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:12:41.779Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch3/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch3/" class="title">오라클 SQL-CSV파일 업로드</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:09:33.238Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch2/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch2/" class="title">오라클 SQL-SQL Developer 설치</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch1/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch1/" class="title">오라클 SQL-오라클 접속</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_install/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_install/" class="title">오라클 SQL-오라클 설치</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T08:01:42.785Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 Jeon</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://letsplay2ya.github.io/2021/10/28/oracle_ch3/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

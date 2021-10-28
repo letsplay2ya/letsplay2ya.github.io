@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>오라클 SQL-파이썬 연동 | Hexo Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="" />
+    
+    <meta name="description" content="파이참에서 가상환경을 만들어 오라클 연동 예제를 작성한다. 아나콘다, 파이참, 그리고 오라클 설치는 생략한다.  1. 가상환경 활성화 cmd 창에서 가상 환경을 세팅 하도록 한다. (권장: 관리자 실행) 바탕화면에 필자는 python_oracle 폴더를 생성했다. 현재 경로는 아래와 같다.  1C:\Users\1\Desktop\python_oracle&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="오라클 SQL-파이썬 연동">
+<meta property="og:url" content="http://letsplay2ya.github.io/2021/10/28/oracle_ch4/index.html">
+<meta property="og:site_name" content="Hexo Blog">
+<meta property="og:description" content="파이참에서 가상환경을 만들어 오라클 연동 예제를 작성한다. 아나콘다, 파이참, 그리고 오라클 설치는 생략한다.  1. 가상환경 활성화 cmd 창에서 가상 환경을 세팅 하도록 한다. (권장: 관리자 실행) 바탕화면에 필자는 python_oracle 폴더를 생성했다. 현재 경로는 아래와 같다.  1C:\Users\1\Desktop\python_oracle&amp;g">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-28T12:12:41.779Z">
+<meta property="article:modified_time" content="2021-10-28T12:14:40.032Z">
+<meta property="article:author" content="Jeon">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/" title="Hexo Blog" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-oracle_ch4" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        오라클 SQL-파이썬 연동
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/2021/10/28/oracle_ch4/" class="article-date">
+       <time datetime="2021-10-28T12:12:41.779Z" itemprop="datePublished">2021-10-28</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/2021/10/28/oracle_ch4/" class="article-date">
+     <time datetime="2021-10-28T12:14:40.032Z" itemprop="dateModified">2021-10-28</time>
+  </a>
+</div>
+
+
+                
+
+                
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <ul>
+<li>파이참에서 가상환경을 만들어 오라클 연동 예제를 작성한다.</li>
+<li>아나콘다, 파이참, 그리고 오라클 설치는 생략한다.</li>
+</ul>
+<h1 id="1-가상환경-활성화"><a href="#1-가상환경-활성화" class="headerlink" title="1. 가상환경 활성화"></a>1. 가상환경 활성화</h1><ul>
+<li>cmd 창에서 가상 환경을 세팅 하도록 한다. (권장: 관리자 실행)</li>
+<li>바탕화면에 필자는 <code>python_oracle</code> 폴더를 생성했다.</li>
+<li>현재 경로는 아래와 같다.</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>먼저 가상환경을 만든다.</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">conda create -<span class="literal">-name</span> your_env_name python=<span class="number">3.8</span></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">done</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># To activate this environment, use</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#     $ conda activate python_oracle</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># To deactivate an active environment, use</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#     $ conda deactivate</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>your_env_name 대신 다른 이름으로 설정해도 된다.</li>
+<li>가상 환경에 접속한다.</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;conda activate python_oracle</span><br><span class="line">(python_oracle) C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-필수-라이브러리-설치"><a href="#2-필수-라이브러리-설치" class="headerlink" title="2. 필수 라이브러리 설치"></a>2. 필수 라이브러리 설치</h1><ul>
+<li>ML을 위한 필수 라이브러리를 설치한다.</li>
+<li>pycaret &amp; oracle</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(python_oracle) C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;pip install pycaret</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">... wordcloud<span class="literal">-1</span>.<span class="number">8.1</span> yellowbrick<span class="literal">-1</span>.<span class="number">3</span>.post1</span><br><span class="line">(python_oracle) C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;pip install cx_Oracle</span><br><span class="line">Collecting cx_Oracle</span><br><span class="line">  Downloading cx_Oracle<span class="literal">-8</span>.<span class="number">2.1</span><span class="literal">-cp38</span><span class="literal">-cp38</span><span class="literal">-win_amd64</span>.whl (<span class="number">219</span> kB)</span><br><span class="line">     |████████████████████████████████| <span class="number">219</span> kB <span class="number">2.2</span> MB/s</span><br><span class="line">Installing collected packages: cx<span class="literal">-Oracle</span></span><br><span class="line">Successfully installed cx<span class="literal">-Oracle</span><span class="literal">-8</span>.<span class="number">2.1</span></span><br><span class="line">(python_oracle) C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt; deactivate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>deactivate</code> 한 뒤,  <code>lsnrctl status</code> 명령어를 통해 확인한다.</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;lsnrctl status</span><br><span class="line">LSNRCTL <span class="keyword">for</span> <span class="number">64</span><span class="literal">-bit</span> Windows: Version <span class="number">19.0</span>.<span class="number">0.0</span>.<span class="number">0</span> - Production on <span class="number">16</span><span class="literal">-7</span>월 <span class="literal">-2021</span> <span class="number">10</span>:<span class="number">28</span>:<span class="number">24</span></span><br><span class="line"></span><br><span class="line">Copyright (c) <span class="number">1991</span>, <span class="number">2019</span>, Oracle.  All rights reserved.</span><br><span class="line"></span><br><span class="line">(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=<span class="number">1521</span>)))에 연결되었습니다</span><br><span class="line">리스너의 상태</span><br><span class="line">------------------------</span><br><span class="line">별칭                     LISTENER</span><br><span class="line">버전                     TNSLSNR <span class="keyword">for</span> <span class="number">64</span><span class="literal">-bit</span> Windows: Version <span class="number">19.0</span>.<span class="number">0.0</span>.<span class="number">0</span> - Production</span><br><span class="line">시작 날짜                 <span class="number">13</span><span class="literal">-7</span>월 <span class="literal">-2021</span> <span class="number">17</span>:<span class="number">21</span>:<span class="number">03</span></span><br><span class="line">업타임                   <span class="number">2</span> 일 <span class="number">17</span> 시간. <span class="number">7</span> 분. <span class="number">25</span> 초</span><br><span class="line">트레이스 수준            off</span><br><span class="line">보안                     ON: Local OS Authentication</span><br><span class="line">SNMP                     OFF리스너 매개변수 파일   C:\ORACLE\WINDOWS.X64_193000_db_home\network\admin\listener.ora</span><br><span class="line">리스너 로그 파일         C:\ORACLE\diag\tnslsnr\DESKTOP<span class="literal">-F7LRGM5</span>\listener\alert\log.xml</span><br><span class="line">끝점 요약 청취 중...</span><br><span class="line">  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=<span class="number">127.0</span>.<span class="number">0.1</span>)(PORT=<span class="number">1521</span>)))</span><br><span class="line">  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1521ipc)))</span><br><span class="line">  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=DESKTOP<span class="literal">-F7LRGM5</span>)(PORT=<span class="number">5500</span>))(Security=(my_wallet_directory=C:\ORACLE\admin\orcl\xdb_wallet))(Presentation=HTTP)(Session=RAW))</span><br><span class="line">서비스 요약...</span><br><span class="line"><span class="string">&quot;CLRExtProc&quot;</span> 서비스는 <span class="number">1</span>개의 인스턴스를 가집니다.</span><br><span class="line">  <span class="string">&quot;CLRExtProc&quot;</span> 인스턴스(UNKNOWN 상태)는 이 서비스에 대해 <span class="number">1</span> 처리기를 가집니다.</span><br><span class="line"><span class="string">&quot;orcl&quot;</span> 서비스는 <span class="number">1</span>개의 인스턴스를 가집니다.</span><br><span class="line">  <span class="string">&quot;orcl&quot;</span> 인스턴스(READY 상태)는 이 서비스에 대해 <span class="number">1</span> 처리기를 가집니다.</span><br><span class="line"><span class="string">&quot;orclXDB&quot;</span> 서비스는 <span class="number">1</span>개의 인스턴스를 가집니다.</span><br><span class="line">  <span class="string">&quot;orcl&quot;</span> 인스턴스(READY 상태)는 이 서비스에 대해 <span class="number">1</span> 처리기를 가집니다.</span><br><span class="line">명령이 성공적으로 수행되었습니다</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))</code>에 연결되었습니다</li>
+</ul>
+<h1 id="3-연동코드-작성"><a href="#3-연동코드-작성" class="headerlink" title="3. 연동코드 작성"></a>3. 연동코드 작성</h1><ul>
+<li>필수 정보를 확인한다.<ul>
+<li>IP주소: localhost</li>
+<li>Port번호: 1521</li>
+<li>서비스이름: orcl</li>
+</ul>
+</li>
+<li>JupyterLab을 연 후 코드를 작성한다. (관리자 살행)<ul>
+<li>가상환경 <code>python_oracle</code> 으로 연결이 되어 있는지 확인한다.</li>
+</ul>
+</li>
+<li>먼저 Oracle에서 가져오는 코드이다.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cx_Oracle</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">dsn = cx_Oracle.makedsn(<span class="string">&#x27;localhost&#x27;</span>, <span class="number">1521</span>, <span class="string">&#x27;orcl&#x27;</span>)</span><br><span class="line">db = cx_Oracle.connect(<span class="string">&#x27;scott&#x27;</span>, <span class="string">&#x27;tiger&#x27;</span>)</span><br><span class="line"></span><br><span class="line">cursor = db.cursor()</span><br><span class="line">cursor.execute(<span class="string">&quot;&quot;&quot;select * from AIR_POLLUTION_TRAIN&quot;&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">row = cursor.fetchall()</span><br><span class="line">colname = cursor.description</span><br><span class="line">col = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> colname:</span><br><span class="line">    col.append(i[<span class="number">0</span>])</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">train_oracle = pd.DataFrame(row, columns = col)</span><br><span class="line"><span class="built_in">print</span>(train_oracle.shape)</span><br><span class="line"><span class="comment"># (7111, 12)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>이번에는 임시 테이블을 만들어서 Python에서 직접 테이블을 가져오는 쿼리를 작성한다.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> cx_Oracle</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> types, create_engine</span><br><span class="line"></span><br><span class="line"><span class="comment">#######################################################</span></span><br><span class="line"><span class="comment">### DB connection strings config</span></span><br><span class="line"><span class="comment">#######################################################</span></span><br><span class="line">tns = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">  (DESCRIPTION =</span></span><br><span class="line"><span class="string">    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))</span></span><br><span class="line"><span class="string">    (CONNECT_DATA =</span></span><br><span class="line"><span class="string">      (SERVER = DEDICATED)</span></span><br><span class="line"><span class="string">      (SERVICE_NAME = orcl)</span></span><br><span class="line"><span class="string">    )</span></span><br><span class="line"><span class="string">  )</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">usr = <span class="string">&quot;scott&quot;</span></span><br><span class="line">pwd = <span class="string">&quot;tiger&quot;</span></span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">&#x27;oracle+cx_oracle://%s:%s@%s&#x27;</span> % (usr, pwd, tns))</span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">&#x27;col1&#x27;</span>: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], </span><br><span class="line">                   <span class="string">&#x27;col2&#x27;</span>: [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>]&#125;)</span><br><span class="line"><span class="built_in">print</span>(df)</span><br><span class="line"></span><br><span class="line">df.to_sql(<span class="string">&#x27;test_table&#x27;</span>, engine, index=<span class="literal">False</span>, if_exists=<span class="string">&#x27;replace&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code class="python">   col1 col2
+0     1    A
+1     2    B
+2     3    C
+</code></pre>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://letsplay2ya.github.io/2021/10/28/oracle_ch4/" data-id="ckvawvj7900035kvw86axe6xg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Jeon"
+        },
+        "headline": "오라클 SQL-파이썬 연동",
+        "image": "http://letsplay2ya.github.io",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2021-10-28",
+        "dateCreated": "2021-10-28",
+        "dateModified": "2021-10-28",
+        "url": "http://letsplay2ya.github.io/2021/10/28/oracle_ch4/",
+        "description": "
+파이참에서 가상환경을 만들어 오라클 연동 예제를 작성한다.
+아나콘다, 파이참, 그리고 오라클 설치는 생략한다.
+
+1. 가상환경 활성화
+cmd 창에서 가상 환경을 세팅 하도록 한다. (권장: 관리자 실행)
+바탕화면에 필자는 python_oracle 폴더를 생성했다.
+현재 경로는 아래와 같다.
+
+1C:\Users\1\Desktop\python_oracle&g",
+        "wordCount": 945
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/letsplay2ya/letsplay2ya.github.io" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2021/10/28/oracle_ch3/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">오라클 SQL-CSV파일 업로드</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch4/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch4/" class="title">오라클 SQL-파이썬 연동</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:12:41.779Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch3/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch3/" class="title">오라클 SQL-CSV파일 업로드</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:09:33.238Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch2/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch2/" class="title">오라클 SQL-SQL Developer 설치</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch1/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch1/" class="title">오라클 SQL-오라클 접속</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_install/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_install/" class="title">오라클 SQL-오라클 설치</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T08:01:42.785Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 Jeon</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://letsplay2ya.github.io/2021/10/28/oracle_ch4/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

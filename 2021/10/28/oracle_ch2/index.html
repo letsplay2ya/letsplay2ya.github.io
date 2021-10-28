@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    
+
+    
+    <title>오라클 SQL-SQL Developer 설치 | Hexo Blog</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="keywords" content="" />
+    
+    <meta name="description" content="다음의 URL(https:&#x2F;&#x2F;www.oracle.com&#x2F;tools&#x2F;downloads&#x2F;sqldev-downloads.html)로 접속하여 오라클 SQL Developer를 다운로드 받는다.  이 때, 자바가 설치가 되어 있지 않다면 Windows 64-bit with JDK 8 included 를 클릭하여 다운로드 받는다.    다운로드 시, 압축 해제 후">
+<meta property="og:type" content="article">
+<meta property="og:title" content="오라클 SQL-SQL Developer 설치">
+<meta property="og:url" content="http://letsplay2ya.github.io/2021/10/28/oracle_ch2/index.html">
+<meta property="og:site_name" content="Hexo Blog">
+<meta property="og:description" content="다음의 URL(https:&#x2F;&#x2F;www.oracle.com&#x2F;tools&#x2F;downloads&#x2F;sqldev-downloads.html)로 접속하여 오라클 SQL Developer를 다운로드 받는다.  이 때, 자바가 설치가 되어 있지 않다면 Windows 64-bit with JDK 8 included 를 클릭하여 다운로드 받는다.    다운로드 시, 압축 해제 후">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-28T12:02:45.881Z">
+<meta property="article:modified_time" content="2021-10-28T12:09:03.889Z">
+<meta property="article:author" content="Jeon">
+<meta name="twitter:card" content="summary">
+    
+
+    
+        <link rel="alternate" href="/" title="Hexo Blog" type="application/atom+xml" />
+    
+
+    
+
+    
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/libs/titillium-web/styles.css">
+
+    
+<link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+<script src="/libs/jquery/3.5.0/jquery.min.js"></script>
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+
+    
+    
+        
+<link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+
+    
+    
+    
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">Home</a>
+                                </li>
+                            
+                                    
+                                
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">About</a>
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    uncategorized
+    </h1>
+</div>
+
+                        <div class="main-body-content">
+                            <article id="post-oracle_ch2" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        오라클 SQL-SQL Developer 설치
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/2021/10/28/oracle_ch2/" class="article-date">
+       <time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/2021/10/28/oracle_ch2/" class="article-date">
+     <time datetime="2021-10-28T12:09:03.889Z" itemprop="dateModified">2021-10-28</time>
+  </a>
+</div>
+
+
+                
+
+                
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            
+
+            
+
+            
+
+            <ul>
+<li><p>다음의 URL(<a target="_blank" rel="noopener" href="https://www.oracle.com/tools/downloads/sqldev-downloads.html">https://www.oracle.com/tools/downloads/sqldev-downloads.html</a>)로 접속하여 오라클 SQL Developer를 다운로드 받는다.</p>
+</li>
+<li><p>이 때, 자바가 설치가 되어 있지 않다면 <code>Windows 64-bit with JDK 8 included</code> 를 클릭하여 다운로드 받는다.</p>
+</li>
+</ul>
+<ul>
+<li><p>다운로드 시, 압축 해제 후, <code>sqldeveloper.exe</code> 를 실행한다.</p>
+</li>
+<li><p>메뉴의 첫 번째 파일 모양을 클릭하여 새 갤러리를 오픈한다.</p>
+</li>
+<li><p>범주 영역에서 접속 &gt; 데이터베이스 접속을 순차적으로 클릭한다.</p>
+</li>
+<li><p>다음 화면에서 Name은 orcl로 하고, 사용자 이름은 scott, 패스워드는 tiger로 입력한다.</p>
+</li>
+<li><p>호스트 이름은 localhost, 포트는 1521, SID는 orcl로 적고 [테스트] 버튼을 클릭한다.</p>
+</li>
+<li><p>왼쪽 하단에 <code>상태: 성공</code> 이라면 정상적으로 접속이 가능한 상태임을 의미한다.</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> session <span class="keyword">set</span> nls_date_format<span class="operator">=</span><span class="string">&#x27;RR/MM/DD&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> emp;</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> dept;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> DEPT</span><br><span class="line">       (DEPTNO number(<span class="number">10</span>),</span><br><span class="line">        DNAME VARCHAR2(<span class="number">14</span>),</span><br><span class="line">        LOC VARCHAR2(<span class="number">13</span>) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DEPT <span class="keyword">VALUES</span> (<span class="number">10</span>, <span class="string">&#x27;ACCOUNTING&#x27;</span>, <span class="string">&#x27;NEW YORK&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DEPT <span class="keyword">VALUES</span> (<span class="number">20</span>, <span class="string">&#x27;RESEARCH&#x27;</span>,   <span class="string">&#x27;DALLAS&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DEPT <span class="keyword">VALUES</span> (<span class="number">30</span>, <span class="string">&#x27;SALES&#x27;</span>,      <span class="string">&#x27;CHICAGO&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DEPT <span class="keyword">VALUES</span> (<span class="number">40</span>, <span class="string">&#x27;OPERATIONS&#x27;</span>, <span class="string">&#x27;BOSTON&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> EMP (</span><br><span class="line"> EMPNO               NUMBER(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> ENAME               VARCHAR2(<span class="number">10</span>),</span><br><span class="line"> JOB                 VARCHAR2(<span class="number">9</span>),</span><br><span class="line"> MGR                 NUMBER(<span class="number">4</span>) ,</span><br><span class="line"> HIREDATE            <span class="type">DATE</span>,</span><br><span class="line"> SAL                 NUMBER(<span class="number">7</span>,<span class="number">2</span>),</span><br><span class="line"> COMM                NUMBER(<span class="number">7</span>,<span class="number">2</span>),</span><br><span class="line"> DEPTNO              NUMBER(<span class="number">2</span>) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7839</span>,<span class="string">&#x27;KING&#x27;</span>,<span class="string">&#x27;PRESIDENT&#x27;</span>,<span class="keyword">NULL</span>,<span class="string">&#x27;81-11-17&#x27;</span>,<span class="number">5000</span>,<span class="keyword">NULL</span>,<span class="number">10</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7698</span>,<span class="string">&#x27;BLAKE&#x27;</span>,<span class="string">&#x27;MANAGER&#x27;</span>,<span class="number">7839</span>,<span class="string">&#x27;81-05-01&#x27;</span>,<span class="number">2850</span>,<span class="keyword">NULL</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7782</span>,<span class="string">&#x27;CLARK&#x27;</span>,<span class="string">&#x27;MANAGER&#x27;</span>,<span class="number">7839</span>,<span class="string">&#x27;81-05-09&#x27;</span>,<span class="number">2450</span>,<span class="keyword">NULL</span>,<span class="number">10</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7566</span>,<span class="string">&#x27;JONES&#x27;</span>,<span class="string">&#x27;MANAGER&#x27;</span>,<span class="number">7839</span>,<span class="string">&#x27;81-04-01&#x27;</span>,<span class="number">2975</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7654</span>,<span class="string">&#x27;MARTIN&#x27;</span>,<span class="string">&#x27;SALESMAN&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-09-10&#x27;</span>,<span class="number">1250</span>,<span class="number">1400</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7499</span>,<span class="string">&#x27;ALLEN&#x27;</span>,<span class="string">&#x27;SALESMAN&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-02-11&#x27;</span>,<span class="number">1600</span>,<span class="number">300</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7844</span>,<span class="string">&#x27;TURNER&#x27;</span>,<span class="string">&#x27;SALESMAN&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-08-21&#x27;</span>,<span class="number">1500</span>,<span class="number">0</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7900</span>,<span class="string">&#x27;JAMES&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-12-11&#x27;</span>,<span class="number">950</span>,<span class="keyword">NULL</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7521</span>,<span class="string">&#x27;WARD&#x27;</span>,<span class="string">&#x27;SALESMAN&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-02-23&#x27;</span>,<span class="number">1250</span>,<span class="number">500</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7902</span>,<span class="string">&#x27;FORD&#x27;</span>,<span class="string">&#x27;ANALYST&#x27;</span>,<span class="number">7566</span>,<span class="string">&#x27;81-12-11&#x27;</span>,<span class="number">3000</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7369</span>,<span class="string">&#x27;SMITH&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>,<span class="number">7902</span>,<span class="string">&#x27;80-12-11&#x27;</span>,<span class="number">800</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7788</span>,<span class="string">&#x27;SCOTT&#x27;</span>,<span class="string">&#x27;ANALYST&#x27;</span>,<span class="number">7566</span>,<span class="string">&#x27;82-12-22&#x27;</span>,<span class="number">3000</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7876</span>,<span class="string">&#x27;ADAMS&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>,<span class="number">7788</span>,<span class="string">&#x27;83-01-15&#x27;</span>,<span class="number">1100</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7934</span>,<span class="string">&#x27;MILLER&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>,<span class="number">7782</span>,<span class="string">&#x27;82-01-11&#x27;</span>,<span class="number">1300</span>,<span class="keyword">NULL</span>,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">drop</span>  <span class="keyword">table</span>  salgrade;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> salgrade</span><br><span class="line">( grade   number(<span class="number">10</span>),</span><br><span class="line">  losal   number(<span class="number">10</span>),</span><br><span class="line">  hisal   number(<span class="number">10</span>) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">1</span>,<span class="number">700</span>,<span class="number">1200</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">2</span>,<span class="number">1201</span>,<span class="number">1400</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">3</span>,<span class="number">1401</span>,<span class="number">2000</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">4</span>,<span class="number">2001</span>,<span class="number">3000</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">5</span>,<span class="number">3001</span>,<span class="number">9999</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>전체 선택 후 상단 ▶️ 을 눌러 명령문을 실행한다.</p>
+</li>
+<li><p>마지막으로 조회 쿼리를 작성하여 <code>emp</code> 테이블의 결과가 나오는지 출력한다.</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> emp;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>이제 모두 정상적으로 나온 것을 확인할 수 있다. 실습준비는 끝이 난 것이다.</li>
+</ul>
+<h3 id="실습소스"><a href="#실습소스" class="headerlink" title="실습소스"></a>실습소스</h3><ul>
+<li>실습 소스는 아래에서 다운로드 받는다.<ul>
+<li>참조: <a target="_blank" rel="noopener" href="https://1drv.ms/u/s!ApbMVPF0rupskKYe0Rgwfd6NJh6mdg?e=ieUPEK">https://1drv.ms/u/s!ApbMVPF0rupskKYe0Rgwfd6NJh6mdg?e=ieUPEK</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://letsplay2ya.github.io/2021/10/28/oracle_ch2/" data-id="ckvawvj6z00005kvwedalaqgf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Jeon"
+        },
+        "headline": "오라클 SQL-SQL Developer 설치",
+        "image": "http://letsplay2ya.github.io",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2021-10-28",
+        "dateCreated": "2021-10-28",
+        "dateModified": "2021-10-28",
+        "url": "http://letsplay2ya.github.io/2021/10/28/oracle_ch2/",
+        "description": "
+다음의 URL(https://www.oracle.com/tools/downloads/sqldev-downloads.html)로 접속하여 오라클 SQL Developer를 다운로드 받는다.
+
+이 때, 자바가 설치가 되어 있지 않다면 Windows 64-bit with JDK 8 included 를 클릭하여 다운로드 받는다.
+
+
+
+다운로드 시, 압축 해제 후",
+        "wordCount": 788
+    }
+</script>
+
+</article>
+
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+
+    
+    </section>
+
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="twitter" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-twitter"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="facebook" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-facebook"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="stack-overflow" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-stack-overflow"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/letsplay2ya/letsplay2ya.github.io" target="_blank" rel="noopener">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank" rel="noopener">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2021/10/28/oracle_ch3/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            오라클 SQL-CSV파일 업로드
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2021/10/28/oracle_ch1/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">오라클 SQL-오라클 접속</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch4/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch4/" class="title">오라클 SQL-파이썬 연동</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:12:41.779Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch3/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch3/" class="title">오라클 SQL-CSV파일 업로드</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:09:33.238Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch2/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch2/" class="title">오라클 SQL-SQL Developer 설치</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_ch1/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_ch1/" class="title">오라클 SQL-오라클 접속</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2021/10/28/oracle_install/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2021/10/28/oracle_install/" class="title">오라클 SQL-오라클 설치</a></p>
+                            <p class="item-date"><time datetime="2021-10-28T08:01:42.785Z" itemprop="datePublished">2021-10-28</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/10/">October 2021</a><span class="archive-list-count">9</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+
+            
+                
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a target="_blank" rel="noopener" href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2021 Jeon</p>
+                
+                <p>Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="https://github.com/ppoffice" target="_blank">PPOffice</a></p>
+                
+            </div>
+            <div class="footer-plugins">
+              
+    
+
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+    </div>
+    
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'http://letsplay2ya.github.io/2021/10/28/oracle_ch2/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+
+    
+        
+<script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-share.min.js"></script>
+
+        
+<script src="/libs/lightgallery/js/lg-video.min.js"></script>
+
+    
+    
+        
+<script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+    
+    
+
+    
+    
+    
+
+
+
+<!-- Custom Scripts -->
+
+<script src="/js/main.js"></script>
+
+
+</body>
+</html>

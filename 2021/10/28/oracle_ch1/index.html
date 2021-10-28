@@ -6,15 +6,21 @@
     
 
     
-    <title>Hexo Blog</title>
+    <title>오라클 SQL-오라클 접속 | Hexo Blog</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo Blog">
-<meta property="og:url" content="http://letsplay2ya.github.io/index.html">
+    <meta name="keywords" content="" />
+    
+    <meta name="description" content="오라클 접속 명령어 확인 윈도우 시작 버튼을 누르고 검색창에 cmd를 입력  명령 프롬프트를 실행 (가급적 관리자 실행)   Microsoft Windows [Version 10.0.19042.1083](c) Microsoft Corporation. All rights reserved. C:\Windows\system32&gt;sqlplus &quot;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="오라클 SQL-오라클 접속">
+<meta property="og:url" content="http://letsplay2ya.github.io/2021/10/28/oracle_ch1/index.html">
 <meta property="og:site_name" content="Hexo Blog">
+<meta property="og:description" content="오라클 접속 명령어 확인 윈도우 시작 버튼을 누르고 검색창에 cmd를 입력  명령 프롬프트를 실행 (가급적 관리자 실행)   Microsoft Windows [Version 10.0.19042.1083](c) Microsoft Corporation. All rights reserved. C:\Windows\system32&gt;sqlplus &quot;&#x2F;">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-10-28T12:02:45.881Z">
+<meta property="article:modified_time" content="2021-10-28T12:05:56.350Z">
 <meta property="article:author" content="Jeon">
 <meta name="twitter:card" content="summary">
     
@@ -143,502 +149,221 @@
                         <div class="main-body-header">
     <h1 class="header">
     
-    <em class="page-title-link" data-url="home">Home</em>
+    uncategorized
     </h1>
 </div>
 
                         <div class="main-body-content">
-                            
-
-    
-    
+                            <article id="post-oracle_ch1" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
         
-        
-        <section class="archives-wrap">
-            <div class="archive-year-wrap">
-                <a href="/archives/2021" class="archive-year"><i class="icon fa fa-calendar-o"></i>2021</a>
-            </div>
-            <div class="archives">
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/oracle_ch4/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/oracle_ch4/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T12:12:41.779Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
+            <header class="article-header">
+                
     
         <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/oracle_ch4/">오라클 SQL-파이썬 연동</a>
+        오라클 SQL-오라클 접속
         </h1>
     
 
-        <p class="article-excerpt">
+            </header>
+        
+        
+            <div class="article-meta">
+                
+  <div class="article-date">
+    <i class="fa fa-calendar"></i>
+    <a href="/2021/10/28/oracle_ch1/" class="article-date">
+       <time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time>
+    </a>
+  </div>
+
+
+<div class="article-date">
+  <i class="fa fa-calendar-plus-o"></i>
+  <a href="/2021/10/28/oracle_ch1/" class="article-date">
+     <time datetime="2021-10-28T12:05:56.350Z" itemprop="dateModified">2021-10-28</time>
+  </a>
+</div>
+
+
+                
+
+                
+                
+
+                
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
             
-파이참에서 가상환경을 만들어 오라클 연동 예제를 작성한다.
-아나콘다, 파이참, 그리고 오라클 설치는 생략한다.
 
-1. 가상환경 활성화
-cmd 창에서 가상 환경을 세팅 하도록 한다. (권장: 관리자 실행)
-바탕화면에 필자는 python_oracle 폴더를 생성했다.
-현재 경로는 아래와 같다.
+            
 
-1C:\Users\1\Desktop\python_oracle&g
-        </p>
+            
+
+            <h1 id="오라클-접속-명령어-확인"><a href="#오라클-접속-명령어-확인" class="headerlink" title="오라클 접속 명령어 확인"></a>오라클 접속 명령어 확인</h1><ul>
+<li><p>윈도우 시작 버튼을 누르고 검색창에 cmd를 입력</p>
+</li>
+<li><p>명령 프롬프트를 실행 (가급적 관리자 실행)</p>
+</li>
+</ul>
+<p>Microsoft Windows [Version 10.0.19042.1083]<br>(c) Microsoft Corporation. All rights reserved.</p>
+<pre><code>C:\Windows\system32&gt;sqlplus &quot;/ as sysdba&quot;
+</code></pre>
+<p>SQL*Plus: Release 19.0.0.0.0 - Production on 수 7월 14 12:06:33 2021<br>Version 19.3.0.0.0</p>
+<p>Copyright (c) 1982, 2019, Oracle.  All rights reserved.</p>
+<p>다음에 접속됨:<br>Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production<br>Version 19.3.0.0.0</p>
+<p>SQL&gt;</p>
+<ul>
+<li>위와 같이 접속한 유저는  SYS이다.<ul>
+<li>모든 권한을 소유한 최고 권한 유저</li>
+</ul>
+</li>
+</ul>
+<h1 id="유저-생성"><a href="#유저-생성" class="headerlink" title="유저 생성"></a>유저 생성</h1><ul>
+<li>오라클 11버전처럼 생성하고 싶을 때, dba 권한이 있는 계정으로 아래 명령어를 실행한다.</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SQL&gt; ALTER SESSION SET <span class="string">&quot;_ORACLE_SCRIPT&quot;</span>=<span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>새로운 유저를 생성하고 Role을 부여하도록 한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">create</span> <span class="keyword">user</span> scott identified <span class="keyword">by</span> tiger;</span><br><span class="line">사용자가 생성되었습니다.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>scott</code> 유저에 dba롤(Role)을 부여한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">grant</span> dba <span class="keyword">to</span> scott;</span><br><span class="line">권한이 부여되었습니다.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>scott</code> 유저로 접속한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">connect</span> scott<span class="operator">/</span>tiger;</span><br><span class="line">연결되었습니다.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>접속한 유저가 <code>scott</code> 인지 확인한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">show</span> <span class="keyword">user</span>;</span><br><span class="line"><span class="keyword">USER</span>은 &quot;SCOTT&quot;입니다</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>다시 <code>Sys</code> 계정으로 연결한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">connect</span> sys<span class="operator">/</span>your_password <span class="keyword">as</span> sysdba</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>모든 유저를 확인한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> all_users <span class="keyword">ORDER</span> <span class="keyword">BY</span> created;</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">USERNAME</span><br><span class="line"><span class="comment">--------------------------------------------------------------------------------</span></span><br><span class="line">   USER_ID CREATED  COMMON <span class="keyword">OR</span> INHERI</span><br><span class="line"><span class="comment">---------- -------- ------ -- ------</span></span><br><span class="line">DEFAULT_COLLATION</span><br><span class="line"><span class="comment">--------------------------------------------------------------------------------</span></span><br><span class="line">IMPLIC ALL_SH</span><br><span class="line"><span class="comment">------ ------</span></span><br><span class="line">SCOTT</span><br><span class="line">       <span class="number">109</span> <span class="number">21</span><span class="operator">/</span><span class="number">07</span><span class="operator">/</span><span class="number">14</span> <span class="keyword">NO</span>     N  <span class="keyword">NO</span></span><br><span class="line">USING_NLS_COMP</span><br><span class="line"><span class="keyword">NO</span>     <span class="keyword">NO</span></span><br><span class="line"></span><br><span class="line"><span class="number">38</span> 행이 선택되었습니다.</span><br></pre></td></tr></table></figure>
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="http://letsplay2ya.github.io/2021/10/28/oracle_ch1/" data-id="ckvawvj7600015kvw9fgdehlt" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
     </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/oracle_ch3/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/oracle_ch3/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T12:09:33.238Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/oracle_ch3/">오라클 SQL-CSV파일 업로드</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            1. SQL Developer 활용
-왼쪽 상단에 ➕ 버튼 클릭 후, 테이블(필터링됨) &gt; 오른쪽 마우스버튼 &gt; 데이터 임포트를  클릭
-
-아래와 같이 [데이터 임포트 마법사] 창이 활성화 됨.
-
-여기에서 [찾아보기] 클릭 한다.
-
-해당 파일을 찾아서 불러온다.
-
-파일에 이상이 없는지 확인한다.
-
-테이블 이름을 지정한다.
-
-여기에서 불러오지 않을 컬
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/oracle_ch2/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/oracle_ch2/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/oracle_ch2/">오라클 SQL-SQL Developer 설치</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-다음의 URL(https://www.oracle.com/tools/downloads/sqldev-downloads.html)로 접속하여 오라클 SQL Developer를 다운로드 받는다.
-
-이 때, 자바가 설치가 되어 있지 않다면 Windows 64-bit with JDK 8 included 를 클릭하여 다운로드 받는다.
-
-
-
-다운로드 시, 압축 해제 후
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/oracle_ch1/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/oracle_ch1/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T12:02:45.881Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/oracle_ch1/">오라클 SQL-오라클 접속</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            오라클 접속 명령어 확인
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "author": {
+            "@type": "Person",
+            "name": "Jeon"
+        },
+        "headline": "오라클 SQL-오라클 접속",
+        "image": "http://letsplay2ya.github.io",
+        "keywords": "",
+        "genre": "",
+        "datePublished": "2021-10-28",
+        "dateCreated": "2021-10-28",
+        "dateModified": "2021-10-28",
+        "url": "http://letsplay2ya.github.io/2021/10/28/oracle_ch1/",
+        "description": "오라클 접속 명령어 확인
 윈도우 시작 버튼을 누르고 검색창에 cmd를 입력
 
 명령 프롬프트를 실행 (가급적 관리자 실행)
 
 
 Microsoft Windows [Version 10.0.19042.1083](c) Microsoft Corporation. All rights reserved.
-C:\Windows\system32&gt;sqlplus &quot;/ 
-        </p>
-    </div>
+C:\Windows\system32&gt;sqlplus &quot;/ ",
+        "wordCount": 309
+    }
+</script>
+
 </article>
-    
-        </div>
-    
 
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/oracle_install/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
+    <section id="comments">
     
         
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/oracle_install/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T08:01:42.785Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/oracle_install/">오라클 SQL-오라클 설치</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            오라클 설치오라클 19c를 설치 (공식 홈페이지: https://www.oracle.com/database/technologies/oracle-database-software-downloads.html#19c)
-아래 화면에서 zip 파일을 다운로드!(../images/install_01.png)
-압축을 해제 후, sepup.exe을 실행하여 오라클을 설치
-
-        </p>
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/NumPy/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/NumPy/">0</span>
-    
-</span>
 
 
     
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T05:37:22.458Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-        <p class="article-excerpt">
-            NumPy 기초 연습NumPy 설치1conda install numpy
-
-또는 
-1pip install numpy
-
-NumPy 가져오기1import numpy as np
-
-어레이란?12a = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12]])print(a[0])
-
-[1 2 3 4]
-
-기본 배열zeros 0으로 채워진 배열1np.
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/Git&Git%20Hub/" class="thumbnail">
-    
-    
-        <span style="background-image:url(../images/img.png)" alt="Hexo Blog 생성으로 Git Hub 기초 배우기" class="thumbnail-image"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/Git&amp;Git%20Hub/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T05:37:22.454Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/Git&Git%20Hub/">Hexo Blog 생성으로 Git Hub 기초 배우기</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            
-개요Hexo 블로그를 만들면서 Git Hub 기초를 습득한다.(Window 환경)
-기본 파일 설치
-https://nodejs.org 다운로드 node.js command prompt 사용(높은 처리 성능!) C:\Users\1&gt;node -v 로 설치 확인
-
-https://git-scm.com 다운로드 소스코드를 효과적으로 관리할 수 있다.(Git H
-        </p>
-    </div>
-</article>
-    
-
-    
-    
-    
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/plotly_01/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/plotly_01/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T05:37:22.451Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-        <p class="article-excerpt">
-            
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-    
-    
-    
-    
-        <div class="article-row">
-    
-        <article class="article article-summary">
-    <div class="article-summary-inner">
-        
-        <a href="/2021/10/28/plotly%20graph/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-    
-        
-<span class="comment-counter">
-    <i class="fa fa-comments-o"></i>
-    
-        <span class="disqus-comment-count" data-disqus-identifier="" data-disqus-url="http://letsplay2ya.github.io/2021/10/28/plotly%20graph/">0</span>
-    
-</span>
-
-
-    
-</a>
-
-        
-        <div class="article-meta">
-            <div class="category">
-            
-            </div>
-            <div class="date"><time datetime="2021-10-28T05:37:22.447Z" itemprop="datePublished">2021-10-28</time></div>
-        </div>
-        
-    
-        <h1 class="article-title" itemprop="name">
-        <a href="/2021/10/28/plotly%20graph/">(Python-Plotly) Plotly 그래프 깃헙블로그에 올리기</a>
-        </h1>
-    
-
-        <p class="article-excerpt">
-            개요깃헙 블로그에 동적 시각화를 올리는 방법을 익힌다.
-필수 라이브러리 설치
-라이브러리 설치 Getting Started with Plotly in Python, https://plotly.com/python/getting-started/ Getting Started with Chart Studio in Python, https://plotly.com/py
-        </p>
-    </div>
-</article>
-    
-        </div>
-    
-
-
-    </div></section>
+    </section>
 
 
 
@@ -700,6 +425,29 @@ https://git-scm.com 다운로드 소스코드를 효과적으로 관리할 수 �
             
         </ul>
     </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2021/10/28/oracle_ch2/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            오라클 SQL-SQL Developer 설치
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2021/10/28/oracle_install/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">오라클 SQL-오라클 설치</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
     
     <div class="widgets-container">
         
@@ -890,11 +638,13 @@ https://git-scm.com 다운로드 소스코드를 효과적으로 관리할 수 �
     var disqus_shortname = 'hexo-theme-hueman';
     
     
+    var disqus_url = 'http://letsplay2ya.github.io/2021/10/28/oracle_ch1/';
+    
     (function() {
     var dsq = document.createElement('script');
     dsq.type = 'text/javascript';
     dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
     </script>
