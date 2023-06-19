@@ -7,7 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <meta name="author" content="John Doe">
+    <meta name="author" content="미상">
 
 
 
@@ -200,7 +200,7 @@
             
                 <div class="post-meta">
                     
-                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                        Author: <a itemprop="author" rel="author" href="/">미상</a>
                     
 
                     
@@ -221,7 +221,8 @@
         </header>
 
         <div class="post-content">
-            <h2 id="에러-Error"><a href="#에러-Error" class="headerlink" title="에러(Error)"></a>에러(Error)</h2><p>프로그램 실행중 어떤원인에 의해 오작동하거나 비정상 종료된 경우.</p>
+            <p><img src="/../images/thumbnail/java.png"></p>
+<h2 id="에러-Error"><a href="#에러-Error" class="headerlink" title="에러(Error)"></a>에러(Error)</h2><p>프로그램 실행중 어떤원인에 의해 오작동하거나 비정상 종료된 경우.</p>
 <p>이를 초래하는 원인을 프로그램 에러 또는 오류라고 한다.</p>
 <p>발생시점에 따라 컴파일에러 Compile Error, 와 런타임 에러 Runtime Error 로 나눌수 있다. </p>
 <p>외에도 논리적 에러 Logical Error가 있다. </p>
@@ -260,9 +261,11 @@
 <p>예외처리란, 프로그램 실행시 발생할수있는 얘기치 못한 얘외발생에 대비한 코드를 작성하는 것이다.</p>
 <p>목적은 예외발생으로 인한 비정상 종료를 막고 정상실행상태는 유지할수 있도록 하는 것이다.</p>
 <p>발생예외를 처리하지 못하면 프로그램은 비정상 종료되며, 처리되지 못한 얘외는 JVM의 예외처리기가 받아서 예외원인을 화면에 출력한다.</p>
-<p>예외처리구문 Try - Catch 문.<br>try-catch문의 구조 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"> <span class="comment">//예외발생할 가능성이 있는 문장 </span></span><br><span class="line"></span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception1 e1) &#123;</span><br><span class="line"> <span class="comment">//Exception1이 발생했을 경우, 이를 처리하지 위한 문장적는다.</span></span><br><span class="line"> <span class="comment">//보통 이곳에 예외메세지를 출력하고 로그로 남김.</span></span><br><span class="line"> </span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception2 e2) &#123;</span><br><span class="line"> <span class="comment">//Exception2이 발생했을 경우, 이를 처리하지 위한 문장적는다.</span></span><br><span class="line"> </span><br><span class="line">&#125;<span class="keyword">catch</span>(ExceptionN eN) &#123;</span><br><span class="line"> <span class="comment">//ExceptionN이 발생했을 경우, 이를 처리하지 위한 문장적는다.</span></span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
+<p>예외처리구문 Try - Catch 문.<br>try-catch문의 구조<br>‘’’java<br>try {<br> &#x2F;&#x2F;예외발생할 가능성이 있는 문장 </p>
+<p>}catch(Exception1 e1) {<br> &#x2F;&#x2F;Exception1이 발생했을 경우, 이를 처리하지 위한 문장적는다.<br> &#x2F;&#x2F;보통 이곳에 예외메세지를 출력하고 로그로 남김.</p>
+<p>}catch(Exception2 e2) {<br> &#x2F;&#x2F;Exception2이 발생했을 경우, 이를 처리하지 위한 문장적는다.</p>
+<p>}catch(ExceptionN eN) {<br> &#x2F;&#x2F;ExceptionN이 발생했을 경우, 이를 처리하지 위한 문장적는다.</p>
+<p>}<br>‘’’</p>
 <p>기본적인 try catch 구문의 구조이다.</p>
 <p>try 문에서 Exception 예외가 발생할 경우 catch (Exception e) 로 빠져서 그 안의 실행문을 실행한다.</p>
 <p>try-catch문 플로우 </p>
@@ -288,34 +291,6 @@
 
         </div>
 
-        
-            <section class="post-copyright">
-                
-                    <p class="copyright-item">
-                        <span>Author:</span>
-                        <span>John Doe</span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="http://example.com/2023/06/13/javaTryCatch/">http://example.com/2023/06/13/javaTryCatch/</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
-                
-                
-                     <p class="copyright-item">
-                         <span>Slogan:</span>
-                         <span>Do you believe in <strong>DESTINY</strong>?</span>
-                     </p>
-                
-
-            </section>
         
         <section class="post-tags">
             <div>
@@ -344,7 +319,7 @@
             </div>
             <footer id="footer" class="footer">
     <div class="copyright">
-        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+        <span>© 미상 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
     </div>
 </footer>
 
