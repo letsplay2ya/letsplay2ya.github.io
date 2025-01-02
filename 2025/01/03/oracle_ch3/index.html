@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="미상">
+
+
+
+
+
+<title>오라클 SQL-CSV파일 업로드 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Letsplay2ya&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Letsplay2ya&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">오라클 SQL-CSV파일 업로드</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">미상</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 3, 2025&nbsp;&nbsp;3:14:04</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Database/">Database</a>
+                            
+                                <a href="/categories/Database/oracle/">oracle</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="/../images/thumbnail/oracle.jpg"></p>
+<h2 id="SQL-Developer"><a href="#SQL-Developer" class="headerlink" title="SQL Developer"></a>SQL Developer</h2><ul>
+<li><p>왼쪽 상단에 ➕ 버튼 클릭 후, <code>테이블(필터링됨) &gt; 오른쪽 마우스버튼 &gt; 데이터 임포트</code>를  클릭</p>
+</li>
+<li><p>아래와 같이 <code>[데이터 임포트 마법사]</code> 창이 활성화 됨.</p>
+</li>
+<li><p>여기에서 <code>[찾아보기]</code> 클릭 한다.</p>
+</li>
+<li><p>해당 파일을 찾아서 불러온다.</p>
+</li>
+<li><p>파일에 이상이 없는지 확인한다.</p>
+</li>
+<li><p>테이블 이름을 지정한다.</p>
+</li>
+<li><p>여기에서 불러오지 않을 컬럼은 삭제가 가능하다.</p>
+</li>
+<li><p>각 데이터 유형을 체크한다.</p>
+</li>
+<li><p>마지막 단계에서 완료 버튼을 누릅니다.</p>
+</li>
+<li><p>파일이 정상적으로 import 되었다면 아래와 같이 DB에 추가가 됩니다.</p>
+</li>
+<li><p>쿼리를 통해서 실제 조회가 되는지 확인한다.</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> air_pollution_train;</span><br></pre></td></tr></table></figure>
+
+</br>
+
+<h2 id="명령-프롬트프"><a href="#명령-프롬트프" class="headerlink" title="명령 프롬트프"></a>명령 프롬트프</h2><ul>
+<li>이번에는 cmd 창에서 test 데이터를 불러오도록 한다.</li>
+<li>먼저 현재 경로를 확인한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> host cd</span><br><span class="line">C:\Windows\system32</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>해당 데이터는 <code>C:\Users\1\Desktop\tabular-playground-series-jul-2021</code> 에 있기 때문에 이동하도록 한다.</li>
+<li>먼저 <code>exit</code> cmd 터미널로 변환 뒤, 경로를 수정한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> exit</span><br><span class="line">C:\Windows\system32<span class="operator">&gt;</span> cd your_path</span><br><span class="line">C:\your\path<span class="operator">&gt;</span> sqlplus &quot;/ as sysdba&quot;</span><br><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> host cd</span><br><span class="line">C:\your\path</span><br><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> host dir</span><br><span class="line">C 드라이브의 볼륨에는 이름이 없습니다.</span><br><span class="line"> 볼륨 일련 번호: E657<span class="operator">-</span>CFA3</span><br><span class="line"></span><br><span class="line"> C:\your\path 디렉터리</span><br><span class="line"></span><br><span class="line"><span class="number">2021</span><span class="number">-07</span><span class="number">-14</span>  오전 <span class="number">11</span>:<span class="number">51</span>    <span class="operator">&lt;</span>DIR<span class="operator">&gt;</span>          .</span><br><span class="line"><span class="number">2021</span><span class="number">-07</span><span class="number">-14</span>  오전 <span class="number">11</span>:<span class="number">51</span>    <span class="operator">&lt;</span>DIR<span class="operator">&gt;</span>          ..</span><br><span class="line"><span class="number">2021</span><span class="number">-06</span><span class="number">-30</span>  오후 <span class="number">11</span>:<span class="number">44</span>            <span class="number">78</span>,<span class="number">716</span> sample_submission.csv</span><br><span class="line"><span class="number">2021</span><span class="number">-06</span><span class="number">-30</span>  오후 <span class="number">11</span>:<span class="number">44</span>           <span class="number">154</span>,<span class="number">260</span> test.csv</span><br><span class="line"><span class="number">2021</span><span class="number">-06</span><span class="number">-30</span>  오후 <span class="number">11</span>:<span class="number">44</span>           <span class="number">593</span>,<span class="number">980</span> train.csv</span><br><span class="line">               <span class="number">3</span>개 파일             <span class="number">826</span>,<span class="number">956</span> 바이트</span><br><span class="line">               <span class="number">2</span>개 디렉터리  <span class="number">96</span>,<span class="number">819</span>,<span class="number">806</span>,<span class="number">208</span> 바이트 남음</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>먼저 테이블을 생성한다.</p>
+</li>
+<li><p>이 때 주의해야 하는 것은 테이블 생성할 때의 데이터 유형과 파일의 데이터 유형이 일치해야 정상적으로 업로드가 되기 때문에 주의 한다.</p>
+<ul>
+<li>최초 테이블 생성 시, 아래와 같이 작성했다.</li>
+</ul>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> &quot;SCOTT&quot;.&quot;AIR_POLLUTION_TEST&quot; </span><br><span class="line">   (	&quot;DATE_TIME&quot; <span class="type">DATE</span>, </span><br><span class="line">	&quot;DEG_C&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;RELATIVE_HUMIDITY&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;ABSOLUTE_HUMIDITY&quot; NUMBER(<span class="number">38</span>,<span class="number">4</span>), </span><br><span class="line">	&quot;SENSOR_1&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;SENSOR_2&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;SENSOR_3&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;SENSOR_4&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>), </span><br><span class="line">	&quot;SENSOR_5&quot; NUMBER(<span class="number">38</span>,<span class="number">1</span>)</span><br><span class="line">   ) SEGMENT CREATION IMMEDIATE </span><br><span class="line">  PCTFREE <span class="number">10</span> PCTUSED <span class="number">40</span> INITRANS <span class="number">1</span> MAXTRANS <span class="number">255</span> </span><br><span class="line"> NOCOMPRESS LOGGING</span><br><span class="line">  STORAGE(<span class="keyword">INITIAL</span> <span class="number">65536</span> NEXT <span class="number">1048576</span> MINEXTENTS <span class="number">1</span> MAXEXTENTS <span class="number">2147483645</span></span><br><span class="line">  PCTINCREASE <span class="number">0</span> FREELISTS <span class="number">1</span> FREELIST <span class="keyword">GROUPS</span> <span class="number">1</span></span><br><span class="line">  BUFFER_POOL <span class="keyword">DEFAULT</span> FLASH_CACHE <span class="keyword">DEFAULT</span> CELL_FLASH_CACHE <span class="keyword">DEFAULT</span>)</span><br><span class="line">  TABLESPACE &quot;USERS&quot; ;</span><br><span class="line">테이블이 생성되었습니다.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>위 형태로 데이터를 올렸으나 <code>test.csv</code> 파일의 데이터 형태가 달라서 에러가 생겼다. 그래서 테이블을 아래와 같이 재 생성 했다.</li>
+<li>테이블 삭제는 다음 명령어를 이용한다. <code>DROP TABLE YOUR_TABLE_NAME PURGE;</code></li>
+</ul>
+  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> &quot;SCOTT&quot;.&quot;AIR_POLLUTION_TEST&quot; </span><br><span class="line">   (	&quot;DATE_TIME&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;DEG_C&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;RELATIVE_HUMIDITY&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;ABSOLUTE_HUMIDITY&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_1&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_2&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_3&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_4&quot; VARCHAR2(<span class="number">20</span> BYTE), </span><br><span class="line">	&quot;SENSOR_5&quot; VARCHAR2(<span class="number">20</span> BYTE)</span><br><span class="line">   ) SEGMENT CREATION IMMEDIATE </span><br><span class="line">  PCTFREE <span class="number">10</span> PCTUSED <span class="number">40</span> INITRANS <span class="number">1</span> MAXTRANS <span class="number">255</span> </span><br><span class="line"> NOCOMPRESS LOGGING</span><br><span class="line">  STORAGE(<span class="keyword">INITIAL</span> <span class="number">65536</span> NEXT <span class="number">1048576</span> MINEXTENTS <span class="number">1</span> MAXEXTENTS <span class="number">2147483645</span></span><br><span class="line">  PCTINCREASE <span class="number">0</span> FREELISTS <span class="number">1</span> FREELIST <span class="keyword">GROUPS</span> <span class="number">1</span></span><br><span class="line">  BUFFER_POOL <span class="keyword">DEFAULT</span> FLASH_CACHE <span class="keyword">DEFAULT</span> CELL_FLASH_CACHE <span class="keyword">DEFAULT</span>)</span><br><span class="line">  TABLESPACE &quot;USERS&quot; ;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>이제 <code>test.csv</code> 파일을 업로드 하기 위해 <code>.ctl</code> 파일을 생성한다.</p>
+</li>
+<li><p>메모장 또는 그 외 에디터에서, <code>control.ctl</code>을 생성한다.</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA</span><br><span class="line">INFILE &#x27;test.csv&#x27;</span><br><span class="line">INTO TABLE AIR_POLLUTION_TEST</span><br><span class="line">fields terminated by &#x27;,&#x27;</span><br><span class="line">(</span><br><span class="line">    DATE_TIME,</span><br><span class="line">    DEG_C,</span><br><span class="line">    RELATIVE_HUMIDITY,</span><br><span class="line">    ABSOLUTE_HUMIDITY,</span><br><span class="line">    SENSOR_1, </span><br><span class="line">    SENSOR_2,  </span><br><span class="line">    SENSOR_3, </span><br><span class="line">    SENSOR_4, </span><br><span class="line">    SENSOR_5</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>정상적으로 업데이트가 되는지 확인한다.</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\1\Desktop\tabular-playground-series-jul-2021&gt;sqlldr scott/tiger control=control.ctl</span><br><span class="line"></span><br><span class="line">SQL*Loader: Release 19.0.0.0.0 - Production on 목 7월 15 17:15:41 2021</span><br><span class="line">Version 19.3.0.0.0</span><br><span class="line"></span><br><span class="line">Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.</span><br><span class="line"></span><br><span class="line">사용된 경로:      규약</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 250</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 500</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 750</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 1000</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 1250</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 1500</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 1750</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 2000</span><br><span class="line">커밋 시점에 도달 - 논리 레코드 개수 2248</span><br><span class="line">테이블 AIR_POLLUTION_TEST:</span><br><span class="line">  2248 행이(가) 성공적으로 로드되었습니다.</span><br><span class="line"></span><br><span class="line">로드에 대한 자세한 내용은</span><br><span class="line">  control.log</span><br><span class="line">로그 파일을 확인하십시오.</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/01/03/oracle_ch2/">오라클 SQL-SQL Developer 설치</a>
+            
+            
+            <a class="next" rel="next" href="/2025/01/03/oracle_ch4/">오라클 SQL-파이썬 연동</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 미상 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="미상">
+
+
+
+
+
+<title>오라클 SQL-오라클 접속 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Letsplay2ya&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Letsplay2ya&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">오라클 SQL-오라클 접속</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">미상</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 3, 2025&nbsp;&nbsp;3:14:04</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Database/">Database</a>
+                            
+                                <a href="/categories/Database/oracle/">oracle</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="/../images/thumbnail/oracle.jpg"></p>
+<h2 id="오라클-접속-명령어-확인"><a href="#오라클-접속-명령어-확인" class="headerlink" title="오라클 접속 명령어 확인"></a>오라클 접속 명령어 확인</h2><ul>
+<li><p>윈도우 시작 버튼을 누르고 검색창에 cmd를 입력</p>
+</li>
+<li><p>명령 프롬프트를 실행 (가급적 관리자 실행)</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Microsoft Windows [Version <span class="number">10.0</span><span class="number">.19042</span><span class="number">.1083</span>]</span><br><span class="line">(c) Microsoft Corporation. <span class="keyword">All</span> rights reserved.</span><br><span class="line"></span><br><span class="line">	C:\Windows\system32<span class="operator">&gt;</span>sqlplus &quot;/ as sysdba&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">SQL</span><span class="operator">*</span>Plus: <span class="keyword">Release</span> <span class="number">19.0</span><span class="number">.0</span><span class="number">.0</span><span class="number">.0</span> <span class="operator">-</span> Production <span class="keyword">on</span> 수 <span class="number">7</span>월 <span class="number">14</span> <span class="number">12</span>:<span class="number">06</span>:<span class="number">33</span> <span class="number">2021</span></span><br><span class="line">Version <span class="number">19.3</span><span class="number">.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line">Copyright (c) <span class="number">1982</span>, <span class="number">2019</span>, Oracle.  <span class="keyword">All</span> rights reserved.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">다음에 접속됨:</span><br><span class="line">Oracle Database <span class="number">19</span>c Enterprise Edition <span class="keyword">Release</span> <span class="number">19.0</span><span class="number">.0</span><span class="number">.0</span><span class="number">.0</span> <span class="operator">-</span> Production</span><br><span class="line">Version <span class="number">19.3</span><span class="number">.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>위와 같이 접속한 유저는  SYS이다.<ul>
+<li>모든 권한을 소유한 최고 권한 유저</li>
+</ul>
+</li>
+</ul>
+</br>
+
+<h2 id="유저-생성"><a href="#유저-생성" class="headerlink" title="유저 생성"></a>유저 생성</h2><ul>
+<li>오라클 11버전처럼 생성하고 싶을 때, dba 권한이 있는 계정으로 아래 명령어를 실행한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">ALTER</span> SESSION <span class="keyword">SET</span> &quot;_ORACLE_SCRIPT&quot;<span class="operator">=</span><span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>새로운 유저를 생성하고 Role을 부여하도록 한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">create</span> <span class="keyword">user</span> scott identified <span class="keyword">by</span> tiger;</span><br><span class="line">사용자가 생성되었습니다.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>scott</code> 유저에 dba롤(Role)을 부여한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">grant</span> dba <span class="keyword">to</span> scott;</span><br><span class="line">권한이 부여되었습니다.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>scott</code> 유저로 접속한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">connect</span> scott<span class="operator">/</span>tiger;</span><br><span class="line">연결되었습니다.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>접속한 유저가 <code>scott</code> 인지 확인한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">show</span> <span class="keyword">user</span>;</span><br><span class="line"><span class="keyword">USER</span>은 &quot;SCOTT&quot;입니다</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>다시 <code>Sys</code> 계정으로 연결한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">connect</span> sys<span class="operator">/</span>your_password <span class="keyword">as</span> sysdba</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>모든 유저를 확인한다.</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SQL</span><span class="operator">&gt;</span> <span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> all_users <span class="keyword">ORDER</span> <span class="keyword">BY</span> created;</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">USERNAME</span><br><span class="line"><span class="comment">--------------------------------------------------------------------------------</span></span><br><span class="line">   USER_ID CREATED  COMMON <span class="keyword">OR</span> INHERI</span><br><span class="line"><span class="comment">---------- -------- ------ -- ------</span></span><br><span class="line">DEFAULT_COLLATION</span><br><span class="line"><span class="comment">--------------------------------------------------------------------------------</span></span><br><span class="line">IMPLIC ALL_SH</span><br><span class="line"><span class="comment">------ ------</span></span><br><span class="line">SCOTT</span><br><span class="line">       <span class="number">109</span> <span class="number">21</span><span class="operator">/</span><span class="number">07</span><span class="operator">/</span><span class="number">14</span> <span class="keyword">NO</span>     N  <span class="keyword">NO</span></span><br><span class="line">USING_NLS_COMP</span><br><span class="line"><span class="keyword">NO</span>     <span class="keyword">NO</span></span><br><span class="line"></span><br><span class="line"><span class="number">38</span> 행이 선택되었습니다.</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/01/03/javaTryCatch/">[JAVA] 에러(Error) / 예외처리(Exception Handling)</a>
+            
+            
+            <a class="next" rel="next" href="/2025/01/03/oracle_ch2/">오라클 SQL-SQL Developer 설치</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 미상 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

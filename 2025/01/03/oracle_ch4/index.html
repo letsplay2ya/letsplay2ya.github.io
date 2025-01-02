@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="미상">
+
+
+
+
+
+<title>오라클 SQL-파이썬 연동 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Letsplay2ya&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Letsplay2ya&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">오라클 SQL-파이썬 연동</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">미상</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 3, 2025&nbsp;&nbsp;3:14:04</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Database/">Database</a>
+                            
+                                <a href="/categories/Database/oracle/">oracle</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="/../images/thumbnail/oracle.jpg"></p>
+<ul>
+<li>파이참에서 가상환경을 만들어 오라클 연동 예제를 작성한다.</li>
+<li>아나콘다, 파이참, 그리고 오라클 설치는 생략한다.</li>
+</ul>
+</br>
+
+<h2 id="가상환경-활성화"><a href="#가상환경-활성화" class="headerlink" title="가상환경 활성화"></a>가상환경 활성화</h2><ul>
+<li>cmd 창에서 가상 환경을 세팅 하도록 한다. (권장: 관리자 실행)</li>
+<li>바탕화면에 필자는 <code>python_oracle</code> 폴더를 생성했다.</li>
+<li>현재 경로는 아래와 같다.</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>먼저 가상환경을 만든다.</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">conda create <span class="literal">--name</span> your_env_name python=<span class="number">3.8</span></span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">done</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># To activate this environment, use</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#     $ conda activate python_oracle</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># To deactivate an active environment, use</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#     $ conda deactivate</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>your_env_name 대신 다른 이름으로 설정해도 된다.</li>
+<li>가상 환경에 접속한다.</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;conda activate python_oracle</span><br><span class="line">(python_oracle) C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;</span><br></pre></td></tr></table></figure>
+
+</br>
+
+<h2 id="필수-라이브러리-설치"><a href="#필수-라이브러리-설치" class="headerlink" title="필수 라이브러리 설치"></a>필수 라이브러리 설치</h2><ul>
+<li>ML을 위한 필수 라이브러리를 설치한다.</li>
+<li>pycaret &amp; oracle</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">(python_oracle) C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;pip install pycaret</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">.</span><br><span class="line">... wordcloud<span class="literal">-1</span>.<span class="number">8.1</span> yellowbrick<span class="literal">-1</span>.<span class="number">3</span>.post1</span><br><span class="line">(python_oracle) C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;pip install cx_Oracle</span><br><span class="line">Collecting cx_Oracle</span><br><span class="line">  Downloading cx_Oracle<span class="literal">-8</span>.<span class="number">2.1</span><span class="literal">-cp38-cp38-win_amd64</span>.whl (<span class="number">219</span> kB)</span><br><span class="line">     |████████████████████████████████| <span class="number">219</span> kB <span class="number">2.2</span> MB/s</span><br><span class="line">Installing collected packages: cx<span class="literal">-Oracle</span></span><br><span class="line">Successfully installed cx<span class="literal">-Oracle-8</span>.<span class="number">2.1</span></span><br><span class="line">(python_oracle) C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt; deactivate</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>deactivate</code> 한 뒤,  <code>lsnrctl status</code> 명령어를 통해 확인한다.</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\<span class="number">1</span>\Desktop\python_oracle&gt;lsnrctl status</span><br><span class="line">LSNRCTL <span class="keyword">for</span> <span class="number">64</span><span class="literal">-bit</span> Windows: Version <span class="number">19.0</span>.<span class="number">0.0</span>.<span class="number">0</span> - Production on <span class="number">16</span><span class="literal">-7</span>월 <span class="literal">-2021</span> <span class="number">10</span>:<span class="number">28</span>:<span class="number">24</span></span><br><span class="line"></span><br><span class="line">Copyright (c) <span class="number">1991</span>, <span class="number">2019</span>, Oracle.  All rights reserved.</span><br><span class="line"></span><br><span class="line">(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=<span class="number">1521</span>)))에 연결되었습니다</span><br><span class="line">리스너의 상태</span><br><span class="line"><span class="literal">------------------------</span></span><br><span class="line">별칭                     LISTENER</span><br><span class="line">버전                     TNSLSNR <span class="keyword">for</span> <span class="number">64</span><span class="literal">-bit</span> Windows: Version <span class="number">19.0</span>.<span class="number">0.0</span>.<span class="number">0</span> - Production</span><br><span class="line">시작 날짜                 <span class="number">13</span><span class="literal">-7</span>월 <span class="literal">-2021</span> <span class="number">17</span>:<span class="number">21</span>:<span class="number">03</span></span><br><span class="line">업타임                   <span class="number">2</span> 일 <span class="number">17</span> 시간. <span class="number">7</span> 분. <span class="number">25</span> 초</span><br><span class="line">트레이스 수준            off</span><br><span class="line">보안                     ON: Local OS Authentication</span><br><span class="line">SNMP                     OFF리스너 매개변수 파일   C:\ORACLE\WINDOWS.X64_193000_db_home\network\admin\listener.ora</span><br><span class="line">리스너 로그 파일         C:\ORACLE\diag\tnslsnr\DESKTOP<span class="literal">-F7LRGM5</span>\listener\alert\log.xml</span><br><span class="line">끝점 요약 청취 중...</span><br><span class="line">  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=<span class="number">127.0</span>.<span class="number">0.1</span>)(PORT=<span class="number">1521</span>)))</span><br><span class="line">  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1521ipc)))</span><br><span class="line">  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=DESKTOP<span class="literal">-F7LRGM5</span>)(PORT=<span class="number">5500</span>))(Security=(my_wallet_directory=C:\ORACLE\admin\orcl\xdb_wallet))(Presentation=HTTP)(Session=RAW))</span><br><span class="line">서비스 요약...</span><br><span class="line"><span class="string">&quot;CLRExtProc&quot;</span> 서비스는 <span class="number">1</span>개의 인스턴스를 가집니다.</span><br><span class="line">  <span class="string">&quot;CLRExtProc&quot;</span> 인스턴스(UNKNOWN 상태)는 이 서비스에 대해 <span class="number">1</span> 처리기를 가집니다.</span><br><span class="line"><span class="string">&quot;orcl&quot;</span> 서비스는 <span class="number">1</span>개의 인스턴스를 가집니다.</span><br><span class="line">  <span class="string">&quot;orcl&quot;</span> 인스턴스(READY 상태)는 이 서비스에 대해 <span class="number">1</span> 처리기를 가집니다.</span><br><span class="line"><span class="string">&quot;orclXDB&quot;</span> 서비스는 <span class="number">1</span>개의 인스턴스를 가집니다.</span><br><span class="line">  <span class="string">&quot;orcl&quot;</span> 인스턴스(READY 상태)는 이 서비스에 대해 <span class="number">1</span> 처리기를 가집니다.</span><br><span class="line">명령이 성공적으로 수행되었습니다</span><br><span class="line"></span><br><span class="line">`(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=<span class="number">1521</span>)))`에 연결되었습니다</span><br></pre></td></tr></table></figure>
+
+</br>
+
+<h2 id="연동코드-작성"><a href="#연동코드-작성" class="headerlink" title="연동코드 작성"></a>연동코드 작성</h2><ul>
+<li><p>필수 정보를 확인한다.</p>
+<ul>
+<li>IP주소: localhost</li>
+<li>Port번호: 1521</li>
+<li>서비스이름: orcl</li>
+</ul>
+</li>
+<li><p>JupyterLab을 연 후 코드를 작성한다. (관리자 살행)</p>
+<ul>
+<li>가상환경 <code>python_oracle</code> 으로 연결이 되어 있는지 확인한다.</li>
+</ul>
+</li>
+<li><p>먼저 Oracle에서 가져오는 코드이다.</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cx_Oracle</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">dsn = cx_Oracle.makedsn(<span class="string">&#x27;localhost&#x27;</span>, <span class="number">1521</span>, <span class="string">&#x27;orcl&#x27;</span>)</span><br><span class="line">db = cx_Oracle.connect(<span class="string">&#x27;scott&#x27;</span>, <span class="string">&#x27;tiger&#x27;</span>)</span><br><span class="line"></span><br><span class="line">cursor = db.cursor()</span><br><span class="line">cursor.execute(<span class="string">&quot;&quot;&quot;select * from AIR_POLLUTION_TRAIN&quot;&quot;&quot;</span>)</span><br><span class="line"></span><br><span class="line">row = cursor.fetchall()</span><br><span class="line">colname = cursor.description</span><br><span class="line">col = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> colname:</span><br><span class="line">    col.append(i[<span class="number">0</span>])</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">train_oracle = pd.DataFrame(row, columns = col)</span><br><span class="line"><span class="built_in">print</span>(train_oracle.shape)</span><br><span class="line"><span class="comment"># (7111, 12)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>이번에는 임시 테이블을 만들어서 Python에서 직접 테이블을 가져오는 쿼리를 작성한다.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> cx_Oracle</span><br><span class="line"><span class="keyword">from</span> sqlalchemy <span class="keyword">import</span> types, create_engine</span><br><span class="line"></span><br><span class="line"><span class="comment">#######################################################</span></span><br><span class="line"><span class="comment">### DB connection strings config</span></span><br><span class="line"><span class="comment">#######################################################</span></span><br><span class="line">tns = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">  (DESCRIPTION =</span></span><br><span class="line"><span class="string">    (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))</span></span><br><span class="line"><span class="string">    (CONNECT_DATA =</span></span><br><span class="line"><span class="string">      (SERVER = DEDICATED)</span></span><br><span class="line"><span class="string">      (SERVICE_NAME = orcl)</span></span><br><span class="line"><span class="string">    )</span></span><br><span class="line"><span class="string">  )</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">usr = <span class="string">&quot;scott&quot;</span></span><br><span class="line">pwd = <span class="string">&quot;tiger&quot;</span></span><br><span class="line"></span><br><span class="line">engine = create_engine(<span class="string">&#x27;oracle+cx_oracle://%s:%s@%s&#x27;</span> % (usr, pwd, tns))</span><br><span class="line">df = pd.DataFrame(&#123;<span class="string">&#x27;col1&#x27;</span>: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>], </span><br><span class="line">                   <span class="string">&#x27;col2&#x27;</span>: [<span class="string">&quot;A&quot;</span>, <span class="string">&quot;B&quot;</span>, <span class="string">&quot;C&quot;</span>]&#125;)</span><br><span class="line"><span class="built_in">print</span>(df)</span><br><span class="line"></span><br><span class="line">df.to_sql(<span class="string">&#x27;test_table&#x27;</span>, engine, index=<span class="literal">False</span>, if_exists=<span class="string">&#x27;replace&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code class="python">   col1 col2
+0     1    A
+1     2    B
+2     3    C
+</code></pre>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/01/03/oracle_ch3/">오라클 SQL-CSV파일 업로드</a>
+            
+            
+            <a class="next" rel="next" href="/2025/01/03/oracle_install/">오라클 SQL-오라클 설치</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 미상 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

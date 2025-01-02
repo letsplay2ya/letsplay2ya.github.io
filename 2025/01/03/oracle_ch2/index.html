@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="미상">
+
+
+
+
+
+<title>오라클 SQL-SQL Developer 설치 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Letsplay2ya&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Letsplay2ya&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">오라클 SQL-SQL Developer 설치</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">미상</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 3, 2025&nbsp;&nbsp;3:14:04</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Database/">Database</a>
+                            
+                                <a href="/categories/Database/oracle/">oracle</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="/../images/thumbnail/oracle.jpg"></p>
+<h2 id="SQL-Developer-설치"><a href="#SQL-Developer-설치" class="headerlink" title="SQL Developer 설치"></a>SQL Developer 설치</h2><ul>
+<li><p>다음의 URL(<a target="_blank" rel="noopener" href="https://www.oracle.com/tools/downloads/sqldev-downloads.html">https://www.oracle.com/tools/downloads/sqldev-downloads.html</a>)로 접속하여 오라클 SQL Developer를 다운로드 받는다.</p>
+</li>
+<li><p>이 때, 자바가 설치가 되어 있지 않다면 <code>Windows 64-bit with JDK 8 included</code> 를 클릭하여 다운로드 받는다.</p>
+</li>
+<li><p>다운로드 시, 압축 해제 후, <code>sqldeveloper.exe</code> 를 실행한다.</p>
+</li>
+<li><p>메뉴의 첫 번째 파일 모양을 클릭하여 새 갤러리를 오픈한다.</p>
+</li>
+<li><p>범주 영역에서 접속 &gt; 데이터베이스 접속을 순차적으로 클릭한다.</p>
+</li>
+<li><p>다음 화면에서 Name은 orcl로 하고, 사용자 이름은 scott, 패스워드는 tiger로 입력한다.</p>
+</li>
+<li><p>호스트 이름은 localhost, 포트는 1521, SID는 orcl로 적고 [테스트] 버튼을 클릭한다.</p>
+</li>
+<li><p>왼쪽 하단에 <code>상태: 성공</code> 이라면 정상적으로 접속이 가능한 상태임을 의미한다.</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> session <span class="keyword">set</span> nls_date_format<span class="operator">=</span><span class="string">&#x27;RR/MM/DD&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> emp;</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> dept;</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> DEPT</span><br><span class="line">       (DEPTNO number(<span class="number">10</span>),</span><br><span class="line">        DNAME VARCHAR2(<span class="number">14</span>),</span><br><span class="line">        LOC VARCHAR2(<span class="number">13</span>) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DEPT <span class="keyword">VALUES</span> (<span class="number">10</span>, <span class="string">&#x27;ACCOUNTING&#x27;</span>, <span class="string">&#x27;NEW YORK&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DEPT <span class="keyword">VALUES</span> (<span class="number">20</span>, <span class="string">&#x27;RESEARCH&#x27;</span>,   <span class="string">&#x27;DALLAS&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DEPT <span class="keyword">VALUES</span> (<span class="number">30</span>, <span class="string">&#x27;SALES&#x27;</span>,      <span class="string">&#x27;CHICAGO&#x27;</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> DEPT <span class="keyword">VALUES</span> (<span class="number">40</span>, <span class="string">&#x27;OPERATIONS&#x27;</span>, <span class="string">&#x27;BOSTON&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> EMP (</span><br><span class="line"> EMPNO               NUMBER(<span class="number">4</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line"> ENAME               VARCHAR2(<span class="number">10</span>),</span><br><span class="line"> JOB                 VARCHAR2(<span class="number">9</span>),</span><br><span class="line"> MGR                 NUMBER(<span class="number">4</span>) ,</span><br><span class="line"> HIREDATE            <span class="type">DATE</span>,</span><br><span class="line"> SAL                 NUMBER(<span class="number">7</span>,<span class="number">2</span>),</span><br><span class="line"> COMM                NUMBER(<span class="number">7</span>,<span class="number">2</span>),</span><br><span class="line"> DEPTNO              NUMBER(<span class="number">2</span>) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7839</span>,<span class="string">&#x27;KING&#x27;</span>,<span class="string">&#x27;PRESIDENT&#x27;</span>,<span class="keyword">NULL</span>,<span class="string">&#x27;81-11-17&#x27;</span>,<span class="number">5000</span>,<span class="keyword">NULL</span>,<span class="number">10</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7698</span>,<span class="string">&#x27;BLAKE&#x27;</span>,<span class="string">&#x27;MANAGER&#x27;</span>,<span class="number">7839</span>,<span class="string">&#x27;81-05-01&#x27;</span>,<span class="number">2850</span>,<span class="keyword">NULL</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7782</span>,<span class="string">&#x27;CLARK&#x27;</span>,<span class="string">&#x27;MANAGER&#x27;</span>,<span class="number">7839</span>,<span class="string">&#x27;81-05-09&#x27;</span>,<span class="number">2450</span>,<span class="keyword">NULL</span>,<span class="number">10</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7566</span>,<span class="string">&#x27;JONES&#x27;</span>,<span class="string">&#x27;MANAGER&#x27;</span>,<span class="number">7839</span>,<span class="string">&#x27;81-04-01&#x27;</span>,<span class="number">2975</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7654</span>,<span class="string">&#x27;MARTIN&#x27;</span>,<span class="string">&#x27;SALESMAN&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-09-10&#x27;</span>,<span class="number">1250</span>,<span class="number">1400</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7499</span>,<span class="string">&#x27;ALLEN&#x27;</span>,<span class="string">&#x27;SALESMAN&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-02-11&#x27;</span>,<span class="number">1600</span>,<span class="number">300</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7844</span>,<span class="string">&#x27;TURNER&#x27;</span>,<span class="string">&#x27;SALESMAN&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-08-21&#x27;</span>,<span class="number">1500</span>,<span class="number">0</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7900</span>,<span class="string">&#x27;JAMES&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-12-11&#x27;</span>,<span class="number">950</span>,<span class="keyword">NULL</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7521</span>,<span class="string">&#x27;WARD&#x27;</span>,<span class="string">&#x27;SALESMAN&#x27;</span>,<span class="number">7698</span>,<span class="string">&#x27;81-02-23&#x27;</span>,<span class="number">1250</span>,<span class="number">500</span>,<span class="number">30</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7902</span>,<span class="string">&#x27;FORD&#x27;</span>,<span class="string">&#x27;ANALYST&#x27;</span>,<span class="number">7566</span>,<span class="string">&#x27;81-12-11&#x27;</span>,<span class="number">3000</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7369</span>,<span class="string">&#x27;SMITH&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>,<span class="number">7902</span>,<span class="string">&#x27;80-12-11&#x27;</span>,<span class="number">800</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7788</span>,<span class="string">&#x27;SCOTT&#x27;</span>,<span class="string">&#x27;ANALYST&#x27;</span>,<span class="number">7566</span>,<span class="string">&#x27;82-12-22&#x27;</span>,<span class="number">3000</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7876</span>,<span class="string">&#x27;ADAMS&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>,<span class="number">7788</span>,<span class="string">&#x27;83-01-15&#x27;</span>,<span class="number">1100</span>,<span class="keyword">NULL</span>,<span class="number">20</span>);</span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> EMP <span class="keyword">VALUES</span> (<span class="number">7934</span>,<span class="string">&#x27;MILLER&#x27;</span>,<span class="string">&#x27;CLERK&#x27;</span>,<span class="number">7782</span>,<span class="string">&#x27;82-01-11&#x27;</span>,<span class="number">1300</span>,<span class="keyword">NULL</span>,<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">drop</span>  <span class="keyword">table</span>  salgrade;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> salgrade</span><br><span class="line">( grade   number(<span class="number">10</span>),</span><br><span class="line">  losal   number(<span class="number">10</span>),</span><br><span class="line">  hisal   number(<span class="number">10</span>) );</span><br><span class="line"></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">1</span>,<span class="number">700</span>,<span class="number">1200</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">2</span>,<span class="number">1201</span>,<span class="number">1400</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">3</span>,<span class="number">1401</span>,<span class="number">2000</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">4</span>,<span class="number">2001</span>,<span class="number">3000</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> salgrade  <span class="keyword">values</span>(<span class="number">5</span>,<span class="number">3001</span>,<span class="number">9999</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>전체 선택 후 상단 ▶️ 을 눌러 명령문을 실행한다.</p>
+</li>
+<li><p>마지막으로 조회 쿼리를 작성하여 <code>emp</code> 테이블의 결과가 나오는지 출력한다.</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> emp;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>이제 모두 정상적으로 나온 것을 확인할 수 있다. 실습준비는 끝이 난 것이다.</li>
+</ul>
+</br>
+
+<h2 id="실습소스"><a href="#실습소스" class="headerlink" title="실습소스"></a>실습소스</h2><ul>
+<li>실습 소스는 아래에서 다운로드 받는다.<ul>
+<li>참조: <a target="_blank" rel="noopener" href="https://1drv.ms/u/s!ApbMVPF0rupskKYe0Rgwfd6NJh6mdg?e=ieUPEK">https://1drv.ms/u/s!ApbMVPF0rupskKYe0Rgwfd6NJh6mdg?e&#x3D;ieUPEK</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/01/03/oracle_ch1/">오라클 SQL-오라클 접속</a>
+            
+            
+            <a class="next" rel="next" href="/2025/01/03/oracle_ch3/">오라클 SQL-CSV파일 업로드</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 미상 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
