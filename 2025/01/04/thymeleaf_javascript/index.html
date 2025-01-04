@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="미상">
+
+
+
+
+
+<title>JavaScript에서 Thymeleaf 변수 사용하기 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Letsplay2ya&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Letsplay2ya&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">JavaScript에서 Thymeleaf 변수 사용하기</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">미상</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 4, 2025&nbsp;&nbsp;21:44:38</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/javaScript/">javaScript</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="/../images/thumbnail/js.png"></p>
+<h1 id="JavaScript에서-Thymeleaf-변수-사용하기"><a href="#JavaScript에서-Thymeleaf-변수-사용하기" class="headerlink" title="JavaScript에서 Thymeleaf 변수 사용하기"></a>JavaScript에서 Thymeleaf 변수 사용하기</h1><p>Thymeleaf는 주로 Spring MVC와 함께 사용되는 서버 사이드 템플릿 엔진으로, 동적인 웹 페이지를 렌더링하는 데 강력한 기능을 제공합니다. JavaScript에서 Thymeleaf 변수를 사용하면 서버 측 데이터를 클라이언트 측 스크립트로 원활하게 전달할 수 있습니다. 아래에서는 JavaScript에서 Thymeleaf 변수를 효과적으로 사용하는 다양한 방법과 모범 사례를 소개합니다.</p>
+<h2 id="목차"><a href="#목차" class="headerlink" title="목차"></a>목차</h2><ol>
+<li><a href="#1-%EA%B8%B0%EB%B3%B8-%EB%B3%80%EC%88%98-%EC%82%BD%EC%9E%85">기본 변수 삽입</a></li>
+<li><a href="#2-thinlinejavascript-%EC%82%AC%EC%9A%A9"><code>th:inline=&quot;javascript&quot;</code> 사용</a></li>
+<li><a href="#3-json-%EA%B0%9D%EC%B2%B4%EB%A1%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%84%EB%8B%AC">JSON 객체로 데이터 전달</a></li>
+<li><a href="#4-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%86%8D%EC%84%B1data--%EC%9D%84-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-%EC%A0%84%EB%8B%AC">데이터 속성(<code>data-*</code>)을 사용하여 전달</a></li>
+<li><a href="#5-url-%ED%8C%8C%EB%9D%BC%EB%AF%B8%ED%84%B0%EB%A5%BC-%ED%86%B5%ED%95%9C-%EB%8D%B0%EC%9D%B4%ED%84%B0-%EC%A0%84%EB%8B%AC">URL 파라미터를 통한 데이터 전달</a></li>
+</ol>
+<hr>
+<h2 id="1-기본-변수-삽입"><a href="#1-기본-변수-삽입" class="headerlink" title="1. 기본 변수 삽입"></a>1. 기본 변수 삽입</h2><p>Thymeleaf의 <code>$&#123;...&#125;</code> 구문을 사용하여 JavaScript 코드 내에 Thymeleaf 변수를 직접 삽입할 수 있습니다. 이를 위해 <code>&lt;script&gt;</code> 태그 내에 JavaScript를 포함하고, Thymeleaf가 해당 코드를 처리하도록 해야 합니다.</p>
+<h3 id="예제"><a href="#예제" class="headerlink" title="예제"></a>예제</h3><p>컨트롤러에서 <code>username</code>이라는 모델 속성을 추가한다고 가정해보겠습니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 컨트롤러 예제</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/welcome&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">welcome</span><span class="params">(Model model)</span> &#123;</span><br><span class="line">    model.addAttribute(<span class="string">&quot;username&quot;</span>, <span class="string">&quot;홍길동&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;welcome&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>welcome.html</code> Thymeleaf 템플릿에서 JavaScript 내에 변수를 사용하는 방법은 다음과 같습니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>환영 페이지<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>환영합니다, <span class="tag">&lt;<span class="name">span</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;username&#125;&quot;</span>&gt;</span>사용자<span class="tag">&lt;/<span class="name">span</span>&gt;</span>님!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// JavaScript에서 Thymeleaf 변수 직접 사용</span></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">var</span> userName = <span class="comment">/*[[$&#123;username&#125;]]*/</span> <span class="string">&#x27;기본 사용자&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;로그인한 사용자:&quot;</span>, userName);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>설명:</strong></p>
+<ul>
+<li><code>/*[[$&#123;username&#125;]]*/</code>는 Thymeleaf의 인라인 JavaScript 문법으로, Thymeleaf가 JavaScript 코드를 처리하고 해당 부분을 실제 값으로 대체합니다.</li>
+<li><code>&#39;기본 사용자&#39;</code>는 Thymeleaf 처리가 활성화되지 않은 경우에 대한 기본값으로 사용됩니다.</li>
+</ul>
+<hr>
+<h2 id="2-th-inline-quot-javascript-quot-사용"><a href="#2-th-inline-quot-javascript-quot-사용" class="headerlink" title="2. th:inline=&quot;javascript&quot; 사용"></a>2. <code>th:inline=&quot;javascript&quot;</code> 사용</h2><p>Thymeleaf는 <code>th:inline=&quot;javascript&quot;</code> 속성을 제공하여 JavaScript 블록을 보다 효과적으로 처리할 수 있습니다. 이를 통해 변수의 적절한 이스케이프 처리와 함께 문법 오류나 보안 취약점을 방지할 수 있습니다.</p>
+<h3 id="예제-1"><a href="#예제-1" class="headerlink" title="예제"></a>예제</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>프로필 페이지<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>사용자 프로필<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">th:inline</span>=<span class="string">&quot;javascript&quot;</span>&gt;</span><span class="language-handlebars"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        /*&lt;![CDATA[*/</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        var user = /*[[$&#123;user&#125;]]*/ &#123;&#125;;</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        console.log(&quot;사용자 ID:&quot;, user.id);</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        console.log(&quot;사용자 이름:&quot;, user.name);</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        /*]]&gt;*/</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">    </span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>설명:</strong></p>
+<ul>
+<li><code>th:inline=&quot;javascript&quot;</code>는 Thymeleaf에게 해당 <code>&lt;script&gt;</code> 태그 내의 내용을 JavaScript로 처리하도록 지시합니다.</li>
+<li><code>/*[[$&#123;user&#125;]]*/</code>는 서버 측 <code>user</code> 객체를 JavaScript 객체로 안전하게 삽입합니다.</li>
+<li><code>/*&lt;![CDATA[*/</code>와 <code>/*]]&gt;*/</code>는 스크립트 내용이 브라우저에 의해 올바르게 해석되도록 감싸주는 역할을 합니다. 특히 Thymeleaf 표현식에 특수 문자가 포함될 경우 HTML 파싱에 문제가 생기는 것을 방지합니다.</li>
+</ul>
+<hr>
+<h2 id="3-JSON-객체로-데이터-전달"><a href="#3-JSON-객체로-데이터-전달" class="headerlink" title="3. JSON 객체로 데이터 전달"></a>3. JSON 객체로 데이터 전달</h2><p>서버 측 데이터를 JavaScript에서 쉽게 사용할 수 있도록 JSON 형태로 전달하는 방법입니다. 이는 특히 복잡한 데이터 구조를 전달할 때 유용합니다.</p>
+<h3 id="예제-2"><a href="#예제-2" class="headerlink" title="예제"></a>예제</h3><p>컨트롤러에서 <code>user</code> 객체를 모델에 추가합니다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 컨트롤러 예제</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/profile&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">profile</span><span class="params">(Model model)</span> &#123;</span><br><span class="line">    <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">User</span>(<span class="number">1</span>, <span class="string">&quot;홍길동&quot;</span>, <span class="string">&quot;hong@example.com&quot;</span>);</span><br><span class="line">    model.addAttribute(<span class="string">&quot;user&quot;</span>, user);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;profile&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>profile.html</code> 템플릿에서 JSON으로 데이터를 전달합니다.</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>프로필 페이지<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span> <span class="attr">th:text</span>=<span class="string">&quot;$&#123;user.name&#125;&quot;</span>&gt;</span>사용자 이름<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">th:inline</span>=<span class="string">&quot;javascript&quot;</span>&gt;</span><span class="language-handlebars"><span class="language-xml"></span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        /*&lt;![CDATA[*/</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        var user = [[$&#123;user&#125;]];</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        console.log(&quot;사용자 정보:&quot;, user);</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">        /*]]&gt;*/</span></span></span><br><span class="line"><span class="language-xml"><span class="language-handlebars">    </span></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>설명:</strong></p>
+<ul>
+<li><code>[[$&#123;user&#125;]]</code>는 Thymeleaf가 <code>user</code> 객체를 JSON 형식으로 변환하여 JavaScript 변수에 할당합니다.</li>
+<li><code>th:inline=&quot;javascript&quot;</code>를 사용하여 Thymeleaf가 JavaScript 컨텍스트 내에서 적절하게 데이터를 처리하도록 합니다.</li>
+</ul>
+<hr>
+<h2 id="4-데이터-속성-data-을-사용하여-전달"><a href="#4-데이터-속성-data-을-사용하여-전달" class="headerlink" title="4. 데이터 속성(data-*)을 사용하여 전달"></a>4. 데이터 속성(<code>data-*</code>)을 사용하여 전달</h2><p>HTML 요소의 <code>data-*</code> 속성을 사용하여 서버 측 데이터를 클라이언트 측으로 전달한 다음, JavaScript에서 이를 읽어오는 방법입니다. 이는 특히 데이터가 DOM 요소와 관련이 있을 때 유용합니다.</p>
+<h3 id="예제-3"><a href="#예제-3" class="headerlink" title="예제"></a>예제</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>데이터 속성 예제<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;userData&quot;</span> <span class="attr">th:data-user</span>=<span class="string">&quot;$&#123;user&#125;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// HTML의 data-user 속성에서 데이터 가져오기</span></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">var</span> userElement = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;userData&#x27;</span>);</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">var</span> user = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(userElement.<span class="title function_">getAttribute</span>(<span class="string">&#x27;data-user&#x27;</span>));</span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;사용자 정보:&quot;</span>, user);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>설명:</strong></p>
+<ul>
+<li><code>th:data-user=&quot;$&#123;user&#125;&quot;</code>는 <code>user</code> 객체를 JSON 문자열로 변환하여 <code>data-user</code> 속성에 할당합니다.</li>
+<li>JavaScript에서는 <code>getAttribute</code>를 사용하여 해당 데이터를 가져온 후, <code>JSON.parse</code>를 통해 객체로 변환합니다.</li>
+</ul>
+<hr>
+<h2 id="5-URL-파라미터를-통한-데이터-전달"><a href="#5-URL-파라미터를-통한-데이터-전달" class="headerlink" title="5. URL 파라미터를 통한 데이터 전달"></a>5. URL 파라미터를 통한 데이터 전달</h2><p>서버 측 데이터를 URL의 쿼리 파라미터로 전달하고, JavaScript에서 이를 파싱하여 사용하는 방법입니다. 이 방법은 주로 페이지 간 데이터 전달 시 사용됩니다.</p>
+<h3 id="예제-4"><a href="#예제-4" class="headerlink" title="예제"></a>예제</h3><p>컨트롤러에서 리다이렉트 시 데이터 전달:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 컨트롤러 예제</span></span><br><span class="line"><span class="meta">@GetMapping(&quot;/redirect&quot;)</span></span><br><span class="line"><span class="keyword">public</span> String <span class="title function_">redirect</span><span class="params">(Model model)</span> &#123;</span><br><span class="line">    model.addAttribute(<span class="string">&quot;message&quot;</span>, <span class="string">&quot;안녕하세요!&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;redirect:/target?message=$&#123;message&#125;&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>target.html</code> 템플릿에서 URL 파라미터 읽기:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>리다이렉트 대상 페이지<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>메시지:<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">&quot;message&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="comment">// URL 파라미터에서 &#x27;message&#x27; 값 가져오기</span></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">function</span> <span class="title function_">getQueryParam</span>(<span class="params">param</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">var</span> urlParams = <span class="keyword">new</span> <span class="title class_">URLSearchParams</span>(<span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">search</span>);</span></span><br><span class="line"><span class="language-javascript">            <span class="keyword">return</span> urlParams.<span class="title function_">get</span>(param);</span></span><br><span class="line"><span class="language-javascript">        &#125;</span></span><br><span class="line"><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">var</span> message = <span class="title function_">getQueryParam</span>(<span class="string">&#x27;message&#x27;</span>) || <span class="string">&#x27;기본 메시지&#x27;</span>;</span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;message&#x27;</span>).<span class="property">textContent</span> = message;</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>설명:</strong></p>
+<ul>
+<li>컨트롤러에서 <code>redirect</code> 메서드는 <code>message</code> 파라미터를 포함하여 <code>/target</code> 페이지로 리다이렉트합니다.</li>
+<li><code>target.html</code>에서는 JavaScript를 사용하여 URL의 쿼리 파라미터에서 <code>message</code> 값을 추출하고, 이를 페이지에 표시합니다.</li>
+</ul>
+<hr>
+<h2 id="6-템플릿-내-숨겨진-필드-사용"><a href="#6-템플릿-내-숨겨진-필드-사용" class="headerlink" title="6. 템플릿 내 숨겨진 필드 사용"></a>6. 템플릿 내 숨겨진 필드 사용</h2><p>HTML 폼의 숨겨진 필드를 사용하여 서버 측 데이터를 저장하고, JavaScript에서 이를 읽어오는 방법입니다.</p>
+<h3 id="예제-5"><a href="#예제-5" class="headerlink" title="예제"></a>예제</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">xmlns:th</span>=<span class="string">&quot;http://www.thymeleaf.org&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>숨겨진 필드 예제<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">form</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">id</span>=<span class="string">&quot;userId&quot;</span> <span class="attr">th:value</span>=<span class="string">&quot;$&#123;user.id&#125;&quot;</span> /&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">&quot;hidden&quot;</span> <span class="attr">id</span>=<span class="string">&quot;userName&quot;</span> <span class="attr">th:value</span>=<span class="string">&quot;$&#123;user.name&#125;&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">var</span> userId = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;userId&#x27;</span>).<span class="property">value</span>;</span></span><br><span class="line"><span class="language-javascript">        <span class="keyword">var</span> userName = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;userName&#x27;</span>).<span class="property">value</span>;</span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;사용자 ID:&quot;</span>, userId);</span></span><br><span class="line"><span class="language-javascript">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;사용자 이름:&quot;</span>, userName);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>설명:</strong></p>
+<ul>
+<li><code>&lt;input type=&quot;hidden&quot;&gt;</code> 요소를 사용하여 <code>user</code> 객체의 속성을 저장합니다.</li>
+<li>JavaScript에서는 <code>getElementById</code>를 사용하여 해당 값을 읽어옵니다.</li>
+</ul>
+<hr>
+<h2 id="7-보안-및-최적화-고려사항"><a href="#7-보안-및-최적화-고려사항" class="headerlink" title="7. 보안 및 최적화 고려사항"></a>7. 보안 및 최적화 고려사항</h2><p>JavaScript에서 Thymeleaf 변수를 사용할 때 몇 가지 주의할 점이 있습니다.</p>
+<h3 id="보안-고려사항"><a href="#보안-고려사항" class="headerlink" title="보안 고려사항"></a>보안 고려사항</h3><ul>
+<li><strong>XSS(교차 사이트 스크립팅) 방지:</strong> 서버 측 데이터를 JavaScript에 삽입할 때는 반드시 적절하게 이스케이프 처리하여 악의적인 스크립트가 실행되지 않도록 해야 합니다. <code>th:inline=&quot;javascript&quot;</code>를 사용하면 Thymeleaf가 자동으로 데이터를 안전하게 이스케이프 처리해 줍니다.</li>
+</ul>
+<h3 id="데이터-크기-최적화"><a href="#데이터-크기-최적화" class="headerlink" title="데이터 크기 최적화"></a>데이터 크기 최적화</h3><ul>
+<li><strong>필요한 데이터만 전달:</strong> 클라이언트 측에서 반드시 필요한 데이터만 전달하여 페이지 로딩 속도와 성능을 최적화합니다.</li>
+</ul>
+<h3 id="유지보수성"><a href="#유지보수성" class="headerlink" title="유지보수성"></a>유지보수성</h3><ul>
+<li><strong>데이터와 로직 분리:</strong> 서버 측 데이터와 클라이언트 측 로직을 명확하게 분리하여 코드의 가독성과 유지보수성을 높입니다.</li>
+</ul>
+<hr>
+<h2 id="8-결론"><a href="#8-결론" class="headerlink" title="8. 결론"></a>8. 결론</h2><p>Thymeleaf와 JavaScript를 효과적으로 통합하면 서버 측 데이터와 클라이언트 측 스크립트 간의 원활한 상호작용이 가능합니다. 위에서 소개한 다양한 방법들을 상황에 맞게 적절히 활용하면, 보다 동적이고 인터랙티브한 웹 애플리케이션을 개발할 수 있습니다. 항상 보안과 성능을 고려하여 데이터를 안전하게 처리하는 것이 중요합니다.</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/javaScript/"># javaScript</a>
+                    
+                        <a href="/tags/thymeleaf/"># thymeleaf</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/01/03/Getter&Setter/">[JAVA] Getter와 Setter 메소드</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 미상 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
