@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="미상">
+
+
+
+
+
+<title>Vue.js에서 v-data-table 데이터 구조 단순화하기 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Letsplay2ya&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Letsplay2ya&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Vue.js에서 v-data-table 데이터 구조 단순화하기</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">미상</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">January 6, 2025&nbsp;&nbsp;21:01:04</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/vue/">vue</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><img src="/../images/thumbnail/vue.png"></p>
+<h1 id="Vue-js에서-v-data-table-데이터-구조-단순화하기"><a href="#Vue-js에서-v-data-table-데이터-구조-단순화하기" class="headerlink" title="Vue.js에서 v-data-table 데이터 구조 단순화하기"></a>Vue.js에서 v-data-table 데이터 구조 단순화하기</h1><p>Vue.js의 <code>v-data-table</code>을 사용하면서 <code>@click:row</code> 이벤트로 전달되는 데이터 구조가 복잡해질 때, 이를 단순화하고 효율적으로 처리하는 방법에 대해 알아보겠습니다.</p>
+<hr>
+<h2 id="문제-상황"><a href="#문제-상황" class="headerlink" title="문제 상황"></a>문제 상황</h2><p><code>v-data-table</code>의 <code>@click:row</code> 이벤트는 행 데이터를 클릭할 때 다음과 같이 복잡한 구조를 전달합니다:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">columns</span>: <span class="title class_">Proxy</span>(<span class="title class_">Array</span>),</span><br><span class="line">  <span class="attr">index</span>: <span class="number">3</span>,</span><br><span class="line">  <span class="attr">internalItem</span>: <span class="title class_">Proxy</span>(<span class="title class_">Object</span>),</span><br><span class="line">  <span class="attr">item</span>: <span class="title class_">Proxy</span>(<span class="title class_">Object</span>),</span><br><span class="line">  <span class="attr">toggleExpand</span>: <span class="title class_">Function</span>,</span><br><span class="line">  <span class="attr">toggleSelect</span>: <span class="title class_">Function</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>하지만, <code>NoticeListView.vue</code>와 같은 다른 컴포넌트에서는 단순히 <code>BoardItem</code> 타입 데이터를 필요로 합니다. 이로 인해 데이터 구조를 정리하지 않으면 다음과 같은 문제가 발생합니다:</p>
+<ol>
+<li>데이터 구조가 불필요하게 복잡해짐.</li>
+<li>타입스크립트에서 타입 오류 발생.</li>
+<li>코드 가독성과 유지보수성이 저하됨.</li>
+</ol>
+<hr>
+<h2 id="해결-방안"><a href="#해결-방안" class="headerlink" title="해결 방안"></a>해결 방안</h2><p>이 문제를 해결하기 위해, <strong><code>BoardList.vue</code>에서 데이터 구조를 단순화</strong>하여 필요한 데이터만 전달하도록 수정합니다.</p>
+<hr>
+<h3 id="1-BoardList-vue-수정"><a href="#1-BoardList-vue-수정" class="headerlink" title="1. BoardList.vue 수정"></a>1. <code>BoardList.vue</code> 수정</h3><p><code>v-data-table</code>의 <code>@click:row</code> 이벤트에서 <code>row.item</code>만 추출하여 <code>emit</code>으로 전달합니다. 이로써 불필요한 메타데이터를 제거할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleRowClick</span> = (<span class="params">event: MouseEvent, row: &#123; item: BoardItem &#125;</span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">emit</span>(<span class="string">&#x27;rowClick&#x27;</span>, row.<span class="property">item</span>); <span class="comment">// 필요한 데이터만 전달</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="주요-포인트"><a href="#주요-포인트" class="headerlink" title="주요 포인트"></a>주요 포인트</h4><ul>
+<li><code>row.item</code>은 클릭된 행의 실제 데이터로, <code>BoardItem</code> 타입과 일치합니다.</li>
+<li>불필요한 메타데이터(<code>index</code>, <code>internalItem</code> 등&#96;)를 제거해 구조를 단순화합니다.</li>
+</ul>
+<hr>
+<h3 id="2-NoticeListView-vue-수정"><a href="#2-NoticeListView-vue-수정" class="headerlink" title="2. NoticeListView.vue 수정"></a>2. <code>NoticeListView.vue</code> 수정</h3><p><code>BoardList.vue</code>에서 <code>emit</code>으로 단순화된 데이터를 전달하므로, <code>NoticeListView.vue</code>는 별도의 데이터 변환 없이 바로 처리할 수 있습니다.</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleRowClick</span> = (<span class="params">row: BoardItem</span>) =&gt; &#123;</span><br><span class="line">    router.<span class="title function_">push</span>(<span class="string">`/operations/notice/details/<span class="subst">$&#123;row.id&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="주요-포인트-1"><a href="#주요-포인트-1" class="headerlink" title="주요 포인트"></a>주요 포인트</h4><ul>
+<li>전달받은 <code>row</code>는 <code>BoardItem</code> 타입이므로 타입 안정성을 유지합니다.</li>
+<li>단순히 <code>row.id</code>에 접근하여 라우팅 처리를 수행합니다.</li>
+</ul>
+<hr>
+<h3 id="3-데이터-흐름"><a href="#3-데이터-흐름" class="headerlink" title="3. 데이터 흐름"></a>3. 데이터 흐름</h3><ol>
+<li><strong><code>v-data-table</code></strong>: <code>@click:row</code> 이벤트에서 복잡한 행 데이터를 전달.</li>
+<li><strong><code>BoardList.vue</code></strong>: <code>handleRowClick</code>에서 <code>row.item</code>만 추출하여 <code>emit</code>으로 전달.</li>
+<li><strong><code>NoticeListView.vue</code></strong>: 전달받은 데이터를 <code>BoardItem</code> 타입으로 처리.</li>
+</ol>
+<hr>
+<h2 id="최종-코드"><a href="#최종-코드" class="headerlink" title="최종 코드"></a>최종 코드</h2><h3 id="BoardList-vue"><a href="#BoardList-vue" class="headerlink" title="BoardList.vue"></a><code>BoardList.vue</code></h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleRowClick</span> = (<span class="params">event: MouseEvent, row: &#123; item: BoardItem &#125;</span>) =&gt; &#123;</span><br><span class="line">    <span class="title function_">emit</span>(<span class="string">&#x27;rowClick&#x27;</span>, row.<span class="property">item</span>); <span class="comment">// 필요한 데이터만 전달</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="NoticeListView-vue"><a href="#NoticeListView-vue" class="headerlink" title="NoticeListView.vue"></a><code>NoticeListView.vue</code></h3><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">handleRowClick</span> = (<span class="params">row: BoardItem</span>) =&gt; &#123;</span><br><span class="line">    router.<span class="title function_">push</span>(<span class="string">`/operations/notice/details/<span class="subst">$&#123;row.id&#125;</span>`</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="장점"><a href="#장점" class="headerlink" title="장점"></a>장점</h2><ol>
+<li><p><strong>데이터 구조 단순화</strong>:</p>
+<ul>
+<li>복잡한 메타데이터를 제거하고 필요한 데이터만 전달합니다.</li>
+</ul>
+</li>
+<li><p><strong>타입 안정성 보장</strong>:</p>
+<ul>
+<li>타입스크립트를 활용해 컴파일 단계에서 타입 오류를 방지합니다.</li>
+</ul>
+</li>
+<li><p><strong>유지보수성 향상</strong>:</p>
+<ul>
+<li>코드 가독성과 구조가 개선되어 유지보수가 용이합니다.</li>
+</ul>
+</li>
+<li><p><strong>재사용성 증가</strong>:</p>
+<ul>
+<li><code>NoticeListView.vue</code>는 단순한 데이터 구조에 의존하므로 다른 컨텍스트에서도 쉽게 재사용 가능합니다.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="결론"><a href="#결론" class="headerlink" title="결론"></a>결론</h2><p><code>v-data-table</code>의 <code>@click:row</code> 이벤트에서 데이터 구조를 단순화하는 것은 Vue.js 프로젝트의 코드 품질과 유지보수성을 크게 향상시킵니다. 위와 같은 방법으로 불필요한 복잡성을 제거하고, 효율적이고 안정적인 데이터 처리를 구현해 보세요.</p>
+
+        </div>
+
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/vue3/"># vue3</a>
+                    
+                        <a href="/tags/typescript/"># typescript</a>
+                    
+                        <a href="/tags/v-data-table/"># v-data-table</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2025/01/04/thymeleaf_javascript/">JavaScript에서 Thymeleaf 변수 사용하기</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 미상 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
