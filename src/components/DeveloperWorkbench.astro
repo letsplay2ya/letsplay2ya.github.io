@@ -1,0 +1,9 @@
+---
+interface Props { projectCount: number; postCount: number; }
+const { projectCount, postCount } = Astro.props;
+---
+<div class="developer-workbench" aria-label="개발 영역과 콘텐츠 요약">
+  <div class="workbench-chrome"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>seongmin / workspace</span><span>⌘</span></div>
+  <div class="workbench-content"><nav class="workbench-tree" aria-label="빠른 탐색"><small>EXPLORER</small><span class="tree-root">⌄ seongmin.dev</span><a href="/projects/">⌑ projects <b>{projectCount}</b></a><a href="/writing/">⌑ writing <b>{postCount}</b></a><a href="/lab/">⌑ lab</a><a class="tree-active" href="/about/">◇ developer.ts</a></nav><div class="workbench-editor"><div class="editor-file"><span>TS</span> developer.ts <i>●</i></div><div class="editor-code"><div><span class="syntax-comment">// 사람과 시스템이 만나는 지점</span></div><div><span class="syntax-purple">const</span> developer <span class="syntax-purple">=</span> {'{'}</div><div>&nbsp; name: <span class="syntax-string">'전성민'</span>,</div><div>&nbsp; focus: [</div><div>&nbsp;&nbsp; <span class="syntax-string">'Java · Backend'</span>,</div><div>&nbsp;&nbsp; <span class="syntax-string">'React · Vue'</span>,</div><div>&nbsp;&nbsp; <span class="syntax-string">'System Migration'</span></div><div>&nbsp; ],</div><div>&nbsp; next: <span class="syntax-string">'AI Agents'</span></div><div>{'}'};</div><div>&nbsp;</div><div><span class="syntax-comment">// 구현은 프로젝트로, 판단은 기록으로.</span></div></div></div></div>
+  <div class="workbench-footer"><span>⌁ personal workspace</span><span>UTF-8 · TypeScript</span></div>
+</div>

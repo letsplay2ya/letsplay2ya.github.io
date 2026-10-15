@@ -120,3 +120,21 @@ OCR 모델 개발이나 인식률 개선은 이 프론트엔드 사례에 포함
 - 계산 응답 보호: `/writing/notes-async-calculation/`
 
 세 노트는 이전 포트폴리오의 `content.mjs`에 있던 사례를 독립 Markdown으로 옮기고, 이번에 재확인한 소스 흐름과 구현 범위를 보강했다. 글의 날짜는 개인 사이트 원고 작성일이며 프로젝트 수행 기간을 뜻하지 않는다.
+
+## 홈·업무 화면 개선 (2026-10-15)
+
+홈에 개발 영역을 표현하는 코드 편집기 형태의 탐색 패널과 프로젝트 구현 포인트를 추가했다. 코리안리 예시는 원본의 사이드바, 회색 작업 배경, 흰색 둥근 패널, 가로 입력 행, 그라데이션 AI 영역을 반영했다. 메뉴 중 접수 관리·계약 검토는 화면 구조를 설명하는 텍스트이며 원본 업무 기능을 실행하지 않는다. 계약 전환·담보 전환·메모 복사·약관 편집은 샘플 데이터로 동작한다.
+
+## Java 백엔드 분석 초안
+
+`src/content/projects/koreanre-java-backend.md`는 같은 시스템의 백엔드를 분석한 원고다. `draft: true`로 사이트 목록과 배포 경로에서 제외하며 개인 담당 범위 확인 후 공개 여부를 결정한다. 공개 소스 저장소에는 원고가 포함된다.
+
+백엔드 루트 기준으로 확인한 근거:
+
+- `pom.xml`: Java 17, Spring Boot, MyBatis, PostgreSQL 등 의존성.
+- `src/main/java/com/koreanre/backend/domain/uw/comm/service/IntegratedSaveService.java`: 요청 검증, 잠금 시점 서버 업무상태 보존, 변환·아카이빙·삽입·재조회와 트랜잭션 경계.
+- `src/main/java/com/koreanre/backend/domain/uw/save/UwSaveLockService.java`: 최신 계약 행 잠금 서비스.
+- `src/main/java/com/koreanre/backend/domain/uw/save/CoverageDetailSaveUnitResolver.java`: 상품별 지원 구현 선택.
+- `docs/architecture/integrated-save-full-snapshot.md`: 기본 Full Snapshot 정책과 상품별 legacy override 설명.
+
+백엔드 소스·설정·고객 데이터는 사이트로 복사하지 않았다. 이번 작업에서는 백엔드 코드 변경과 테스트 실행을 하지 않았다.

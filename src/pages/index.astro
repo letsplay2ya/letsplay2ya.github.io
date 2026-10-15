@@ -3,16 +3,17 @@ import { getCollection } from 'astro:content';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostRow from '../components/PostRow.astro';
+import DeveloperWorkbench from '../components/DeveloperWorkbench.astro';
 const projects = (await getCollection('projects', p => !p.data.draft)).sort((a,b) => a.data.order-b.data.order);
 const posts = (await getCollection('posts', p => !p.data.draft)).sort((a,b) => +b.data.date-+a.data.date);
 ---
 <SiteLayout>
-  <section class="home-hero container">
-    <div class="hero-copy"><div class="eyebrow"><span class="tiny-square"></span> SOFTWARE DEVELOPER & BUILDER</div><h1>서버에서 화면까지,<br /><em>경험을 연결합니다.</em></h1><p>Java 백엔드, React와 Vue 프론트엔드,<br class="desktop-break" /> 시스템 전환 과정에서 만난 문제와 해결을 기록합니다.</p><div class="hero-actions"><a class="primary-link" href="/projects/">프로젝트 둘러보기 <span>↗</span></a><a class="quiet-link" href="/writing/">기술 글 읽기 →</a></div></div>
-    <div class="hero-notebook" aria-label="개발 영역"><div class="notebook-top"><span>FIELD NOTES</span><span>01 — ∞</span></div><div class="notebook-row"><span>01</span><div><b>Backend</b><small>Java · 업무 로직 · 데이터</small></div><i>↗</i></div><div class="notebook-row"><span>02</span><div><b>Frontend</b><small>React · Vue · 사용자 경험</small></div><i>↗</i></div><div class="notebook-row"><span>03</span><div><b>Migration</b><small>WebSquare · eXBuilder · 전환 분석</small></div><i>↗</i></div><div class="notebook-next"><span class="tiny-square"></span> NEXT EXPLORATION <b>AI Agents</b></div></div>
-    <div class="hero-bottom"><span>전성민 <span class="muted">/ 소프트웨어 개발자</span></span><span>PROJECTS, WRITING & EXPERIMENTS</span></div>
+  <section class="home-hero developer-hero container">
+    <div class="hero-copy"><div class="eyebrow"><span class="tiny-square"></span> SEONGMIN JEON / SOFTWARE DEVELOPER</div><h1>업무의 규칙을 코드로,<br /><em>복잡한 흐름을 화면으로.</em></h1><p>Java 백엔드부터 React·Vue 프론트엔드까지.<br class="desktop-break" /> 시스템을 연결하며 해결한 문제를 구체적인 구현으로 보여드립니다.</p><div class="hero-actions"><a class="primary-link" href="#selected-work">구현한 프로젝트 보기 <span>↗</span></a><a class="quiet-link" href="/about/">전성민 소개 →</a></div><div class="hero-stack"><span>Java</span><span>React</span><span>Vue</span><span>TypeScript</span><span class="stack-interest">AI Agent · 다음 탐구</span></div></div>
+    <DeveloperWorkbench projectCount={projects.length} postCount={posts.length} />
+    <div class="hero-bottom developer-summary"><div><a href="/projects/"><strong>{String(projects.length).padStart(2,'0')}</strong><span>프로젝트 사례</span></a><a href="/writing/"><strong>{String(posts.length).padStart(2,'0')}</strong><span>기술 기록</span></a><a href="/lab/"><strong>LAB</strong><span>동작을 확인하는 실험</span></a></div><p>역할과 구현 범위,<br />판단의 근거를 함께 기록합니다.</p></div>
   </section>
-  <section class="section container"><div class="section-heading"><div><span class="eyebrow">01 / SELECTED WORK</span><h2>구현의 맥락까지,<br />프로젝트에 담았습니다.</h2></div><a class="quiet-link" href="/projects/">모든 프로젝트 <span>↗</span></a></div>{projects.filter(p => p.data.featured).map(project => <ProjectCard project={project} featured />)}</section>
+  <section id="selected-work" class="section container"><div class="section-heading"><div><span class="eyebrow">01 / SELECTED WORK</span><h2>화면과 코드로 설명하는<br />프로젝트 경험.</h2></div><a class="quiet-link" href="/projects/">모든 프로젝트 <span>↗</span></a></div><div class="featured-projects">{projects.filter(p => p.data.featured).map(project => <ProjectCard project={project} featured />)}</div><div class="engineering-path"><span>업무 맥락</span><i>→</i><span>설계와 판단</span><i>→</i><span>화면·API 구현</span><i>→</i><span>검증과 회고</span></div></section>
   <section class="writing-section"><div class="container section"><div class="section-heading"><div><span class="eyebrow">02 / ENGINEERING NOTES</span><h2>문제를 풀며 남긴 기록.</h2></div><a class="quiet-link" href="/writing/">기술 글 {posts.length}편 <span>↗</span></a></div><div class="post-list">{posts.slice(0,4).map(post => <PostRow post={post} />)}</div></div></section>
   <section class="container section"><a class="lab-banner" href="/lab/"><div><span class="eyebrow">03 / LAB</span><h2>작게 실행하고,<br />직접 확인합니다.</h2><p>입력과 응답, 상태가 만나는 순간을 살펴보는 작은 실험.<br />앞으로 AI Agent의 동작과 평가도 이곳에 기록합니다.</p></div><div class="lab-graphic" aria-hidden="true"><span>INPUT</span><b>→</b><span class="lab-node">CHECK<br />& RUN</span><b>→</b><span>RESULT</span></div><span class="lab-arrow">↗</span></a></section>
 </SiteLayout>
