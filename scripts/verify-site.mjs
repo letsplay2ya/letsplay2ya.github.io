@@ -112,11 +112,13 @@ try {
   assert.equal(await page.locator('[data-filter-item]:visible').count(), allCount);
 
   await page.goto(base + '/projects/koreanre-ai-assistant/');
+  await page.waitForFunction(() => document.querySelector('astro-island') && !document.querySelector('astro-island').hasAttribute('ssr'));
   const memo = page.getByRole('textbox', { name: '현재 계약 검토 메모' });
   await memo.fill('검증용 A 메모');
   await page.getByRole('button', { name: '계약 상세정보', exact: true }).click();
   await page.getByRole('button', { name: '생산물 배상', exact: true }).click();
   await page.getByRole('button', { name: '계약 B', exact: true }).click();
+  assert.notEqual(await memo.inputValue(), '검증용 A 메모', 'Switching contracts changes the visible memo');
   assert.equal(await page.getByRole('button', { name: '계약 기본정보', exact: true }).getAttribute('aria-pressed'), 'true');
   await page.getByRole('button', { name: '계약 A', exact: true }).click();
   assert.equal(await page.getByRole('button', { name: '계약 상세정보', exact: true }).getAttribute('aria-pressed'), 'true');

@@ -4,12 +4,16 @@ import './response-guard.css';
 export default function ResponseGuard() {
   const [value, setValue] = useState(100);
   const [running, setRunning] = useState(false);
+  const [ready, setReady] = useState(false);
   const [result, setResult] = useState<number | null>(null);
   const [status, setStatus] = useState('요청을 시작한 뒤 응답을 기다리는 동안 입력을 바꿔 보세요.');
   const current = useRef(value);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sequence = useRef(0);
-  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); sequence.current++; }, []);
+  useEffect(() => {
+    setReady(true);
+    return () => { if (timer.current) clearTimeout(timer.current); sequence.current++; };
+  }, []);
   const edit = (next: number) => {
     current.current = next;
     setValue(next);
@@ -47,10 +51,10 @@ export default function ResponseGuard() {
     <h2>늦게 도착한 결과,<br />지금도 유효할까요?</h2>
     <p>현재 입력과 요청 당시의 입력을 비교하는 실험입니다.</p>
     <label htmlFor="guard-value">입력 값 <output>{value}</output></label>
-    <input id="guard-value" type="range" min="10" max="200" step="10" value={value} onChange={event => edit(Number(event.target.value))} />
-    <div className="guard-presets"><button type="button" onClick={() => edit(50)}>50으로 변경</button><button type="button" onClick={() => edit(150)}>150으로 변경</button></div>
+    <input id="guard-value" type="range" min="10" max="200" step="10" value={value} disabled={!ready} onChange={event => edit(Number(event.target.value))} />
+    <div className="guard-presets"><button type="button" disabled={!ready} onClick={() => edit(50)}>50으로 변경</button><button type="button" disabled={!ready} onClick={() => edit(150)}>150으로 변경</button></div>
     <div className="guard-result"><span>반영된 결과 · 입력 × 2</span><strong>{result ?? '—'}</strong></div>
-    <div className="guard-controls"><button className="guard-run" type="button" disabled={running} onClick={request}>{running ? '응답 대기 중…' : '계산 요청'}</button><button type="button" onClick={reset}>초기화</button></div>
+    <div className="guard-controls"><button className="guard-run" type="button" disabled={!ready || running} onClick={request}>{!ready ? '준비 중…' : running ? '응답 대기 중…' : '계산 요청'}</button><button type="button" disabled={!ready} onClick={reset}>초기화</button></div>
     <p className="guard-status" role="status" aria-live="polite">{status}</p>
     <small>2초 지연을 브라우저에서 재현합니다. 외부 API 요청 없이 동작합니다.</small>
   </div>;
