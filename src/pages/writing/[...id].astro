@@ -1,0 +1,15 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+export async function getStaticPaths() {
+  return (await getCollection('posts', p => !p.data.draft)).map(post => ({ params: { id: post.id }, props: { post } }));
+}
+interface Props { post: CollectionEntry<'posts'>; }
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const related = (await getCollection('posts', p => !p.data.draft && p.id !== post.id && p.data.tags.some(tag => post.data.tags.includes(tag)))).slice(0,3);
+---
+<SiteLayout title={post.data.title} description={post.data.description}>
+  <article class="container article-shell"><header class="article-heading"><a class="back-link" href="/writing/">← 모든 기술 글</a><div class="meta-line"><span>{post.data.category}</span><time datetime={post.data.date.toISOString()}>{post.data.date.toISOString().slice(0,10).replaceAll('-','.')}</time></div><h1>{post.data.title}</h1><p>{post.data.description}</p><div class="tags">{post.data.tags.map(tag => <span>{tag}</span>)}</div></header><div class="article-columns"><div><div class="prose"><Content /></div>{post.data.project && <a class="related-project" href={`/projects/${post.data.project}/`}><span>이 글의 프로젝트</span><b>코리안리 AI Assistant 구현 살펴보기 ↗</b></a>}{post.data.origin === 'hexo' && <p class="article-origin">기존 Hexo 블로그에 작성한 글입니다. 게시 당시의 내용과 날짜를 보존했습니다.</p>}<div class="article-end"><a href="/writing/">← 기술 글 목록</a><a href="#main">위로 ↑</a></div></div><aside class="article-toc"><span class="eyebrow">ON THIS PAGE</span>{headings.filter(h => h.depth <= 3).map(h => <a class:list={[{ nested: h.depth === 3 }]} href={`#${h.slug}`}>{h.text}</a>)}</aside></div>{related.length > 0 && <section class="related-reading"><h2>이어서 읽기</h2>{related.map(item => <a href={`/writing/${item.id}/`}>{item.data.title}<span>↗</span></a>)}</section>}</article>
+</SiteLayout>

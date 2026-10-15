@@ -1,0 +1,66 @@
+[
+  {
+    "from": "/2025/01/03/Getter&Setter/",
+    "to": "/writing/legacy-getter-and-setter/"
+  },
+  {
+    "from": "/2025/01/03/Git&Git%20Hub/",
+    "to": "/writing/legacy-git-and-git-hub/"
+  },
+  {
+    "from": "/2025/01/03/javaTryCatch/",
+    "to": "/writing/legacy-javatrycatch/"
+  },
+  {
+    "from": "/2025/01/03/NumPy/",
+    "to": "/writing/legacy-numpy/"
+  },
+  {
+    "from": "/2025/01/03/oracle_ch1/",
+    "to": "/writing/legacy-oracle-ch1/"
+  },
+  {
+    "from": "/2025/01/03/oracle_ch2/",
+    "to": "/writing/legacy-oracle-ch2/"
+  },
+  {
+    "from": "/2025/01/03/oracle_ch3/",
+    "to": "/writing/legacy-oracle-ch3/"
+  },
+  {
+    "from": "/2025/01/03/oracle_ch4/",
+    "to": "/writing/legacy-oracle-ch4/"
+  },
+  {
+    "from": "/2025/01/03/oracle_install/",
+    "to": "/writing/legacy-oracle-install/"
+  },
+  {
+    "from": "/2025/01/03/plotly%20graph/",
+    "to": "/writing/legacy-plotly-graph/"
+  },
+  {
+    "from": "/2025/01/03/plotly_01/",
+    "to": "/writing/legacy-plotly-01/"
+  },
+  {
+    "from": "/2025/01/03/setup_docker_hexo/",
+    "to": "/writing/legacy-setup-docker-hexo/"
+  },
+  {
+    "from": "/2025/01/03/SimpleDateFormatError/",
+    "to": "/writing/legacy-simpledateformaterror/"
+  },
+  {
+    "from": "/2025/01/03/vue_component/",
+    "to": "/writing/legacy-vue-component/"
+  },
+  {
+    "from": "/2025/01/04/thymeleaf_javascript/",
+    "to": "/writing/legacy-thymeleaf-javascript/"
+  },
+  {
+    "from": "/2025/01/06/vue_data_structure/",
+    "to": "/writing/legacy-vue-data-structure/"
+  }
+]

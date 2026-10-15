@@ -1,0 +1,11 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { post: CollectionEntry<'posts'>; }
+const { post } = Astro.props;
+const date = post.data.date.toISOString().slice(0, 10).replaceAll('-', '.');
+---
+<a class="post-row" href={`/writing/${post.id}/`}>
+  <span class="post-category">{post.data.category}</span>
+  <div><h3>{post.data.title}</h3><p>{post.data.description}</p><div class="post-tags">{post.data.tags.map(tag => <span>{tag}</span>)}</div></div>
+  <div class="post-date"><time datetime={post.data.date.toISOString()}>{date}</time><span aria-hidden="true">↗</span></div>
+</a>

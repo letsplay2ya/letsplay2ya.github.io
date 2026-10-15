@@ -1,0 +1,51 @@
+name: Publish Astro to GitHub Pages
+
+# Run deliberately from Actions after choosing the destination repository.
+# Automatic deployment on push can be enabled after the first publication.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://${{ github.repository_owner }}.github.io
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Verify personal-site destination
+        env:
+          REPOSITORY: ${{ github.event.repository.name }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          if [ "${REPOSITORY,,}" != "${OWNER,,}.github.io" ]; then
+            echo 'This configuration targets a personal github.io site at the domain root.'
+            echo 'For a project repository, configure Astro base and prefix links before publishing.'
+            exit 1
+          fi
+      - name: Install, verify, build, and upload Pages artifact
+        uses: withastro/action@3eafd002e65cc31b4f0eae0bb05450d521562247 # v6
+        with:
+          node-version: 24
+          build-cmd: npm run check && npm run build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish verified artifact
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5

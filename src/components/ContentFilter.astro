@@ -1,0 +1,37 @@
+---
+interface Props { tags: string[]; placeholder?: string; }
+const { tags, placeholder = '제목, 내용, 기술로 검색' } = Astro.props;
+---
+<div class="content-filter" data-content-filter>
+  <label class="search-field"><span>검색</span><input type="search" placeholder={placeholder} data-search autocomplete="off" /></label>
+  <div class="filter-options" aria-label="기술 필터"><button type="button" aria-pressed="true" data-tag="">전체</button>{tags.map(tag => <button type="button" aria-pressed="false" data-tag={tag}>{tag}</button>)}</div>
+  <p class="filter-count" role="status" aria-live="polite" data-filter-count></p>
+</div>
+<script>
+  const controls = document.querySelector<HTMLElement>('[data-content-filter]');
+  if (controls) {
+    const input = controls.querySelector<HTMLInputElement>('[data-search]')!;
+    const rows = [...document.querySelectorAll<HTMLElement>('[data-filter-item]')];
+    const buttons = [...controls.querySelectorAll<HTMLButtonElement>('[data-tag]')];
+    let selected = '';
+    const update = () => {
+      const q = input.value.trim().toLocaleLowerCase();
+      let count = 0;
+      rows.forEach(row => {
+        const tags = JSON.parse(row.dataset.tags || '[]') as string[];
+        row.hidden = !(row.dataset.search!.toLocaleLowerCase().includes(q) && (!selected || tags.includes(selected)));
+        if (!row.hidden) count++;
+      });
+      controls.querySelector('[data-filter-count]')!.textContent = `${count}개의 기록`;
+      const empty = document.querySelector<HTMLElement>('[data-filter-empty]');
+      if (empty) empty.hidden = count !== 0;
+    };
+    input.addEventListener('input', update);
+    buttons.forEach(button => button.addEventListener('click', () => {
+      selected = button.dataset.tag || '';
+      buttons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      update();
+    }));
+    update();
+  }
+</script>

@@ -1,0 +1,36 @@
+---
+import '../styles/global.css';
+import { site, navigation } from '../data/site';
+interface Props { title?: string; description?: string; wide?: boolean; }
+const { title, description = site.description, wide = false } = Astro.props;
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} · 개발과 기록`;
+const current = Astro.url.pathname;
+const canonical = Astro.site ? new URL(current, Astro.site).href : undefined;
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f6f2" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="wordmark" href="/" aria-label="전성민 홈"><span class="monogram">s<span>.</span></span><span>전성민<span class="wordmark-note">개발과 기록</span></span></a>
+        <nav aria-label="주요 메뉴">{navigation.map(item => <a href={item.href} aria-current={current.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>)}</nav>
+      </div>
+    </header>
+    <main id="main" class:list={[{ 'main-wide': wide }]}><slot /></main>
+    <footer class="site-footer"><div class="container footer-inner"><div><a class="footer-name" href="/">{site.englishName}<span>개발과 기록</span></a><p>만들었던 것, 해결했던 것, 다음에 시도할 것.</p></div><div class="footer-links"><a href="/projects/">프로젝트</a><a href="/writing/">기술 글</a><a href="/about/">소개</a><a href="#main">맨 위로 ↑</a></div></div></footer>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import ProjectWorkspace from '../../components/ProjectWorkspace.vue';
+export async function getStaticPaths() {
+  return (await getCollection('projects', p => !p.data.draft)).map(project => ({ params: { id: project.id }, props: { project } }));
+}
+interface Props { project: CollectionEntry<'projects'>; }
+const { project } = Astro.props;
+const { Content, headings } = await render(project);
+const notes = await getCollection('posts', post => !post.data.draft && post.data.project === project.id);
+---
+<SiteLayout title={project.data.title} description={project.data.description} wide>
+  <article class="container article-shell"><header class="article-heading project-detail-heading"><a class="back-link" href="/projects/">← 프로젝트 목록</a><div class="meta-line"><span>{project.data.category}</span><span>PROJECT CASE STUDY</span></div><h1>{project.data.title}</h1><p>{project.data.description}</p></header><div class="project-facts"><div><small>ROLE</small><span>{project.data.role}</span></div><div><small>FOCUS</small><span>{project.data.category}</span></div><div><small>TECHNOLOGIES</small><div class="tags">{project.data.tags.map(tag => <span>{tag}</span>)}</div></div></div>
+  {project.id === 'koreanre-ai-assistant' && <section class="workspace-section" aria-labelledby="workspace-title"><span class="eyebrow">EXPLORE THE WORKSPACE</span><h2 id="workspace-title">입력과 비교, 업무의 흐름을 연결하는 화면.</h2><p>계약 A의 메모를 수정한 뒤 B로 이동하고 돌아와 보세요. 우측 패널을 Reference로 전환하면 메모 복사와 담보 비교를 살펴볼 수 있습니다.</p><ProjectWorkspace client:load /><p class="workspace-caption">원본 코드의 탭·비교 패널 관계와 색상·글꼴을 참고한 설명용 화면입니다. 실제 운영 화면 캡처나 원본 앱 실행본이 아니며, 모든 값은 샘플입니다.</p></section>}
+  <div class="article-columns"><div><div class="prose"><Content /></div><div class="article-end"><a href="/projects/">← 모든 프로젝트</a><a href="/writing/">기술 글 보기 ↗</a></div></div><aside class="article-toc"><span class="eyebrow">IN THIS PROJECT</span>{headings.filter(h => h.depth === 2).map(h => <a href={`#${h.slug}`}>{h.text}</a>)}</aside></div>{notes.length > 0 && <section class="related-reading"><h2>프로젝트에서 이어진 기술 글</h2>{notes.map(note => <a href={`/writing/${note.id}/`}>{note.data.title}<span>↗</span></a>)}</section>}</article>
+</SiteLayout>
