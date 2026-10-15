@@ -67,4 +67,3 @@ const keyOf = (policy: string, clause: string) =>
 원본에는 목적물 재정렬과 서버 식별자 보존 관련 테스트가 있다. 이번 글의 예제 검증과 원본 시스템 전체 테스트의 통과 여부는 별개다.
 
 근거 파일: `RateDNO/dnoRateSave.ts`, `dnoRateSave.test.ts`, `useRateDnoStore.test.ts`. [계약별 상태 복원 글](/writing/notes-workspace-state/)과 함께 보면, 계약·목적물·행마다 필요한 식별 범위가 다르다는 점을 연결해 볼 수 있다.
-

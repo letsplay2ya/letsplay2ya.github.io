@@ -39,5 +39,3 @@ javaFiles.push(dir+'/ArticleExamplesTest.java');
 execFileSync('javac',['-encoding','UTF-8','--release','17',...javaFiles],{stdio:'pipe',windowsHide:true});
 console.log(execFileSync('java',['-cp',dir,'ArticleExamplesTest'],{encoding:'utf8',windowsHide:true}).trim());
 console.log('TypeScript article examples passed: Vue reactivity, stable identity merge, out-of-order responses, invalidation.');
-
-

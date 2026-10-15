@@ -53,4 +53,3 @@ origin: "original"
 분석 근거: 백엔드의 `IntegratedSaveService`, `UwSaveLockService`, `integrated-save-full-snapshot.md`.
 
 참고: [PostgreSQL 명시적 잠금](https://www.postgresql.org/docs/current/explicit-locking.html), [Spring 트랜잭션 롤백 정책](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative/rolling-back.html).
-

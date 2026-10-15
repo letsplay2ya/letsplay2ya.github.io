@@ -68,4 +68,3 @@ AbortController는 지원하는 비동기 작업에 취소 신호를 보낸다. 
 코리안리의 기존 `useAutoCalculationGuard`는 현재 계약·대상·입력과 화면 수명을 대조한다. 요청 시작 때마다 순번을 증가시키는 구조는 아니므로, 이 글의 최신 요청 우선 정책이 이미 구현되어 있다고 설명하지 않는다.
 
 참고: [AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController). [동작을 확인하는 예제](/lab/)에서는 입력 변경에 따른 응답 제외를 볼 수 있다.
-
