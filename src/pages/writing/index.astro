@@ -4,7 +4,7 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 import PostRow from '../../components/PostRow.astro';
 import ContentFilter from '../../components/ContentFilter.astro';
 import { postTopics } from '../../lib/topics';
-const posts = (await getCollection('posts', p => !p.data.draft)).sort((a,b) => +b.data.date-+a.data.date);
+const posts = (await getCollection('posts', p => !p.data.draft)).sort((a,b) => +(b.data.updated ?? b.data.date)-+(a.data.updated ?? a.data.date) || +b.data.date-+a.data.date);
 const tags = [...new Set(posts.flatMap(postTopics))].sort();
 ---
-<SiteLayout title="기술 글"><section class="container page-intro"><span class="eyebrow">WRITING</span><h1>배운 것보다,<br /><em>이해한 것을 남깁니다.</em></h1><p>프로젝트에서 마주한 문제와 구현 기록, 다시 꺼내 볼 개발 노트.</p></section><section class="container listing-section"><ContentFilter tags={tags} /><div class="post-list">{posts.map(post => <div data-filter-item data-tags={JSON.stringify(postTopics(post))} data-search={`${post.data.title} ${post.data.description} ${postTopics(post).join(' ')}`}><PostRow post={post} /></div>)}</div><p class="empty-state" data-filter-empty hidden>검색 결과가 없습니다. 다른 검색어를 입력하거나 전체 필터를 선택해 주세요.</p></section></SiteLayout>
+<SiteLayout title="기술 글"><section class="container page-intro"><h1>기술 글</h1><p>개발 중에 만난 문제와 배운 내용을 정리합니다. 최근 작성하거나 수정한 글부터 표시합니다.</p></section><section class="container listing-section"><ContentFilter tags={tags} /><div class="post-list">{posts.map(post => <div data-filter-item data-tags={JSON.stringify(postTopics(post))} data-search={`${post.data.title} ${post.data.description} ${postTopics(post).join(' ')}`}><PostRow post={post} /></div>)}</div><p class="empty-state" data-filter-empty hidden>검색 결과가 없습니다. 다른 검색어를 입력하거나 전체 필터를 선택해 주세요.</p></section></SiteLayout>

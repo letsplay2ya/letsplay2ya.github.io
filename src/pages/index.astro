@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { postTopics } from '../lib/topics';
 const projects = (await getCollection('projects', p => !p.data.draft)).sort((a,b) => a.data.order-b.data.order);
-const posts = (await getCollection('posts', p => !p.data.draft)).sort((a,b) => +b.data.date-+a.data.date);
+const posts = (await getCollection('posts', p => !p.data.draft)).sort((a,b) => +(b.data.updated ?? b.data.date)-+(a.data.updated ?? a.data.date) || +b.data.date-+a.data.date);
 const formatDate = (date: Date) => date.toISOString().slice(0,10).replaceAll('-', '.');
 ---
 <SiteLayout>
@@ -17,7 +17,7 @@ const formatDate = (date: Date) => date.toISOString().slice(0,10).replaceAll('-'
     <section class="journal-section" aria-labelledby="recent-posts">
       <div class="journal-heading"><h2 id="recent-posts">최근 글</h2><a href="/writing/">전체 글 →</a></div>
       <div class="journal-posts">{posts.slice(0,5).map(post => (
-        <article class="journal-post"><a href={`/writing/${post.id}/`}><div class="journal-post-meta"><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time><span>{postTopics(post)[0]}</span></div><h3>{post.data.title}</h3><p>{post.data.description}</p></a></article>
+        <article class="journal-post"><a href={`/writing/${post.id}/`}><div class="journal-post-meta"><time datetime={(post.data.updated ?? post.data.date).toISOString()}>{post.data.updated ? '수정 ' : ''}{formatDate(post.data.updated ?? post.data.date)}</time><span>{postTopics(post)[0]}</span></div><h3>{post.data.title}</h3><p>{post.data.description}</p></a></article>
       ))}</div>
     </section>
     <section id="selected-work" class="journal-section" aria-labelledby="home-projects">

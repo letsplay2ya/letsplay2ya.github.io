@@ -87,7 +87,7 @@ try {
   browser = await chromium.launch({ executablePath: executable, headless: true, args: ['--disable-gpu', '--no-first-run'] });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
   page.on('pageerror', error => errors.push(error.message));
-  for (const route of ['/', '/projects/', '/writing/', '/about/', '/lab/', '/projects/koreanre-ai-assistant/', '/writing/legacy-oracle-install/']) {
+  for (const route of ['/', '/projects/', '/writing/', '/about/', '/lab/', '/projects/koreanre-ai-assistant/', '/writing/legacy-oracle-install/', '/writing/legacy-thymeleaf-javascript/', '/writing/legacy-vue-component/', '/writing/notes-full-snapshot-api/', '/writing/notes-response-ordering/', '/writing/notes-stable-identity-save/']) {
     const response = await page.goto(base + route);
     assert.equal(response.status(), 200, route);
     await page.evaluate(() => document.fonts.ready);
@@ -101,7 +101,8 @@ try {
 
   await page.goto(base + '/writing/');
   const allCount = await page.locator('[data-filter-item]:visible').count();
-  assert.equal(allCount, 19, '16 imported posts plus 3 project notes');
+  const expectedPosts = readdirSync(path.join(dist, 'writing'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length;
+  assert.equal(allCount, expectedPosts, 'Every published article is visible before filtering');
   await page.getByRole('searchbox').fill('없는글검증-123456');
   assert.equal(await page.locator('[data-filter-item]:visible').count(), 0);
   assert.equal(await page.locator('[data-filter-empty]').isVisible(), true);
@@ -154,7 +155,7 @@ try {
   await page.waitForURL(url => url.pathname === routes[1].to && url.hash === '#test-fragment');
 
   await page.setViewportSize({ width: 390, height: 844 });
-  for (const route of ['/', '/writing/', '/projects/koreanre-ai-assistant/', '/lab/', '/writing/legacy-oracle-install/']) {
+  for (const route of ['/', '/writing/', '/projects/koreanre-ai-assistant/', '/lab/', '/writing/legacy-oracle-install/', '/writing/legacy-thymeleaf-javascript/', '/writing/notes-full-snapshot-api/', '/writing/notes-response-ordering/', '/writing/notes-stable-identity-save/']) {
     await page.goto(base + route);
     await page.evaluate(() => document.fonts.ready);
     assert.ok(await page.locator('body').evaluate(body => body.scrollWidth <= innerWidth + 1), `${route}: mobile overflow`);

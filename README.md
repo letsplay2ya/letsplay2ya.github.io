@@ -28,6 +28,8 @@ npm.cmd run preview
 
 빌드 결과는 `dist/`이며 소스에서 재생성할 수 있습니다. `dist/`는 직접 수정하지 않습니다.
 
+게시글 예제는 `npm.cmd run test:articles`로 확인합니다. Java 17 이상 JDK의 `javac`·`java`가 PATH에 필요합니다. Java·TypeScript 예제의 검증 범위와 6편 개정·3편 추가 내역은 [게시글 개정 기록](./docs/CONTENT-REVISION.md)에 정리했습니다. 글의 `date`는 최초 작성일이며, 개정한 경우 `updated`에 수정일을 넣습니다.
+
 ## 구조와 글 작성
 
 ```text

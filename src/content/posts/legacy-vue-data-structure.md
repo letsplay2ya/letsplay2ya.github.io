@@ -1,138 +1,82 @@
 ---
-title: "Vue.js에서 v-data-table 데이터 구조 단순화하기"
-description: "Vue.js의 v-data-table을 사용하면서 @click:row 이벤트로 전달되는 데이터 구조가 복잡해질 때, 이를 단순화하고 효율적으로 처리하는 방법에 대해 알아보겠습니다."
+title: "테이블의 행 클릭 이벤트를 화면 밖으로 그대로 넘기지 않기"
+description: "테이블 라이브러리의 이벤트 객체와 업무 데이터를 분리합니다. 선택 이벤트의 계약을 작게 만들고 라이브러리 변경의 영향을 줄이는 Vue 예제입니다."
 date: "2025-01-06"
-tags: ["vue3","typescript","v-data-table"]
-category: "vue"
+tags: ["Vue","TypeScript","컴포넌트 설계"]
+category: "Vue"
 origin: "hexo"
 legacyUrl: "/2025/01/06/vue_data_structure/"
+updated: "2026-10-15"
 ---
-<!-- hexo-import:v1 sha256=d6ff9cd5bec5c6da04cd28f21ecd5a8067ecf90ab007651bf87adcb879bee3fd -->
 
-<span id="Vue-js에서-v-data-table-데이터-구조-단순화하기"></span>
+<span id="Vue-js에서-v-data-table-데이터-구조-단순화하기" aria-hidden="true"></span>
+<span id="문제-상황" aria-hidden="true"></span>
+<span id="해결-방안" aria-hidden="true"></span>
+<span id="1-BoardList-vue-수정" aria-hidden="true"></span>
+<span id="1-boardlistvue-수정" aria-hidden="true"></span>
+<span id="주요-포인트" aria-hidden="true"></span>
+<span id="2-NoticeListView-vue-수정" aria-hidden="true"></span>
+<span id="2-noticelistviewvue-수정" aria-hidden="true"></span>
+<span id="주요-포인트-1" aria-hidden="true"></span>
+<span id="3-데이터-흐름" aria-hidden="true"></span>
+<span id="최종-코드" aria-hidden="true"></span>
+<span id="BoardList-vue" aria-hidden="true"></span>
+<span id="boardlistvue" aria-hidden="true"></span>
+<span id="NoticeListView-vue" aria-hidden="true"></span>
+<span id="noticelistviewvue" aria-hidden="true"></span>
+<span id="장점" aria-hidden="true"></span>
+<span id="결론" aria-hidden="true"></span>
 
-![](/legacy-assets/images/thumbnail/vue.png)
+게시판 화면에서 행을 누르면 상세 페이지로 이동한다. 이때 부모 컴포넌트가 알아야 할 것은 게시글 식별자다. 테이블의 내부 행 래퍼, 정렬 정보, 마우스 이벤트 전체가 필요한 것은 아니다.
 
-Vue.js의 `v-data-table`을 사용하면서 `@click:row` 이벤트로 전달되는 데이터 구조가 복잡해질 때, 이를 단순화하고 효율적으로 처리하는 방법에 대해 알아보겠습니다.
+이전 글에서는 `row.item`만 넘기는 방법을 소개했다. 핵심은 특정 속성 이름을 외우는 것이 아니라, 라이브러리 이벤트를 화면에서 사용할 이벤트로 바꾸는 경계를 만드는 것이다.
 
-* * *
+## 부모가 라이브러리의 구조를 알게 되는 경우
 
-## 문제 상황
+부모가 `row.internalItem.raw.id` 같은 경로를 읽기 시작하면 테이블 라이브러리 변경이 라우팅 코드까지 전파된다. 반대로 목록 컴포넌트가 필요한 값만 골라 내보내면 부모는 테이블 구현을 몰라도 된다.
 
-`v-data-table`의 `@click:row` 이벤트는 행 데이터를 클릭할 때 다음과 같이 복잡한 구조를 전달합니다:
+다음은 Vue 3에서 사용하는 축약 예제다. `TableRowPayload`는 설치된 테이블 버전에서 원본 데이터를 `item`으로 전달한다고 확인한 경우의 타입이다. 모든 Vuetify 버전의 공식 이벤트 타입을 대신하지 않는다.
 
-```javascript
-{
-  columns: Proxy(Array),
-  index: 3,
-  internalItem: Proxy(Object),
-  item: Proxy(Object),
-  toggleExpand: Function,
-  toggleSelect: Function,
+```ts
+type BoardItem = {
+    id: string;
+    title: string;
+};
+
+type TableRowPayload = {
+    item: BoardItem;
+};
+
+const emit = defineEmits<{
+    (event: 'open', id: string): void;
+}>();
+
+function onTableRowClick(_event: MouseEvent, row: TableRowPayload) {
+    emit('open', row.item.id);
 }
 ```
 
-하지만, `NoticeListView.vue`와 같은 다른 컴포넌트에서는 단순히 `BoardItem` 타입 데이터를 필요로 합니다. 이로 인해 데이터 구조를 정리하지 않으면 다음과 같은 문제가 발생합니다:
+이 코드는 `<script setup lang="ts">` 안에서 사용한다. 테이블 템플릿에서는 행 클릭 이벤트를 이 함수에 연결한다. 실제 라이브러리의 두 번째 인자가 `item`인지 다른 형태인지는 lockfile의 버전과 해당 타입 선언에서 확인해야 한다.
 
-1.  데이터 구조가 불필요하게 복잡해짐.
-2.  타입스크립트에서 타입 오류 발생.
-3.  코드 가독성과 유지보수성이 저하됨.
+## 이벤트는 받는 쪽의 목적에 맞추기
 
-* * *
-
-## 해결 방안
-
-이 문제를 해결하기 위해, **`BoardList.vue`에서 데이터 구조를 단순화**하여 필요한 데이터만 전달하도록 수정합니다.
-
-* * *
-
-<span id="1-BoardList-vue-수정"></span>
-
-### 1\. `BoardList.vue` 수정
-
-`v-data-table`의 `@click:row` 이벤트에서 `row.item`만 추출하여 `emit`으로 전달합니다. 이로써 불필요한 메타데이터를 제거할 수 있습니다.
-
-```typescript
-const handleRowClick = (event: MouseEvent, row: { item: BoardItem }) => {
-    emit('rowClick', row.item); // 필요한 데이터만 전달
-};
+```ts
+function openNotice(id: string) {
+    router.push('/operations/notice/details/' + encodeURIComponent(id));
+}
 ```
 
-#### 주요 포인트
+부모가 이동만 한다면 식별자로 충분하다. 미리보기까지 필요하다면 `{ id, title }` 같은 명시적인 객체를 보낼 수도 있다. 무조건 모든 데이터를 제거하는 것이 목표는 아니다. 공개 이벤트에 어떤 값을 보장할지 정하는 것이 목표다.
 
--   `row.item`은 클릭된 행의 실제 데이터로, `BoardItem` 타입과 일치합니다.
--   불필요한 메타데이터(`index`, `internalItem` 등\`)를 제거해 구조를 단순화합니다.
+## as 단언은 데이터 변환이 아니다
 
-* * *
+`payload as BoardItem`은 중첩 구조를 평탄화하지 않는다. 서버 응답처럼 런타임에서 들어오는 값이라면 식별자 형식도 검증해야 한다. 컴포넌트 간 타입 계약과 외부 데이터 검증은 서로 다른 경계다.
 
-<span id="2-NoticeListView-vue-수정"></span>
+## 행 안의 버튼과 클릭 충돌
 
-### 2\. `NoticeListView.vue` 수정
+행 안에 삭제 버튼이 있으면 클릭이 행으로 전파되어 상세 화면까지 열릴 수 있다. 해당 버튼에서 `@click.stop`처럼 전파를 제어할지 결정한다. 행 클릭만 제공하면 키보드로 접근하기 어려울 수 있으므로, 제목에 실제 링크를 두는 방법도 검토한다.
 
-`BoardList.vue`에서 `emit`으로 단순화된 데이터를 전달하므로, `NoticeListView.vue`는 별도의 데이터 변환 없이 바로 처리할 수 있습니다.
+수정 후에는 행 클릭 한 번에 open 이벤트가 한 번 발생하는지, 삭제 버튼이 상세 이동을 일으키지 않는지, 정렬 후에도 화면 인덱스가 아닌 원래 식별자가 전달되는지 확인한다.
 
-```typescript
-const handleRowClick = (row: BoardItem) => {
-    router.push(`/operations/notice/details/${row.id}`);
-};
-```
+참고: [Vue 컴포넌트 이벤트](https://vuejs.org/guide/components/events.html), [Vuetify 데이터 테이블 API](https://vuetifyjs.com/en/api/v-data-table/).
 
-#### 주요 포인트
-
--   전달받은 `row`는 `BoardItem` 타입이므로 타입 안정성을 유지합니다.
--   단순히 `row.id`에 접근하여 라우팅 처리를 수행합니다.
-
-* * *
-
-### 3\. 데이터 흐름
-
-1.  **`v-data-table`**: `@click:row` 이벤트에서 복잡한 행 데이터를 전달.
-2.  **`BoardList.vue`**: `handleRowClick`에서 `row.item`만 추출하여 `emit`으로 전달.
-3.  **`NoticeListView.vue`**: 전달받은 데이터를 `BoardItem` 타입으로 처리.
-
-* * *
-
-## 최종 코드
-
-<span id="BoardList-vue"></span>
-
-### `BoardList.vue`
-
-```typescript
-const handleRowClick = (event: MouseEvent, row: { item: BoardItem }) => {
-    emit('rowClick', row.item); // 필요한 데이터만 전달
-};
-```
-
-<span id="NoticeListView-vue"></span>
-
-### `NoticeListView.vue`
-
-```typescript
-const handleRowClick = (row: BoardItem) => {
-    router.push(`/operations/notice/details/${row.id}`);
-};
-```
-
-* * *
-
-## 장점
-
-1.  **데이터 구조 단순화**:
-    
-    -   복잡한 메타데이터를 제거하고 필요한 데이터만 전달합니다.
-2.  **타입 안정성 보장**:
-    
-    -   타입스크립트를 활용해 컴파일 단계에서 타입 오류를 방지합니다.
-3.  **유지보수성 향상**:
-    
-    -   코드 가독성과 구조가 개선되어 유지보수가 용이합니다.
-4.  **재사용성 증가**:
-    
-    -   `NoticeListView.vue`는 단순한 데이터 구조에 의존하므로 다른 컨텍스트에서도 쉽게 재사용 가능합니다.
-
-* * *
-
-## 결론
-
-`v-data-table`의 `@click:row` 이벤트에서 데이터 구조를 단순화하는 것은 Vue.js 프로젝트의 코드 품질과 유지보수성을 크게 향상시킵니다. 위와 같은 방법으로 불필요한 복잡성을 제거하고, 효율적이고 안정적인 데이터 처리를 구현해 보세요.
