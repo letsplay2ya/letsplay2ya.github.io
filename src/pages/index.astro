@@ -1,19 +1,31 @@
 ---
 import { getCollection } from 'astro:content';
 import SiteLayout from '../layouts/SiteLayout.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-import PostRow from '../components/PostRow.astro';
-import DeveloperWorkbench from '../components/DeveloperWorkbench.astro';
+import { postTopics } from '../lib/topics';
 const projects = (await getCollection('projects', p => !p.data.draft)).sort((a,b) => a.data.order-b.data.order);
 const posts = (await getCollection('posts', p => !p.data.draft)).sort((a,b) => +b.data.date-+a.data.date);
+const formatDate = (date: Date) => date.toISOString().slice(0,10).replaceAll('-', '.');
 ---
 <SiteLayout>
-  <section class="home-hero developer-hero container">
-    <div class="hero-copy"><div class="eyebrow"><span class="tiny-square"></span> SEONGMIN JEON / SOFTWARE DEVELOPER</div><h1>업무의 규칙을 코드로,<br /><em>복잡한 흐름을 화면으로.</em></h1><p>Java 백엔드부터 React·Vue 프론트엔드까지.<br class="desktop-break" /> 시스템을 연결하며 해결한 문제를 구체적인 구현으로 보여드립니다.</p><div class="hero-actions"><a class="primary-link" href="#selected-work">구현한 프로젝트 보기 <span>↗</span></a><a class="quiet-link" href="/about/">전성민 소개 →</a></div><div class="hero-stack"><span>Java</span><span>React</span><span>Vue</span><span>TypeScript</span><span class="stack-interest">AI Agent · 다음 탐구</span></div></div>
-    <DeveloperWorkbench projectCount={projects.length} postCount={posts.length} />
-    <div class="hero-bottom developer-summary"><div><a href="/projects/"><strong>{String(projects.length).padStart(2,'0')}</strong><span>프로젝트 사례</span></a><a href="/writing/"><strong>{String(posts.length).padStart(2,'0')}</strong><span>기술 기록</span></a><a href="/lab/"><strong>LAB</strong><span>동작을 확인하는 실험</span></a></div><p>역할과 구현 범위,<br />판단의 근거를 함께 기록합니다.</p></div>
-  </section>
-  <section id="selected-work" class="section container"><div class="section-heading"><div><span class="eyebrow">01 / SELECTED WORK</span><h2>화면과 코드로 설명하는<br />프로젝트 경험.</h2></div><a class="quiet-link" href="/projects/">모든 프로젝트 <span>↗</span></a></div><div class="featured-projects">{projects.filter(p => p.data.featured).map(project => <ProjectCard project={project} featured />)}</div><div class="engineering-path"><span>업무 맥락</span><i>→</i><span>설계와 판단</span><i>→</i><span>화면·API 구현</span><i>→</i><span>검증과 회고</span></div></section>
-  <section class="writing-section"><div class="container section"><div class="section-heading"><div><span class="eyebrow">02 / ENGINEERING NOTES</span><h2>문제를 풀며 남긴 기록.</h2></div><a class="quiet-link" href="/writing/">기술 글 {posts.length}편 <span>↗</span></a></div><div class="post-list">{posts.slice(0,4).map(post => <PostRow post={post} />)}</div></div></section>
-  <section class="container section"><a class="lab-banner" href="/lab/"><div><span class="eyebrow">03 / LAB</span><h2>작게 실행하고,<br />직접 확인합니다.</h2><p>입력과 응답, 상태가 만나는 순간을 살펴보는 작은 실험.<br />앞으로 AI Agent의 동작과 평가도 이곳에 기록합니다.</p></div><div class="lab-graphic" aria-hidden="true"><span>INPUT</span><b>→</b><span class="lab-node">CHECK<br />& RUN</span><b>→</b><span>RESULT</span></div><span class="lab-arrow">↗</span></a></section>
+  <div class="journal-home">
+    <section class="journal-intro" aria-labelledby="home-name">
+      <h1 id="home-name">전성민</h1>
+      <p>Java로 백엔드를, React와 Vue로 웹 화면을 개발합니다.<br />일하면서 겪은 문제와 배운 내용을 이곳에 정리합니다.</p>
+      <p class="journal-interest">업무 시스템 개발과 전환 작업을 해왔고, 요즘은 AI Agent에도 관심을 두고 있습니다.</p>
+      <a class="journal-about" href="/about/">조금 더 소개하면 →</a>
+    </section>
+    <section class="journal-section" aria-labelledby="recent-posts">
+      <div class="journal-heading"><h2 id="recent-posts">최근 글</h2><a href="/writing/">전체 글 →</a></div>
+      <div class="journal-posts">{posts.slice(0,5).map(post => (
+        <article class="journal-post"><a href={`/writing/${post.id}/`}><div class="journal-post-meta"><time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time><span>{postTopics(post)[0]}</span></div><h3>{post.data.title}</h3><p>{post.data.description}</p></a></article>
+      ))}</div>
+    </section>
+    <section id="selected-work" class="journal-section" aria-labelledby="home-projects">
+      <div class="journal-heading"><h2 id="home-projects">프로젝트</h2><a href="/projects/">전체 보기 →</a></div>
+      <div class="journal-projects">{projects.map(project => (
+        <article class="journal-project"><div class="journal-project-meta">{project.data.category}<span>·</span>{project.data.role}</div><h3><a href={`/projects/${project.id}/`}>{project.data.title}<span aria-hidden="true"> ↗</span></a></h3><p>{project.data.description}</p><div class="journal-project-tags">{project.data.tags.slice(0,4).join(' · ')}</div></article>
+      ))}</div>
+    </section>
+    <aside class="journal-lab"><a href="/lab/"><span>작은 실험</span><strong>입력값이 바뀐 뒤 도착한 계산 응답은 어떻게 처리할까? <span aria-hidden="true">→</span></strong><p>요청과 현재 상태가 달라지는 상황을 직접 확인하는 예제입니다.</p></a></aside>
+  </div>
 </SiteLayout>

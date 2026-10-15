@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import '../styles/developer-home.css';
+import '../styles/journal-home.css';
 import { site, navigation } from '../data/site';
 interface Props { title?: string; description?: string; wide?: boolean; }
 const { title, description = site.description, wide = false } = Astro.props;
@@ -32,6 +32,6 @@ const canonical = Astro.site ? new URL(current, Astro.site).href : undefined;
       </div>
     </header>
     <main id="main" class:list={[{ 'main-wide': wide }]}><slot /></main>
-    <footer class="site-footer"><div class="container footer-inner"><div><a class="footer-name" href="/">{site.englishName}<span>개발과 기록</span></a><p>만들었던 것, 해결했던 것, 다음에 시도할 것.</p></div><div class="footer-links"><a href="/projects/">프로젝트</a><a href="/writing/">기술 글</a><a href="/about/">소개</a><a href="#main">맨 위로 ↑</a></div></div></footer>
+    <footer class="site-footer"><div class="container footer-inner"><div><a class="footer-name" href="/">전성민<span>개발과 기록</span></a></div><div class="footer-links"><a href="/projects/">프로젝트</a><a href="/writing/">기술 글</a><a href="/about/">소개</a><a href="#main">맨 위로 ↑</a></div></div></footer>
   </body>
 </html>
