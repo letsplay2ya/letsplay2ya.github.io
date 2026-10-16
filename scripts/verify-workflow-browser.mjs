@@ -8,6 +8,7 @@ export async function verifyWorkflowArticles(page, base, qa) {
   try {
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(base + '/writing/notes-clause-eligibility/');
+    await page.waitForFunction(() => [...document.querySelectorAll('astro-island')].every(island => !island.hasAttribute('ssr')));
     const result = page.locator('.workflow-result');
     await page.getByRole('checkbox', { name: '약관 적용', exact: true }).uncheck();
     assert.equal(await result.innerText(), '대상에서 제외');
@@ -24,6 +25,7 @@ export async function verifyWorkflowArticles(page, base, qa) {
     assert.equal(await result.innerText(), '대상에서 제외');
 
     await page.goto(base + '/writing/notes-keyed-scroll-sync/');
+    await page.waitForFunction(() => [...document.querySelectorAll('astro-island')].every(island => !island.hasAttribute('ssr')));
     const selector = (side, key) => `.scroll-example [data-demo-side="${side}"] [data-scroll-sync-key="${key}"] .ag-center-cols-viewport`;
     const lp = selector('left', 'premium');
     const rp = selector('right', 'premium');
@@ -45,6 +47,7 @@ export async function verifyWorkflowArticles(page, base, qa) {
     const enabled = page.getByRole('checkbox', { name: '스크롤 동기화', exact: true });
     await enabled.uncheck(); // Force a hydrated control update before starting.
     await enabled.check();
+    await frames();
     await page.getByRole('button', { name: '왼쪽 보험료를 50%로 이동' }).click();
     await expectRatio(rp, 0.5);
     assert.equal(await ratio(rc), 0, 'Same key is paired despite opposite DOM order');
@@ -74,6 +77,7 @@ export async function verifyWorkflowArticles(page, base, qa) {
     await frames();
     await page.getByRole('combobox', { name: '스크롤 연결 기준' }).selectOption('order');
     await enabled.check();
+    await frames();
     await page.getByRole('button', { name: '왼쪽 보험료를 50%로 이동' }).click();
     await expectRatio(rc, 0.5);
     assert.equal(await ratio(rp), 0, 'Order mode intentionally pairs the wrong business section');
