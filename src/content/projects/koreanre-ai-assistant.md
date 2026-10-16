@@ -118,6 +118,8 @@ Current 입력과 Reference 조회 영역을 분리하고, 참고 계약에서 �
 - `src/pages/uw-main/tabs/TermnCondition/termClauseEligibility.ts` — 파생 할인·할증 대상 판정
 - `src/pages/uw-main/tabs/TermnCondition/OverseasTermnCondition.tsx` — 해외 약관 화면
 
+[약관 적용 여부와 할인할증 대상 판정 자세히 읽기](/writing/notes-clause-eligibility/)
+
 ## 04. 요율산정 — 현재 조건에 맞는 결과를 저장하기
 
 ### 문제
@@ -143,6 +145,8 @@ Current 입력과 Reference 조회 영역을 분리하고, 참고 계약에서 �
 - `src/pages/uw-main/tabs/RateCalculation/RateDNO/index.tsx` — 입력 확정과 저장 전 병합
 - `src/pages/uw-main/tabs/RateCalculation/RateDNO/dnoRateSave.ts` — 식별자 기반 저장 형식 변환
 - `src/pages/uw-main/tabs/RateCalculation/RateDNO/dnoRateSave.test.ts` — 병합·식별자 보존의 기존 테스트
+
+[너비와 순서가 다른 그리드의 동기화 자세히 읽기](/writing/notes-keyed-scroll-sync/)
 
 [비동기 계산 결과의 적용 조건 자세히 읽기](/writing/notes-async-calculation/)
 

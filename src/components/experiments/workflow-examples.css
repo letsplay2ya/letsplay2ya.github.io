@@ -1,0 +1,10 @@
+.workflow-example{border:1px solid var(--line);background:#f4f5ef;border-radius:8px;padding:24px;margin:0 0 38px;min-width:0}
+.workflow-example h2{font-size:21px;margin:0 0 14px}.workflow-example p{font-size:14px;line-height:1.8;color:var(--muted)}
+.workflow-controls{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin:22px 0}
+.workflow-controls label{display:flex;align-items:center;gap:7px;font-size:13px}.workflow-controls select,.workflow-controls button{font:inherit;font-size:13px;padding:8px;border:1px solid #bcc7b8;border-radius:4px;background:#fff;color:var(--ink)}
+.workflow-controls button{cursor:pointer}.workflow-controls button:hover{border-color:var(--green)}.workflow-controls :focus-visible,.scroll-example-viewport:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.workflow-result{display:block;padding:15px;border-left:3px solid var(--green);font-weight:700;background:#e5ece0}
+.workflow-example .workflow-scope{font-size:12px;margin-top:16px}.scroll-example-columns{display:grid;grid-template-columns:1fr 1fr;gap:20px}.scroll-example-columns>div{min-width:0}
+.scroll-example-section h3{font-size:13px;margin:18px 0 8px}.scroll-example-viewport{overflow-x:auto;max-width:100%;background:white;border:1px solid #cbd2c5;overscroll-behavior-x:contain}
+.scroll-example-content{display:flex;height:82px}.scroll-example-content>span{flex:1;min-width:0;border-right:1px solid #dce0d6;padding:12px;font-size:12px}.scroll-example-content b,.scroll-example-content small{display:block;white-space:nowrap}.scroll-example-content small{margin-top:9px;color:#66705c}
+@media(max-width:650px){.workflow-example{padding:17px}.scroll-example-columns{grid-template-columns:1fr}.workflow-controls{gap:12px}.workflow-controls label{flex-wrap:wrap}.workflow-example h2{font-size:19px}}
