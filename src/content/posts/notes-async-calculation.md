@@ -4,6 +4,8 @@ description: '응답 도착 시 계약·대상·입력값을 다시 확인해 �
 category: 'Frontend'
 tags: ['React', '비동기 상태', '입력값 서명']
 date: '2026-10-08'
+featured: true
+featuredOrder: 2
 origin: 'project'
 project: 'koreanre-ai-assistant'
 ---

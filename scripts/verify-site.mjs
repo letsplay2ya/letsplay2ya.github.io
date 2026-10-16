@@ -95,7 +95,16 @@ try {
     assert.ok(await page.locator('body').evaluate(body => body.scrollWidth <= innerWidth + 1), `${route}: desktop overflow`);
     checked.push(route);
   }
+  await page.goto(base + '/writing/notes-commit-before-save/');
+  assert.match(await page.locator('h1').innerText(), /마지막 입력/);
+  assert.equal(await page.locator('.prose a[href="/examples/save-order/test.mjs"]').count(), 1);
+  checked.push('/writing/notes-commit-before-save/');
+  await page.goto(base + '/writing/notes-doc-agent/');
+  assert.match(await page.locator('.related-project b').innerText(), /문서.*Agent/);
+  assert.doesNotMatch(await page.locator('.related-project b').innerText(), /코리안리/);
   await page.goto(base + '/');
+  assert.equal(await page.locator('.selected-writing a[href="/writing/notes-workspace-state/"]').count(), 1);
+  assert.equal(await page.locator('.selected-writing a[href="/writing/notes-doc-agent/"]').count(), 0);
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: path.join(qa, 'home-desktop.png'), fullPage: true });
   assert.equal(await page.locator('.selected-writing article').count(),3,'Three curated representative articles');
@@ -174,7 +183,7 @@ try {
   assert.equal(await page.locator('.ws-terms li').count(), 2, 'Clause deduplication');
   assert.match(await page.locator('.ws-status').innerText(), /중복/);
   await page.getByRole('button', { name: '요율산정', exact: true }).click();
-  assert.equal(await page.getByRole('table').count(), 1);
+  assert.equal(await page.locator('.workspace-demo').getByRole('table').count(), 1);
   await page.locator('.workspace-demo').screenshot({ path: path.join(qa, 'workspace-desktop.png') });
 
   await page.goto(base + '/lab/');
@@ -202,6 +211,12 @@ try {
   await page.waitForURL(url => url.pathname === routes[1].to && url.hash === '#test-fragment');
 
   await page.setViewportSize({ width: 390, height: 844 });
+  for (const article of ['notes-workspace-state', 'notes-commit-before-save', 'legacy-oracle-ch3']) {
+    await page.goto(base + `/writing/${article}/`);
+    await page.evaluate(() => document.fonts.ready);
+    assert.ok(await page.locator('body').evaluate(body => body.scrollWidth <= innerWidth + 1), `${article}: mobile article overflow`);
+    if (article === 'notes-workspace-state') await page.screenshot({ path: path.join(qa, 'state-article-mobile.png'), fullPage: true });
+  }
   for (const route of ['/', '/writing/', '/projects/koreanre-ai-assistant/', '/lab/', '/writing/legacy-oracle-install/', '/writing/legacy-thymeleaf-javascript/', '/writing/notes-full-snapshot-api/', '/writing/notes-response-ordering/', '/writing/notes-stable-identity-save/']) {
     await page.goto(base + route);
     await page.evaluate(() => document.fonts.ready);
