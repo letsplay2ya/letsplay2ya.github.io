@@ -14,7 +14,7 @@
 
 ## Vue
 
-- 설치된 Vue 3.5.24의 실제 ref/watch/effectScope.
+- 설치된 Vue 3.5.43의 실제 ref/watch/effectScope.
 - useLatestSearch.ts는 이번 실험용 구현. 회사 Vue 프로젝트의 코드로 소개하지 않음.
 - 뒤집힌 응답, A→B→A, 취소 신호를 무시하는 응답, stale catch/finally, 현재 오류, 빈 검색, scope 종료 검증.
 - VueSearchRace.vue가 같은 composable을 사용. 브라우저에서 도착 순서를 제어.
