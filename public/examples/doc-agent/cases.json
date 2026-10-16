@@ -1,0 +1,38 @@
+[
+  {
+    "id": "missing-file",
+    "expected": [
+      {
+        "path": "README.md",
+        "line": 2,
+        "kind": "missing_file"
+      }
+    ]
+  },
+  {
+    "id": "missing-script",
+    "expected": [
+      {
+        "path": "README.md",
+        "line": 2,
+        "kind": "missing_script"
+      }
+    ]
+  },
+  {
+    "id": "valid",
+    "expected": []
+  },
+  {
+    "id": "illustrative",
+    "expected": []
+  },
+  {
+    "id": "external",
+    "expected": []
+  },
+  {
+    "id": "instruction-text",
+    "expected": []
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "name": "doc-agent-missing-file",
+  "private": true,
+  "scripts": {
+    "test": "node test.mjs"
+  }
+}

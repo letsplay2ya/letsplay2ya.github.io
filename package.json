@@ -10,7 +10,10 @@
     "preview": "astro preview --host 127.0.0.1",
     "import:hexo": "node scripts/import-hexo.mjs",
     "test:site": "node scripts/verify-site.mjs",
-    "test:articles": "node scripts/verify-article-examples.mjs"
+    "test:articles": "node scripts/verify-article-examples.mjs",
+    "test:review": "node scripts/verify-reference-review.mjs",
+    "test:agent": "node public/examples/doc-agent/test.mjs && node public/examples/doc-agent/evaluate.mjs",
+    "test:data": "node scripts/verify-data-examples.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "8.0.3",

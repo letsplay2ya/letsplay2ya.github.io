@@ -18,6 +18,9 @@ const posts = defineCollection({
   schema: z.object({
     title: z.string(), description: z.string(), date: z.coerce.date(),
     updated: z.coerce.date().optional(),
+    archive: z.boolean().default(false),
+    featured: z.boolean().default(false),
+    featuredOrder: z.number().default(100),
     tags: z.array(z.string()).default([]), category: z.string().default('기록'),
     origin: z.enum(['hexo', 'project', 'original']).default('original'),
     project: z.string().optional(), legacyUrl: z.string().optional(),

@@ -5,10 +5,8 @@ const { project, featured = false } = Astro.props;
 ---
 <a class:list={['project-card', { featured }]} href={`/projects/${project.id}/`}>
   {project.id === 'koreanre-ai-assistant' ? <div class="project-preview" aria-hidden="true">
-    <div class="preview-top"><span class="preview-brand">AI Assistant</span><span class="preview-dot"></span><span>UNDERWRITING</span></div>
-    <div class="preview-tabs"><span class="selected">계약 기본정보</span><span>계약 상세정보</span><span>Terms & Conditions</span><span>요율산정</span></div>
-    <div class="preview-body"><div class="preview-current"><small>Current Contract</small><div class="preview-fields">{['보험종목','계약자','보험기간','담보지역','재보험 구분','계약 처리'].map((label, i) => <div><span>{label}</span><b style={`width:${55 + i * 5}%`}></b></div>)}</div><div class="preview-table">{[1,2,3].map(() => <i></i>)}</div></div><div class="preview-assistant"><small>유사UW추천</small><div class="preview-ref"><b>Reference UW</b><span>담보와 조건 비교</span><i></i><i></i></div><div class="preview-ref"><b>검토 근거</b><i></i><i></i></div></div></div>
-    <div class="preview-caption">작업공간 구조 미리보기</div>
+    <img src="/assets/koreanre-reference-review.png" alt="" width="1180" height="938" loading="lazy" />
+    <div class="preview-caption">선택 복사 실행 예제 · 가상 데이터</div>
   </div> : <div class="project-preview project-preview-generic" aria-hidden="true"><span class="eyebrow">{project.data.category}</span><strong>{project.data.title}</strong><span>{project.data.tags.slice(0,3).join(' / ')}</span></div>}
   <div class="project-card-copy"><div class="meta-line"><span>{project.data.category}</span><span>{project.data.role}</span></div><h3>{project.data.title}</h3><p>{project.data.description}</p>{project.data.highlights.length > 0 && <ul class="project-card-points">{project.data.highlights.slice(0,3).map(point => <li>{point}</li>)}</ul>}<div class="tags">{project.data.tags.map(tag => <span>{tag}</span>)}</div><span class="text-link">화면과 구현 살펴보기 <span>↗</span></span></div>
 </a>

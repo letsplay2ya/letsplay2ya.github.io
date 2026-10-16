@@ -3,29 +3,17 @@ import { getCollection } from 'astro:content';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { postTopics } from '../lib/topics';
 const projects = (await getCollection('projects', p => !p.data.draft)).sort((a,b) => a.data.order-b.data.order);
-const posts = (await getCollection('posts', p => !p.data.draft)).sort((a,b) => +(b.data.updated ?? b.data.date)-+(a.data.updated ?? a.data.date) || +b.data.date-+a.data.date);
+const posts = (await getCollection('posts', p => !p.data.draft && !p.data.archive)).sort((a,b) => +(b.data.updated ?? b.data.date)-+(a.data.updated ?? a.data.date) || +b.data.date-+a.data.date);
+const selected = posts.filter(p => p.data.featured).sort((a,b) => a.data.featuredOrder-b.data.featuredOrder);
+const recent = posts.filter(p => !p.data.featured).slice(0,4);
 const formatDate = (date: Date) => date.toISOString().slice(0,10).replaceAll('-', '.');
 ---
 <SiteLayout>
-  <div class="journal-home">
-    <section class="journal-intro" aria-labelledby="home-name">
-      <h1 id="home-name">전성민</h1>
-      <p>Java로 백엔드를, React와 Vue로 웹 화면을 개발합니다.<br />일하면서 겪은 문제와 배운 내용을 이곳에 정리합니다.</p>
-      <p class="journal-interest">업무 시스템 개발과 전환 작업을 해왔고, 요즘은 AI Agent에도 관심을 두고 있습니다.</p>
-      <a class="journal-about" href="/about/">조금 더 소개하면 →</a>
-    </section>
-    <section class="journal-section" aria-labelledby="recent-posts">
-      <div class="journal-heading"><h2 id="recent-posts">최근 글</h2><a href="/writing/">전체 글 →</a></div>
-      <div class="journal-posts">{posts.slice(0,5).map(post => (
-        <article class="journal-post"><a href={`/writing/${post.id}/`}><div class="journal-post-meta"><time datetime={(post.data.updated ?? post.data.date).toISOString()}>{post.data.updated ? '수정 ' : ''}{formatDate(post.data.updated ?? post.data.date)}</time><span>{postTopics(post)[0]}</span></div><h3>{post.data.title}</h3><p>{post.data.description}</p></a></article>
-      ))}</div>
-    </section>
-    <section id="selected-work" class="journal-section" aria-labelledby="home-projects">
-      <div class="journal-heading"><h2 id="home-projects">프로젝트</h2><a href="/projects/">전체 보기 →</a></div>
-      <div class="journal-projects">{projects.map(project => (
-        <article class="journal-project"><div class="journal-project-meta">{project.data.category}<span>·</span>{project.data.role}</div><h3><a href={`/projects/${project.id}/`}>{project.data.title}<span aria-hidden="true"> ↗</span></a></h3><p>{project.data.description}</p><div class="journal-project-tags">{project.data.tags.slice(0,4).join(' · ')}</div></article>
-      ))}</div>
-    </section>
-    <aside class="journal-lab"><a href="/lab/"><span>작은 실험</span><strong>입력값이 바뀐 뒤 도착한 계산 응답은 어떻게 처리할까? <span aria-hidden="true">→</span></strong><p>요청과 현재 상태가 달라지는 상황을 직접 확인하는 예제입니다.</p></a></aside>
-  </div>
+ <div class="journal-home">
+  <section class="journal-intro" aria-labelledby="home-name"><h1 id="home-name">전성민</h1><p>Java로 백엔드를, React와 Vue로 웹 화면을 개발합니다.<br />업무 시스템을 만들며 겪은 문제와 배운 내용을 정리합니다.</p><p class="journal-interest">화면과 데이터가 서로 다른 상태를 가리키지 않도록 만드는 일에 관심이 있습니다. 최근에는 도구를 호출하는 Agent와 평가 방법을 작은 예제로 실험하고 있습니다.</p><a class="journal-about" href="/about/">소개 더 보기 →</a></section>
+  <section class="journal-section" aria-labelledby="selected-posts"><div class="journal-heading"><h2 id="selected-posts">먼저 읽어볼 글</h2><a href="/writing/">전체 글 →</a></div><div class="selected-writing">{selected.map(post=><article><h3><a href={`/writing/${post.id}/`}>{post.data.title}</a></h3><p>{post.data.description}</p></article>)}</div></section>
+  <section class="journal-section" aria-labelledby="recent-posts"><div class="journal-heading"><h2 id="recent-posts">최근 작성·수정한 글</h2><a href="/writing/">글 목록 →</a></div><div class="journal-posts">{recent.map(post=><article class="journal-post"><a href={`/writing/${post.id}/`}><div class="journal-post-meta"><time datetime={(post.data.updated??post.data.date).toISOString()}>{post.data.updated?'수정 ':''}{formatDate(post.data.updated??post.data.date)}</time><span>{postTopics(post)[0]}</span></div><h3>{post.data.title}</h3><p>{post.data.description}</p></a></article>)}</div><p class="archive-note"><a href="/writing/archive/">통합한 글과 과거 학습 메모는 보관함에서 볼 수 있습니다 →</a></p></section>
+  <section id="selected-work" class="journal-section" aria-labelledby="home-projects"><div class="journal-heading"><h2 id="home-projects">프로젝트와 실험</h2><a href="/projects/">전체 보기 →</a></div><div class="journal-projects">{projects.map(project=><article class="journal-project"><div class="journal-project-meta">{project.data.category}<span>·</span>{project.data.role}</div><h3><a href={`/projects/${project.id}/`}>{project.data.title}<span aria-hidden="true"> ↗</span></a></h3><p>{project.data.description}</p><div class="journal-project-tags">{project.data.tags.slice(0,4).join(' · ')}</div></article>)}</div></section>
+  <aside class="journal-lab"><a href="/lab/"><span>직접 확인하는 예제</span><strong>CSV 오류 수정 · 계약 선택 복사 · Agent 검사 기록 →</strong><p>코드와 설명만으로 놓치기 쉬운 동작을 살펴볼 수 있습니다.</p></a></aside>
+ </div>
 </SiteLayout>

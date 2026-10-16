@@ -1,180 +1,84 @@
 ---
-title: "오라클 SQL-CSV파일 업로드"
-description: "왼쪽 상단에 ➕ 버튼 클릭 후, 테이블(필터링됨) > 오른쪽 마우스버튼 > 데이터 임포트를 클릭"
+title: "CSV 적재 성공과 데이터 정합성은 다른 문제다"
+description: "날짜·금액·중복이 섞인 9건을 검증해 정상 3건과 거절 6건으로 나눕니다. 원본 보존, 실패 사유, 재실행과 롤백까지 확인하는 실행 가능한 실습입니다."
 date: "2025-01-03"
-tags: []
-category: "Database / oracle"
+tags: ["Python","CSV","데이터 정합성"]
+category: "Data Engineering"
 origin: "hexo"
 legacyUrl: "/2025/01/03/oracle_ch3/"
+archive: false
+featured: true
+featuredOrder: 1
+updated: "2026-10-16"
 ---
-<!-- hexo-import:v1 sha256=aacd9c6dc84894a4a3417157b11a99248883978add594524693bf384947cc281 -->
 
-![](/legacy-assets/images/thumbnail/oracle.jpg)
+<span id="SQL-Developer" aria-hidden="true"></span>
+<span id="sql-developer" aria-hidden="true"></span>
+<span id="명령-프롬트프" aria-hidden="true"></span>
 
-<span id="SQL-Developer"></span>
+예전 글에서는 CSV 날짜·숫자 형식이 테이블과 맞지 않아 적재에 실패했다. 모든 컬럼을 VARCHAR2로 바꾸니 업로드는 됐지만, 잘못된 날짜와 숫자를 어떻게 다룰지는 남았다. 적재 도구가 성공했다는 사실과 데이터가 업무 규칙에 맞는다는 사실은 다르다.
 
-## SQL Developer
+이번에는 그 빈 부분을 작은 실습으로 만들었다. 실제 고객 데이터나 운영 장애 수치는 사용하지 않았다. **Python 3.12 표준 라이브러리와 SQLite**로 실행했으며 Oracle SQL*Loader의 성능·트랜잭션을 검증한 결과는 아니다.
 
--   왼쪽 상단에 ➕ 버튼 클릭 후, `테이블(필터링됨) > 오른쪽 마우스버튼 > 데이터 임포트`를 클릭
-    
--   아래와 같이 `[데이터 임포트 마법사]` 창이 활성화 됨.
-    
--   여기에서 `[찾아보기]` 클릭 한다.
-    
--   해당 파일을 찾아서 불러온다.
-    
--   파일에 이상이 없는지 확인한다.
-    
--   테이블 이름을 지정한다.
-    
--   여기에서 불러오지 않을 컬럼은 삭제가 가능하다.
-    
--   각 데이터 유형을 체크한다.
-    
--   마지막 단계에서 완료 버튼을 누릅니다.
-    
--   파일이 정상적으로 import 되었다면 아래와 같이 DB에 추가가 됩니다.
-    
--   쿼리를 통해서 실제 조회가 되는지 확인한다.
-    
+## 일부러 잘못된 값을 넣은 9건
 
-```sql
-select * from air_pollution_train;
+[샘플 CSV](/examples/csv-quality/input.csv)에는 잘못된 날짜, 쉼표가 포함된 금액, 중복 ID, 빈 금액, 음수, 날짜 형식 오류를 넣었다. 회사명 안의 쉼표는 정상 CSV 따옴표로 감싼 값이다. 줄을 단순히 쉼표로 split하면 이 값부터 잘못 읽는다.
+
+```csv
+record_id,occurred_on,amount,company
+A-001,2026-01-01,1000,예시기업
+A-002,2026-02-30,200,날짜 오류
+A-007,2026-01-07,25.50,"예시, 서비스"
 ```
 
-  
+## 먼저 규칙을 정했다
 
-## 명령 프롬트프
+날짜는 YYYY-MM-DD이며 존재하는 날이어야 한다. 금액은 0 이상, 소수점 둘째 자리까지이고 천 단위 쉼표는 허용하지 않는다. 동일 ID는 **먼저 정상 처리한 행을 유지**한다. 뒤의 행으로 덮는 정책이 아니다.
 
--   이번에는 cmd 창에서 test 데이터를 불러오도록 한다.
--   먼저 현재 경로를 확인한다.
+이 정책은 파일 순서에 영향을 받는다. 더 엄격하게 하려면 중복 그룹 전체를 거절하는 방법도 있다. 어느 쪽이든 적재 코드 안에 우연히 숨겨 두지 말고 명세로 정해야 한다.
 
-```sql
-SQL> host cd
-C:\Windows\system32
+## 원본, 정상 데이터, 거절 사유를 따로 남기기
+
+```text
+CSV 파싱 → 원본 staging 보존 → 형식·값·중복 검사
+                                  ├─ 정상: records
+                                  └─ 실패: rejected.csv + 오류 코드
 ```
 
--   해당 데이터는 `C:\Users\1\Desktop\tabular-playground-series-jul-2021` 에 있기 때문에 이동하도록 한다.
--   먼저 `exit` cmd 터미널로 변환 뒤, 경로를 수정한다.
+원본을 곧바로 수정하지 않는다. 문자열 검사 후 날짜를 해석하고, 금액은 Decimal에서 최소 단위 정수로 바꿔 이진 부동소수점 반올림 문제를 피했다. 단, 통화마다 소수 자릿수가 다른 일반적인 통화 모델은 아니다.
 
-```sql
-SQL> exit
-C:\Windows\system32> cd your_path
-C:\your\path> sqlplus "/ as sysdba"
-SQL> host cd
-C:\your\path
-SQL> host dir
-C 드라이브의 볼륨에는 이름이 없습니다.
- 볼륨 일련 번호: E657-CFA3
+## 실행해 본 결과
 
- C:\your\path 디렉터리
+[실행 코드](/examples/csv-quality/pipeline.py), [테스트](/examples/csv-quality/test_pipeline.py), [사용법](/examples/csv-quality/README.md)을 같은 폴더에 받고 다음처럼 실행한다. 외부 패키지와 DB 서버는 필요 없다.
 
-2021-07-14  오전 11:51    <DIR>          .
-2021-07-14  오전 11:51    <DIR>          ..
-2021-06-30  오후 11:44            78,716 sample_submission.csv
-2021-06-30  오후 11:44           154,260 test.csv
-2021-06-30  오후 11:44           593,980 train.csv
-               3개 파일             826,956 바이트
-               2개 디렉터리  96,819,806,208 바이트 남음
+```sh
+python pipeline.py input.csv --out result
+python -m unittest discover -s . -p "test_*.py"
 ```
 
--   먼저 테이블을 생성한다.
-    
--   이 때 주의해야 하는 것은 테이블 생성할 때의 데이터 유형과 파일의 데이터 유형이 일치해야 정상적으로 업로드가 되기 때문에 주의 한다.
-    
-    -   최초 테이블 생성 시, 아래와 같이 작성했다.
-    
-    ```sql
-    CREATE TABLE "SCOTT"."AIR_POLLUTION_TEST" 
-       (	"DATE_TIME" DATE, 
-    	"DEG_C" NUMBER(38,1), 
-    	"RELATIVE_HUMIDITY" NUMBER(38,1), 
-    	"ABSOLUTE_HUMIDITY" NUMBER(38,4), 
-    	"SENSOR_1" NUMBER(38,1), 
-    	"SENSOR_2" NUMBER(38,1), 
-    	"SENSOR_3" NUMBER(38,1), 
-    	"SENSOR_4" NUMBER(38,1), 
-    	"SENSOR_5" NUMBER(38,1)
-       ) SEGMENT CREATION IMMEDIATE 
-      PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
-     NOCOMPRESS LOGGING
-      STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-      PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
-      BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
-      TABLESPACE "USERS" ;
-    테이블이 생성되었습니다.
-    ```
-    
-    -   위 형태로 데이터를 올렸으나 `test.csv` 파일의 데이터 형태가 달라서 에러가 생겼다. 그래서 테이블을 아래와 같이 재 생성 했다.
-    -   테이블 삭제는 다음 명령어를 이용한다. `DROP TABLE YOUR_TABLE_NAME PURGE;`
-    
-    ```sql
-    CREATE TABLE "SCOTT"."AIR_POLLUTION_TEST" 
-       (	"DATE_TIME" VARCHAR2(20 BYTE), 
-    	"DEG_C" VARCHAR2(20 BYTE), 
-    	"RELATIVE_HUMIDITY" VARCHAR2(20 BYTE), 
-    	"ABSOLUTE_HUMIDITY" VARCHAR2(20 BYTE), 
-    	"SENSOR_1" VARCHAR2(20 BYTE), 
-    	"SENSOR_2" VARCHAR2(20 BYTE), 
-    	"SENSOR_3" VARCHAR2(20 BYTE), 
-    	"SENSOR_4" VARCHAR2(20 BYTE), 
-    	"SENSOR_5" VARCHAR2(20 BYTE)
-       ) SEGMENT CREATION IMMEDIATE 
-      PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
-     NOCOMPRESS LOGGING
-      STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
-      PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
-      BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
-      TABLESPACE "USERS" ;
-    ```
-    
--   이제 `test.csv` 파일을 업로드 하기 위해 `.ctl` 파일을 생성한다.
-    
--   메모장 또는 그 외 에디터에서, `control.ctl`을 생성한다.
-    
+최초 실행 결과는 다음과 같다.
 
-```plaintext
-LOAD DATA
-INFILE 'test.csv'
-INTO TABLE AIR_POLLUTION_TEST
-fields terminated by ','
-(
-    DATE_TIME,
-    DEG_C,
-    RELATIVE_HUMIDITY,
-    ABSOLUTE_HUMIDITY,
-    SENSOR_1, 
-    SENSOR_2,  
-    SENSOR_3, 
-    SENSOR_4, 
-    SENSOR_5
-)
+```json
+{"input": 9, "accepted": 3, "rejected": 6}
 ```
 
--   정상적으로 업데이트가 되는지 확인한다.
+| 실패 사유 | 건수 |
+| --- | --- |
+| 존재하지 않는 날짜 | 1 |
+| 금액 표기 오류·빈 값·음수 | 3 |
+| 이미 처리한 ID | 1 |
+| 날짜 형식 오류 | 1 |
 
-```plaintext
-C:\Users\1\Desktop\tabular-playground-series-jul-2021>sqlldr scott/tiger control=control.ctl
+정상 ID는 A-001, A-006, A-007이다. 25.50은 2550으로 저장되고 0원도 정상이다. CSV의 레코드 번호는 따옴표 안에 개행이 있을 때 실제 파일 줄 번호와 다를 수 있다.
 
-SQL*Loader: Release 19.0.0.0.0 - Production on 목 7월 15 17:15:41 2021
-Version 19.3.0.0.0
+## 재실행은 어떻게 되나
 
-Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+같은 result 폴더로 다시 실행하면 저장된 ID와 비교하므로 추가 정상 적재는 0건이다. 기존 DB를 지우고 성공을 다시 만드는 방식이 아니다. 다른 데이터셋으로 실험하려면 다른 출력 폴더를 사용한다.
 
-사용된 경로:      규약
-커밋 시점에 도달 - 논리 레코드 개수 250
-커밋 시점에 도달 - 논리 레코드 개수 500
-커밋 시점에 도달 - 논리 레코드 개수 750
-커밋 시점에 도달 - 논리 레코드 개수 1000
-커밋 시점에 도달 - 논리 레코드 개수 1250
-커밋 시점에 도달 - 논리 레코드 개수 1500
-커밋 시점에 도달 - 논리 레코드 개수 1750
-커밋 시점에 도달 - 논리 레코드 개수 2000
-커밋 시점에 도달 - 논리 레코드 개수 2248
-테이블 AIR_POLLUTION_TEST:
-  2248 행이(가) 성공적으로 로드되었습니다.
+CSV 열 개수가 잘못됐을 때 부분 저장하지 않는 경우와, DB 제약 위반으로 삽입이 실패하면 앞선 삽입도 롤백되는 경우를 테스트했다. 입력 9 = 정상 3 + 거절 6이라는 건수 대사도 확인한다.
 
-로드에 대한 자세한 내용은
-  control.log
-로그 파일을 확인하십시오.
-```
+## Oracle로 가져갈 때 남는 일
+
+대량 파일을 전부 메모리에 올리는 이 예제는 큰 데이터 적재용 구현이 아니다. 배치 크기, 재시작 지점, SQL*Loader의 reject·discard 처리, Oracle의 날짜·수치 변환 정책을 별도로 검증해야 한다. 여기서 가져갈 것은 특정 도구보다 **원본을 남기고, 변환 실패를 분리하고, 저장 결과를 대사하는 흐름**이다.
+
+참고: [Python csv](https://docs.python.org/3/library/csv.html), [SQL*Loader 개념](https://docs.oracle.com/en/database/oracle/oracle-database/19/sutil/oracle-sql-loader-concepts.html).

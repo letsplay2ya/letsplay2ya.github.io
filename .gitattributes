@@ -1,2 +1,3 @@
 # Imported Markdown preserves original hard breaks and code indentation.
 src/content/posts/legacy-*.md -whitespace
+public/examples/plotly/traffic.html -whitespace linguist-generated=true

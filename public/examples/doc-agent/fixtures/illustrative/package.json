@@ -1,0 +1,7 @@
+{
+  "name": "doc-agent-illustrative",
+  "private": true,
+  "scripts": {
+    "test": "node test.mjs"
+  }
+}

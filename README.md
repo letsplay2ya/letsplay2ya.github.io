@@ -1,6 +1,6 @@
 # 전성민 · 개발과 기록
 
-Java 백엔드, React·Vue 프론트엔드, 시스템 전환 경험과 기술 글을 담는 독립 Astro 개인 사이트입니다. AI Agent는 앞으로 추가할 관심 영역으로 표현했습니다.
+Java 백엔드, React·Vue 프론트엔드, 시스템 전환 경험과 기술 글을 담는 독립 Astro 개인 사이트입니다. 문서 검사 Agent는 도구·평가 코드를 구현한 개인 실험이며, 실제 모델 평가는 아직 실행하지 않았습니다.
 
 ## 작업 폴더 열기
 
@@ -31,6 +31,10 @@ npm.cmd run preview
 게시글 예제는 `npm.cmd run test:articles`로 확인합니다. Java 17 이상 JDK의 `javac`·`java`가 PATH에 필요합니다. Java·TypeScript 예제의 검증 범위와 6편 개정·3편 추가 내역은 [게시글 개정 기록](./docs/CONTENT-REVISION.md)에 정리했습니다. 글의 `date`는 최초 작성일이며, 개정한 경우 `updated`에 수정일을 넣습니다.
 
 ## 구조와 글 작성
+
+홈에는 `featured`와 `featuredOrder`로 고른 대표 글을 먼저 보여 줍니다. `archive: true`인 글은 기본 목록과 홈에서 제외하고 `/writing/archive/`에서 제공합니다. 원래 게시글 URL은 유지합니다.
+
+추가 검증은 `npm.cmd run test:review`, `npm.cmd run test:agent`, `npm.cmd run test:data`입니다. 데이터 실습은 Python 3.12와 `public/examples/requirements.txt`의 패키지를 사용했습니다. 다른 Python을 쓰려면 `PYTHON` 환경변수에 실행 파일 경로를 지정합니다. 운영 Oracle·Docker 실행과 실제 모델 평가를 통과했다는 의미는 아닙니다. 상세 범위는 [적용 결과](./docs/DEVELOPMENT-2026-10-16.md)에 있습니다.
 
 ```text
 dev-site/

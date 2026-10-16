@@ -87,7 +87,7 @@ try {
   browser = await chromium.launch({ executablePath: executable, headless: true, args: ['--disable-gpu', '--no-first-run'] });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
   page.on('pageerror', error => errors.push(error.message));
-  for (const route of ['/', '/projects/', '/writing/', '/about/', '/lab/', '/projects/koreanre-ai-assistant/', '/writing/legacy-oracle-install/', '/writing/legacy-thymeleaf-javascript/', '/writing/legacy-vue-component/', '/writing/notes-full-snapshot-api/', '/writing/notes-response-ordering/', '/writing/notes-stable-identity-save/']) {
+  for (const route of ['/', '/projects/', '/writing/', '/about/', '/lab/', '/projects/koreanre-ai-assistant/', '/writing/legacy-oracle-install/', '/writing/legacy-thymeleaf-javascript/', '/writing/legacy-vue-component/', '/writing/archive/', '/writing/legacy-oracle-ch3/', '/writing/legacy-numpy/', '/writing/legacy-plotly-graph/', '/writing/notes-reference-copy/', '/writing/notes-doc-agent/', '/projects/doc-check-agent/', '/writing/notes-full-snapshot-api/', '/writing/notes-response-ordering/', '/writing/notes-stable-identity-save/']) {
     const response = await page.goto(base + route);
     assert.equal(response.status(), 200, route);
     await page.evaluate(() => document.fonts.ready);
@@ -98,10 +98,22 @@ try {
   await page.goto(base + '/');
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: path.join(qa, 'home-desktop.png'), fullPage: true });
+  assert.equal(await page.locator('.selected-writing article').count(),3,'Three curated representative articles');
+  await page.goto(base + '/writing/archive/');
+  assert.equal(await page.locator('.post-row').count(),3,'Consolidated records remain accessible');
+  const externalPlotly=[];
+  const watchPlotly=request=>{if(!request.url().startsWith(base))externalPlotly.push(request.url());};
+  page.on('request',watchPlotly);
+  await page.goto(base + '/examples/plotly/traffic.html');
+  await page.waitForFunction(()=>document.getElementById('traffic-chart')?.data?.length===2);
+  assert.deepEqual(await page.evaluate(()=>document.getElementById('traffic-chart').data.map(trace=>trace.y[3])),[8,10]);
+  await page.screenshot({path:path.join(qa,'plotly-desktop.png'),fullPage:true});
+  page.off('request',watchPlotly);
+  assert.deepEqual(externalPlotly,[],'Standalone Plotly graph has no external runtime requests');
 
   await page.goto(base + '/writing/');
   const allCount = await page.locator('[data-filter-item]:visible').count();
-  const expectedPosts = readdirSync(path.join(dist, 'writing'), { withFileTypes: true }).filter(entry => entry.isDirectory()).length;
+  const expectedPosts = walk(path.join(root,'src/content/posts')).filter(file => /\.mdx?$/.test(file)).filter(file => !/^(?:draft|archive):\s*true\s*$/m.test(readFileSync(file,'utf8'))).length;
   assert.equal(allCount, expectedPosts, 'Every published article is visible before filtering');
   await page.getByRole('searchbox').fill('없는글검증-123456');
   assert.equal(await page.locator('[data-filter-item]:visible').count(), 0);
@@ -114,6 +126,32 @@ try {
 
   await page.goto(base + '/projects/koreanre-ai-assistant/');
   await page.waitForFunction(() => document.querySelector('astro-island') && !document.querySelector('astro-island').hasAttribute('ssr'));
+  const reviewMemo=page.getByRole('textbox',{name:'선택 복사 실험 검토 메모'});
+  await reviewMemo.fill('계약 A 메모 유지');
+  await page.getByRole('button',{name:'이 계약과 비교',exact:true}).click();
+  const copyButton=page.getByRole('button',{name:'복사 적용하기',exact:true});
+  assert.equal(await copyButton.isDisabled(),true);
+  await page.getByRole('checkbox',{name:'참고 상품코드·상품명 선택',exact:true}).check();
+  await copyButton.click();
+  await page.getByRole('button',{name:'취소',exact:true}).click();
+  assert.equal(await page.locator('[aria-label="현재 상품코드"]').innerText(),'DEMO-GL-01');
+  await copyButton.click();
+  await page.getByRole('button',{name:'확인하고 적용',exact:true}).click();
+  assert.equal(await page.locator('[aria-label="현재 상품코드"]').innerText(),'DEMO-GL-02');
+  assert.equal(await page.locator('[aria-label="현재 상품명"]').innerText(),'영업배상 · 샘플');
+  assert.match(await page.locator('[aria-label="현재 보험기간"]').innerText(),/2026-01-01/);
+  assert.equal(await reviewMemo.inputValue(),'계약 A 메모 유지');
+  await page.getByRole('button',{name:'계약 B 열기',exact:true}).click();
+  await page.getByRole('button',{name:'계약 A 열기',exact:true}).click();
+  assert.equal(await reviewMemo.inputValue(),'계약 A 메모 유지');
+  assert.equal(await page.locator('[aria-label="현재 상품코드"]').innerText(),'DEMO-GL-02');
+  await page.locator('.ref-review').screenshot({path:path.join(qa,'reference-review-desktop.png')});
+  await reviewMemo.fill('복사 후 추가 메모');
+  await page.getByRole('button',{name:'마지막 복사 되돌리기',exact:true}).click();
+  assert.equal(await page.locator('[aria-label="현재 상품코드"]').innerText(),'DEMO-GL-01');
+  assert.equal(await reviewMemo.inputValue(),'복사 후 추가 메모');
+  await page.getByText('네 개 탭 구조 보기',{exact:true}).click();
+
   const memo = page.getByRole('textbox', { name: '현재 계약 검토 메모' });
   await memo.fill('검증용 A 메모');
   await page.getByRole('button', { name: '계약 상세정보', exact: true }).click();
@@ -140,6 +178,15 @@ try {
   await page.locator('.workspace-demo').screenshot({ path: path.join(qa, 'workspace-desktop.png') });
 
   await page.goto(base + '/lab/');
+  await page.getByRole('button',{name:'현재 값 검증',exact:true}).click();
+  assert.match(await page.locator('#csv [role="status"]').innerText(),/정상 3건 · 거절 6건/);
+  await page.getByRole('textbox',{name:'행 2 날짜',exact:true}).fill('2026-02-28');
+  await page.getByRole('button',{name:'현재 값 검증',exact:true}).click();
+  assert.match(await page.locator('#csv [role="status"]').innerText(),/정상 4건 · 거절 5건/);
+  await page.getByRole('button',{name:'샘플 복원',exact:true}).click();
+  await page.getByRole('combobox',{name:'살펴볼 사례',exact:true}).selectOption('3');
+  assert.match(await page.locator('#agent [role="status"]').innerText(),/오탐 발생/);
+  await page.locator('#agent').screenshot({path:path.join(qa,'agent-replay-desktop.png')});
   await page.getByRole('button', { name: '계산 요청', exact: true }).click();
   await page.getByRole('button', { name: '50으로 변경', exact: true }).click();
   await page.waitForFunction(() => document.querySelector('.guard-status')?.textContent.includes('제외했습니다'));
@@ -160,10 +207,10 @@ try {
     await page.evaluate(() => document.fonts.ready);
     assert.ok(await page.locator('body').evaluate(body => body.scrollWidth <= innerWidth + 1), `${route}: mobile overflow`);
     if (route === '/') await page.screenshot({ path: path.join(qa, 'home-mobile.png'), fullPage: true });
-    if (route.includes('koreanre-ai-assistant')) await page.locator('.workspace-demo').screenshot({ path: path.join(qa, 'workspace-mobile.png') });
+    if (route.includes('koreanre-ai-assistant')) await page.locator('.ref-review').screenshot({ path: path.join(qa, 'workspace-mobile.png'), style: '.site-header{visibility:hidden}' });
   }
   assert.deepEqual(errors, [], 'Browser runtime errors');
-  writeFileSync(path.join(qa, 'verification.json'), JSON.stringify({ verifiedAt: new Date().toISOString(), htmlFiles: htmlFiles.length, localReferences: links, anchors, legacyRoutes: routes.length, checkedRoutes: checked, desktop: '1440x1000', mobile: '390x844', interactions: ['post-search-and-tags', 'contract-snapshot', 'reference-copy', 'clause-deduplication', 'stale-response-guard', 'matching-response', 'request-reset', 'legacy-redirect-with-fragment'], runtimeErrors: errors }, null, 2) + '\n');
+  writeFileSync(path.join(qa, 'verification.json'), JSON.stringify({ verifiedAt: new Date().toISOString(), htmlFiles: htmlFiles.length, localReferences: links, anchors, legacyRoutes: routes.length, checkedRoutes: checked, desktop: '1440x1000', mobile: '390x844', interactions: ['post-search-and-tags', 'contract-snapshot', 'reference-copy', 'clause-deduplication', 'stale-response-guard', 'matching-response', 'request-reset', 'legacy-redirect-with-fragment','selective-copy-confirm-cancel-undo','csv-correction','agent-false-positive-replay'], runtimeErrors: errors }, null, 2) + '\n');
   console.log('Browser checks passed: search/tags, Vue contract snapshots/copy/clauses, React response guard, legacy redirect, desktop/mobile layout.');
   console.log('Screenshots and verification record: .qa/');
 } finally {

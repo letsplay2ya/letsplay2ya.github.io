@@ -1,0 +1,7 @@
+{
+  "name": "doc-agent-missing-script",
+  "private": true,
+  "scripts": {
+    "dev": "node index.mjs"
+  }
+}

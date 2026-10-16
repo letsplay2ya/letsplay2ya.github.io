@@ -1,0 +1,7 @@
+{
+  "name": "doc-agent-valid",
+  "private": true,
+  "scripts": {
+    "test": "node test.mjs"
+  }
+}

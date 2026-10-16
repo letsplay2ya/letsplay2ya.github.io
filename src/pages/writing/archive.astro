@@ -1,0 +1,7 @@
+---
+import {getCollection} from 'astro:content';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import PostRow from '../../components/PostRow.astro';
+const posts=(await getCollection('posts',p=>!p.data.draft&&p.data.archive)).sort((a,b)=>+b.data.date-+a.data.date);
+---
+<SiteLayout title="글 보관함"><section class="container page-intro"><a class="back-link" href="/writing/">← 기술 글</a><h1>글 보관함</h1><p>다른 글로 내용을 모은 기록과 학습 메모입니다. 기존 주소는 유지했고, 각 글에서 개정한 안내로 이어집니다.</p></section><section class="container listing-section"><div class="post-list">{posts.map(post=><PostRow post={post}/>)}</div></section></SiteLayout>
