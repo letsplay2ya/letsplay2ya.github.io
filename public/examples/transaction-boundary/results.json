@@ -1,0 +1,50 @@
+[
+  {
+    "case": "proxy-runtime",
+    "transactionActive": true,
+    "rowsAfterCall": 0,
+    "error": "IllegalStateException"
+  },
+  {
+    "case": "self-invocation",
+    "transactionActive": false,
+    "rowsAfterCall": 1,
+    "error": "IllegalStateException"
+  },
+  {
+    "case": "raw-instance",
+    "transactionActive": false,
+    "rowsAfterCall": 1,
+    "error": "IllegalStateException"
+  },
+  {
+    "case": "checked-default",
+    "transactionActive": true,
+    "rowsAfterCall": 1,
+    "error": "IOException"
+  },
+  {
+    "case": "checked-rollback-for",
+    "transactionActive": true,
+    "rowsAfterCall": 0,
+    "error": "IOException"
+  },
+  {
+    "case": "caught-inside",
+    "transactionActive": true,
+    "rowsAfterCall": 1,
+    "error": "none"
+  },
+  {
+    "case": "self-with-outer-tx",
+    "transactionActive": true,
+    "rowsAfterCall": 0,
+    "error": "IllegalStateException"
+  },
+  {
+    "case": "caught-other-required",
+    "transactionActive": true,
+    "rowsAfterCall": 0,
+    "error": "UnexpectedRollbackException"
+  }
+]

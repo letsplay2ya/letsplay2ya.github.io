@@ -1,0 +1,47 @@
+[
+  {
+    "file": "spring-aop-6.2.11.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-aop/6.2.11/spring-aop-6.2.11.jar",
+    "sha256": "91e6cd420cd601a34dc41fc33364cfe77d40b6281ee472a0b72d43791f06a1dd"
+  },
+  {
+    "file": "spring-beans-6.2.11.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-beans/6.2.11/spring-beans-6.2.11.jar",
+    "sha256": "f9ba5dedee94947b11d930209ff1a12bbe9e28b1b4f73c5baeba2fb3fe32d08e"
+  },
+  {
+    "file": "spring-core-6.2.11.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-core/6.2.11/spring-core-6.2.11.jar",
+    "sha256": "a1de6ff2d88c05442468360b89f881b77ff7a393b8cd5b1d5758756b2e247f8a"
+  },
+  {
+    "file": "spring-jcl-6.2.11.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-jcl/6.2.11/spring-jcl-6.2.11.jar",
+    "sha256": "a5d92923b658637c62c481dc44eab029afc1b816b10d8d0fda5ed63715f3cf85"
+  },
+  {
+    "file": "spring-jdbc-6.2.11.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-jdbc/6.2.11/spring-jdbc-6.2.11.jar",
+    "sha256": "01e63e0bb60859ba64279998fd1619b4ad8fad0f127cc84271c7652e00ee6a98"
+  },
+  {
+    "file": "spring-tx-6.2.11.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-tx/6.2.11/spring-tx-6.2.11.jar",
+    "sha256": "dd7eb3514a51c91e565a4ca1e7b170f7513b4da56d6f7821ac84cb32dc4fbb16"
+  },
+  {
+    "file": "spring-context-6.2.11.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-context/6.2.11/spring-context-6.2.11.jar",
+    "sha256": "a2c732fce8b24ead7caf4a21a157167bce991048638805cf1277a5ed6a568057"
+  },
+  {
+    "file": "spring-expression-6.2.11.jar",
+    "url": "https://repo.maven.apache.org/maven2/org/springframework/spring-expression/6.2.11/spring-expression-6.2.11.jar",
+    "sha256": "0fd8753b1ad861019ab1e1cedbba82c1354bab0313f0c8509799edd3fc98bbb3"
+  },
+  {
+    "file": "h2-2.3.232.jar",
+    "url": "https://repo.maven.apache.org/maven2/com/h2database/h2/2.3.232/h2-2.3.232.jar",
+    "sha256": "8dae62d22db8982c3dcb3826edb9c727c5d302063a67eef7d63d82de401f07d3"
+  }
+]

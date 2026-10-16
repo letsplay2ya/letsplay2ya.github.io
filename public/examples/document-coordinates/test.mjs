@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import { toHighlightArea, areasForDocument } from './example.mjs';
+const sample = Object.freeze({ ocrId: 'A', pageNo: '2', imgWdtVlu: '1000', imgHgtVlu: '1400', cdntVlu1: '100', cdntVlu2: '280', cdntVlu3: '400', cdntVlu4: '420' });
+assert.deepEqual(toHighlightArea(sample), { pageIndex: 1, left: 10, top: 20, width: 30, height: 10 });
+assert.equal(toHighlightArea({}).pageIndex, 0);
+assert.equal(toHighlightArea({ imgWdtVlu: 0, cdntVlu1: '100' }).left, 100 / 1653 * 100);
+assert.equal(toHighlightArea({ imgWdtVlu: '0', cdntVlu1: '100' }).left, 10000);
+assert.equal(toHighlightArea({ ...sample, cdntVlu3: '50' }).width, -5);
+assert.equal(Number.isNaN(toHighlightArea({ ...sample, pageNo: 'bad' }).pageIndex), true);
+assert.equal(Number.isNaN(toHighlightArea({ ...sample, cdntVlu1: 'bad' }).left), true);
+const points = [sample, { ...sample, ocrId: 'B' }, { ...sample, pageNo: '3' }];
+assert.deepEqual(areasForDocument(points, { id: 'A', previewType: 'pdf' }).map(point => point.pointIndex), [0, 2]);
+assert.deepEqual(areasForDocument(points, { id: 'B', previewType: 'pdf' }).map(point => point.pointIndex), [1]);
+assert.deepEqual(areasForDocument(points, { id: 'A', previewType: 'image' }), []);
+assert.deepEqual(areasForDocument(points, null), []);
+console.log('OCR coordinates: percent transform, page index, document identity, original cursor indices and invalid-input limits verified.');
