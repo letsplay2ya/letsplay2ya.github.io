@@ -6,6 +6,7 @@ import path from 'node:path';
 import { load } from 'cheerio';
 import { chromium } from 'playwright-core';
 import { verifyWorkflowArticles } from './verify-workflow-browser.mjs';
+import { verifyDocuon } from './verify-docuon-browser.mjs';
 import { verifySearchArticles } from './verify-search-browser.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -89,6 +90,7 @@ try {
   browser = await chromium.launch({ executablePath: executable, headless: true, args: ['--disable-gpu', '--no-first-run'] });
   const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
   page.on('pageerror', error => errors.push(error.message));
+  await verifyDocuon(page, base, qa);
   await verifyWorkflowArticles(page, base, qa);
   await verifySearchArticles(page, base, qa);
   for (const route of ['/', '/projects/', '/writing/', '/about/', '/lab/', '/projects/koreanre-ai-assistant/', '/writing/legacy-oracle-install/', '/writing/legacy-thymeleaf-javascript/', '/writing/legacy-vue-component/', '/writing/archive/', '/writing/legacy-oracle-ch3/', '/writing/legacy-numpy/', '/writing/legacy-plotly-graph/', '/writing/notes-reference-copy/', '/writing/notes-doc-agent/', '/projects/doc-check-agent/', '/writing/notes-full-snapshot-api/', '/writing/notes-response-ordering/', '/writing/notes-stable-identity-save/']) {
