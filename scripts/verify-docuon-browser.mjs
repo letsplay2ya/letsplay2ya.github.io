@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import path from 'node:path';
+import { verifyAttachments } from './verify-docuon-attachments.mjs';
+import { verifyProjection } from './verify-docuon-projection.mjs';
 
 const desktop = { width: 1440, height: 1000 };
 const mobile = { width: 390, height: 844 };
@@ -7,6 +9,8 @@ const projectPath = '/projects/docuon/';
 const articlePaths = ['/writing/docuon-registration/', '/writing/docuon-transfer-review/'];
 
 export async function verifyDocuon(page, base, qa) {
+  await verifyAttachments(page, base);
+  await verifyProjection(page, base, qa);
   const demo = page.locator('#transfer-demo');
   const panel = demo.locator('.console');
   const modal = demo.getByRole('dialog');
