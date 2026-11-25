@@ -27,7 +27,7 @@ const notes = await getCollection('posts', post => !post.data.draft && post.data
       <p>{project.data.description}</p>
     </header>
     <div class="project-facts">
-      <div><small>ROLE</small><span>{project.data.role}</span></div>
+      <div><small>{project.data.scope ? '구현 범위' : '역할'}</small><span>{project.data.scope ?? project.data.role}</span></div>
       <div><small>FOCUS</small><span>{project.data.category}</span></div>
       <div><small>TECHNOLOGIES</small><div class="tags">{project.data.tags.map(tag => <span>{tag}</span>)}</div></div>
     </div>
