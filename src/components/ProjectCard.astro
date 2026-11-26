@@ -1,20 +1,13 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import { casePreviews } from '../data/casePreviews';
 interface Props { project: CollectionEntry<'projects'>; featured?: boolean; }
 const { project, featured = false } = Astro.props;
-const previews: Record<string, { src: string; height: number; caption: string }> = {
-  'koreanre-ai-assistant': {
-    src: '/assets/koreanre-reference-review.png', height: 938, caption: '선택 복사 실행 예제 · 가상 데이터',
-  },
-  docuon: {
-    src: '/assets/docuon-transfer-review.png', height: 377, caption: '첨부별 조회와 문서별 합계 · 가상 데이터',
-  },
-};
-const preview = previews[project.id];
+const preview = casePreviews[project.id];
 ---
 <a class:list={['project-card', { featured }]} href={`/projects/${project.id}/`}>
   {preview ? <div class="project-preview" aria-hidden="true">
-    <img src={preview.src} alt="" width="1180" height={preview.height} loading="lazy" />
+    <img src={preview.src} alt="" width="860" height="440" loading="lazy" />
     <div class="preview-caption">{preview.caption}</div>
   </div> : <div class="project-preview project-preview-generic" aria-hidden="true"><span class="eyebrow">{project.data.category}</span><strong>{project.data.title}</strong><span>{project.data.tags.slice(0,3).join(' / ')}</span></div>}
   <div class="project-card-copy"><div class="meta-line"><span>{project.data.category}</span><span>{project.data.scope ?? project.data.role}</span></div><h3>{project.data.title}</h3><p>{project.data.description}</p>{project.data.highlights.length > 0 && <ul class="project-card-points">{project.data.highlights.slice(0,3).map(point => <li>{point}</li>)}</ul>}<div class="tags">{project.data.tags.map(tag => <span>{tag}</span>)}</div><span class="text-link">화면과 구현 살펴보기 <span>↗</span></span></div>

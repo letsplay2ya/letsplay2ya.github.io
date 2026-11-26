@@ -30,6 +30,9 @@ npm.cmd run preview
 
 게시글 예제는 `npm.cmd run test:articles`로 확인합니다. Java 17 이상 JDK의 `javac`·`java`가 PATH에 필요합니다. Java·TypeScript 예제의 검증 범위와 6편 개정·3편 추가 내역은 [게시글 개정 기록](./docs/CONTENT-REVISION.md)에 정리했습니다. 글의 `date`는 최초 작성일이며, 개정한 경우 `updated`에 수정일을 넣습니다.
 
+경력 요약이나 프로젝트 비교 화면을 수정하면 `npm.cmd run build` → `npm.cmd run portfolio:assets` → `npm.cmd run build` 순서로 PDF와 썸네일을 갱신합니다.
+Edge·Chrome 경로는 `BROWSER_PATH`로 지정할 수 있으며, PDF 링크의 기본 주소는 `https://letsplay2ya.github.io`입니다.
+
 ## 구조와 글 작성
 
 홈에는 `featured`와 `featuredOrder`로 고른 대표 글을 먼저 보여 줍니다. `archive: true`인 글은 기본 목록과 홈에서 제외하고 `/writing/archive/`에서 제공합니다. 원래 게시글 URL은 유지합니다.

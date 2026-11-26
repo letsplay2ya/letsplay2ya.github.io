@@ -1,45 +1,80 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 ---
-<SiteLayout title="경력 소개" description="2023년 5월 개발 경력을 시작한 전성민의 경력 요약. 코리안리 보험료 산정과 DocuON 전자문서 처리 사례를 소개합니다.">
-  <article class="container article-shell career-profile">
-    <header class="article-heading">
-      <h1>전성민</h1>
-      <p>Java 백엔드와 React·Vue 프론트엔드를 개발합니다. 2023년 5월 개발자로 첫 경력을 시작했습니다.</p>
+<SiteLayout title="전성민 경력 요약" description="2023년 5월 개발 경력을 시작한 전성민. 보험 인수 시스템과 전자문서센터의 화면, Java 서비스와 프로젝트 사례.">
+  <article class="container career-sheet career-profile">
+    <header class="career-head">
+      <div>
+        <h1>전성민</h1>
+        <p class="career-job">웹 애플리케이션 개발자</p>
+      </div>
+      <div class="career-info">
+        <span>개발 경력 시작 <time datetime="2023-05">2023. 05</time></span>
+        <a href="https://letsplay2ya.github.io/">letsplay2ya.github.io</a>
+      </div>
     </header>
-    <div class="prose">
-      <h2>주요 프로젝트</h2>
+    <p class="career-intro">Java로 백엔드를, React와 Vue로 업무 화면을 개발합니다. 코리안리에서는 보험 심사 담당자의 계약 검토 화면을 맡았고, DocuON에서는 전자문서를 맡기고 발급받는 업무를 다뤘습니다.</p>
+    <section class="career-work" aria-labelledby="career-work-title">
+      <h2 id="career-work-title">프로젝트 경험</h2>
       <section>
         <h3><a href="/projects/koreanre-ai-assistant/">코리안리 특종보험 요율산정 AI Assistant 시스템</a></h3>
-        <p>인수 담당자가 접수 서류를 대조하고 여러 조건의 견적을 비교하는 프론트엔드 전반을 담당했습니다. 임원배상책임보험에서는 보상한도·자기부담금·약관으로 보험료 후보를 만들고, 선택한 조건의 금액만 표에 표시합니다. 저장할 때는 후보 전체를 목적물별로 모아 탭 순서가 달라져도 같은 목적물에 연결합니다.</p>
-        <p>Spring 서비스는 계약을 잠근 뒤 저장 가능한 상태인지 확인하고, 기본정보·상품별 담보·약관을 한 트랜잭션으로 기록합니다. 외부 인수 시스템으로 전송할 때는 저장한 최신 견적을 다시 읽으며, 실패한 단계에 따라 복구할 상태를 결정합니다.</p>
+        <p class="career-meta">프론트엔드 전반 담당 · React, TypeScript, Zustand, AG Grid / Java, Spring Boot, MyBatis</p>
+        <ul>
+          <li><strong>계약 검토.</strong> 이전 계약을 옆에 열고 필요한 값만 가져오는 화면을 구현했습니다. 상품을 고르면 코드·표시명·국내외 구분이 함께 바뀌고, 선택하지 않은 보험기간과 작성 중인 값은 유지됩니다.</li>
+          <li><strong>보험료 비교.</strong> 임원배상책임보험에서 담보와 약관 조합별 견적을 계산하고, 선택한 한도와 자기부담금에 맞는 결과를 보여줍니다. 저장할 때는 전체 후보를 목적물별로 연결합니다.</li>
+          <li><strong>계약 저장과 전송.</strong> Spring 서비스는 수정 전 계약을 이력에 남기고, 변경한 내용을 같은 계약의 최신본으로 저장합니다. 외부 인수 시스템에 전송하는 경로에서는 상대 시스템에서 받은 목적물 번호를 후속 요율 데이터에 연결합니다.</li>
+        </ul>
       </section>
       <section>
         <h3><a href="/projects/docuon/">DocuON 공인전자문서센터</a></h3>
-        <p>전자문서를 보관·발급하는 Vue 기반 업무 시스템 개발에 참여했습니다. 포털에서 PDF와 사진을 한 문서로 맡기면 열람할 때는 파일 하나를 선택하고, 원본 발급 시에는 여러 파일을 ZIP으로 받습니다. 이관 시에는 첨부별 이력을 남기면서 운영자가 문서 이관 신청 한 건을 심사합니다.</p>
-        <p>관리자 정산 화면의 파일명 검색에서도 이 구분이 중요합니다. Java 서비스와 MyBatis 조회는 검색에 맞는 문서를 먼저 고르고, 그 문서의 첨부 전체를 합산합니다. 사진 이름으로 찾아도 함께 보관한 PDF의 용량이 빠지지 않습니다.</p>
+        <p class="career-meta">Vue 프론트엔드 개발 참여 · Vue, Pinia, Vuetify / Java, Spring Boot, MyBatis</p>
+        <ul>
+          <li><strong>문서 보관과 발급.</strong> 포털에서 여러 첨부를 한 문서로 등록합니다. 원본 발급은 문서와 보관 패키지를 지정하고, 증명서 발급은 사용자가 선택한 처리 이력 한 건과 해당 유형의 정책을 기준으로 합니다.</li>
+          <li><strong>운영과 정산.</strong> 이관 심사는 신청 단위로 처리하고 대상 첨부의 이력을 남깁니다. 정산 조회에서는 파일명에 맞는 문서를 먼저 찾고 전체 첨부를 합산해, 사진만 검색해도 함께 보관한 PDF의 용량이 포함됩니다.</li>
+        </ul>
       </section>
-      <h2>관심 직무</h2>
-      <p>금융·보험 업무 시스템과 기업용 서비스에서 복잡한 입력, 심사, 저장 과정을 다루는 웹 개발에 관심이 있습니다. WebSquare와 eXBuilder는 시스템 전환 작업에서 접했고, 최근에는 도구를 호출하는 Agent의 검사 결과를 평가하는 개인 실험을 하고 있습니다.</p>
-      <p class="profile-actions"><button type="button" onclick="window.print()">경력 요약 인쇄 · PDF 저장</button><a href="/projects/doc-check-agent/">Agent 실험 보기 →</a></p>
-    </div>
+    </section>
+    <section class="career-interests">
+      <h2>관심 분야</h2>
+      <p>금융·보험 업무 시스템과 기업용 웹 서비스 개발에 관심이 있습니다. 전환 프로젝트에서 WebSquare와 eXBuilder를 접했고, 개인 실험으로 도구를 호출하는 Agent의 결과를 평가하고 있습니다. <a href="/projects/doc-check-agent/">Agent 실험 기록 ↗</a></p>
+    </section>
+    <div class="career-actions profile-actions"><a class="primary-link" href="/files/seongmin-jeon-profile.pdf" download>경력 요약 PDF 다운로드 <span aria-hidden="true">↓</span></a><button type="button" onclick="window.print()">인쇄</button></div>
   </article>
 </SiteLayout>
-
 <style>
-  .career-profile { max-width: 800px; }
-  .career-profile h3 { margin-bottom: .5rem; }
-  .profile-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem; }
-  .profile-actions button { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: .45rem .8rem; }
+  .career-sheet { max-width: 850px; padding-block: clamp(35px,6vw,70px); }
+  .career-head { display: flex; justify-content: space-between; align-items: end; gap: 15px; padding-bottom: 22px; border-bottom: 2px solid var(--ink); }
+  .career-head h1 { margin: 0; font-size: clamp(35px,5vw,54px); }
+  .career-job { margin: 3px 0 0; font-size: 17px; }
+  .career-info { display: grid; text-align: right; font-size: 13px; color: var(--muted); }
+  .career-info time { color: var(--ink); margin-left: .4em; }
+  .career-info a, .career-interests a { text-decoration: underline; text-underline-offset: .2em; }
+  .career-intro { max-width: 700px; margin: 24px 0 36px; font-size: 17px; line-height: 1.85; }
+  .career-sheet h2 { margin: 0; font-size: 15px; font-weight: 650; color: var(--green); }
+  .career-work section { padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .career-work h3 { margin: 0; font-size: clamp(19px,3vw,24px); }
+  .career-work h3 a:hover { text-decoration: underline; }
+  .career-meta { margin: 6px 0 12px; font-size: 13px; color: var(--muted); }
+  .career-work ul { padding-left: 1.2em; margin: 0; }
+  .career-work li { padding-left: .15em; margin-block: 6px; }
+  .career-interests { padding-top: 22px; }
+  .career-interests p { margin-block: 7px 0; }
+  .career-actions { display: flex; gap: 18px; align-items: center; margin-top: 24px; }
+  .career-actions button { border: 0; background: transparent; text-decoration: underline; }
+  @media(max-width: 430px) { .career-head { align-items: start; flex-direction: column; } .career-info { text-align: left; } }
   @media print {
-    @page { size: A4; margin: 19mm; }
-    .career-profile { max-width: none; padding: 0; }
-    .career-profile .article-heading { margin: 0 0 5mm; padding: 0; }
-    .career-profile h1 { font-size: 25pt; }
-    .career-profile .prose, .career-profile p { font-size: 10.5pt; line-height: 1.65; }
-    .career-profile h2 { font-size: 15pt; margin: 6mm 0 3mm; }
-    .career-profile h3 { font-size: 12pt; margin: 3mm 0 1.5mm; }
-    .career-profile section { break-inside: avoid; }
-    .profile-actions { display: none; }
+    @page { size: A4; margin: 18mm 18mm 16mm; }
+    .career-sheet { width: 100%; max-width: none; padding: 0; font-size: 10.7pt; line-height: 1.64; }
+    .career-head { padding-bottom: 4mm; }
+    .career-head h1 { font-size: 27pt; }
+    .career-job { font-size: 12pt; }
+    .career-info, .career-meta { font-size: 9pt; }
+    .career-intro { margin: 5mm 0 7mm; font-size: 11pt; }
+    .career-sheet h2 { font-size: 10.5pt; }
+    .career-work section { padding-block: 4mm; break-inside: avoid; }
+    .career-work h3 { font-size: 15pt; }
+    .career-work li { margin-block: 1.5mm; }
+    .career-interests { padding-top: 5mm; }
+    .career-actions, :global(.skip-link) { display: none; }
   }
 </style>

@@ -2,23 +2,70 @@
 import { getCollection } from 'astro:content';
 import SiteLayout from '../layouts/SiteLayout.astro';
 import { postTopics } from '../lib/topics';
-const projects = (await getCollection('projects', p => !p.data.draft && p.data.status === 'case-study')).sort((a,b) => a.data.order-b.data.order);
-const posts = (await getCollection('posts', p => !p.data.draft && !p.data.archive)).sort((a,b) => +(b.data.updated ?? b.data.date)-+(a.data.updated ?? a.data.date) || +b.data.date-+a.data.date);
+import { casePreviews } from '../data/casePreviews';
+const projects = (await getCollection('projects', p => !p.data.draft && p.data.status === 'case-study'))
+  .sort((a,b) => a.data.order-b.data.order);
+const posts = (await getCollection('posts', p => !p.data.draft && !p.data.archive))
+  .sort((a,b) => +(b.data.updated ?? b.data.date)-+(a.data.updated ?? a.data.date) || +b.data.date-+a.data.date);
 const selected = posts.filter(p => p.data.featured).sort((a,b) => a.data.featuredOrder-b.data.featuredOrder);
 const recent = posts.filter(p => !p.data.featured).slice(0,4);
 const formatDate = (date: Date) => date.toISOString().slice(0,10).replaceAll('-', '.');
 ---
-<SiteLayout>
- <div class="journal-home">
-  <section class="journal-intro" aria-labelledby="home-name">
-    <h1 id="home-name">전성민</h1>
-    <p>2023년 5월 개발자로 일을 시작했습니다. Java로 백엔드를, React와 Vue로 업무 화면을 개발합니다.</p>
-    <p class="journal-interest">보험 견적에서 화면에 보이는 두 줄과 저장해야 할 네 줄이 다른 이유, 전자문서센터에서 파일 두 개를 이관 신청 한 건으로 심사하는 과정을 기록했습니다.</p>
-    <a class="journal-about" href="/about/">경력 요약 보기 →</a>
-  </section>
-  <section id="selected-work" class="journal-section" aria-labelledby="home-projects"><div class="journal-heading"><h2 id="home-projects">업무 프로젝트</h2><a href="/projects/">전체 보기 →</a></div><div class="journal-projects">{projects.map(project=><article class="journal-project"><div class="journal-project-meta">{project.data.category}<span>·</span>{project.data.scope ?? project.data.role}</div><h3><a href={`/projects/${project.id}/`}>{project.data.title}<span aria-hidden="true"> ↗</span></a></h3><p>{project.data.description}</p><div class="journal-project-tags">{project.data.tags.slice(0,4).join(' · ')}</div></article>)}</div></section>
-  <section class="journal-section" aria-labelledby="selected-posts"><div class="journal-heading"><h2 id="selected-posts">먼저 읽어볼 글</h2><a href="/writing/">전체 글 →</a></div><div class="selected-writing">{selected.map(post=><article><h3><a href={`/writing/${post.id}/`}>{post.data.title}</a></h3><p>{post.data.description}</p></article>)}</div></section>
-  <section class="journal-section" aria-labelledby="recent-posts"><div class="journal-heading"><h2 id="recent-posts">최근 작성·수정한 글</h2><a href="/writing/">글 목록 →</a></div><div class="journal-posts">{recent.map(post=><article class="journal-post"><a href={`/writing/${post.id}/`}><div class="journal-post-meta"><time datetime={(post.data.updated??post.data.date).toISOString()}>{post.data.updated?'수정 ':''}{formatDate(post.data.updated??post.data.date)}</time><span>{postTopics(post)[0]}</span></div><h3>{post.data.title}</h3><p>{post.data.description}</p></a></article>)}</div><p class="archive-note"><a href="/writing/archive/">통합한 글과 과거 학습 메모는 보관함에서 볼 수 있습니다 →</a></p></section>
-  <aside class="journal-lab"><a href="/lab/"><span>직접 확인하는 예제</span><strong>CSV 오류 수정 · 계약 선택 복사 · Agent 검사 기록 →</strong><p>코드와 설명만으로 놓치기 쉬운 동작을 살펴볼 수 있습니다.</p></a></aside>
- </div>
+<SiteLayout description="전성민의 개발 포트폴리오. 코리안리 계약 비교와 보험료 산정, DocuON 전자문서 발급과 이관을 화면과 Java 서비스로 살펴봅니다.">
+  <div class="journal-home portfolio-home">
+    <header class="home-intro">
+      <div><h1>전성민</h1><p>Java와 React·Vue로 금융·문서 업무 시스템을 개발합니다.</p></div>
+      <a href="/about/">경력 요약 <span aria-hidden="true">↗</span></a>
+    </header>
+    <section id="selected-work" class="journal-section" aria-labelledby="home-projects">
+      <div class="journal-heading"><h2 id="home-projects">업무 프로젝트</h2><a href="/projects/">전체 프로젝트 →</a></div>
+      <div class="case-grid">
+        {projects.map(project => {
+          const preview = casePreviews[project.id];
+          return <article class="home-case">
+            <h3><a href={`/projects/${project.id}/`}>{preview?.title ?? project.data.title}<span aria-hidden="true"> ↗</span></a></h3>
+            <p class="case-summary">{project.data.description}</p>
+            {preview && <figure class="case-preview">
+              <img src={preview.src} alt="" width="860" height="440" loading="eager" />
+              <figcaption>{preview.caption}</figcaption>
+            </figure>}
+            <p class="case-meta">{project.data.role}<span aria-hidden="true">·</span>{project.data.tags.slice(0,4).join(' / ')}</p>
+          </article>;
+        })}
+      </div>
+    </section>
+    <div class="reading">
+      <section class="journal-section" aria-labelledby="selected-posts">
+        <div class="journal-heading"><h2 id="selected-posts">먼저 읽어볼 글</h2><a href="/writing/">전체 글 →</a></div>
+        <div class="selected-writing">{selected.map(post=><article><h3><a href={`/writing/${post.id}/`}>{post.data.title}</a></h3><p>{post.data.description}</p></article>)}</div>
+      </section>
+      <section class="journal-section" aria-labelledby="recent-posts">
+        <div class="journal-heading"><h2 id="recent-posts">최근 작성·수정한 글</h2><a href="/writing/">글 목록 →</a></div>
+        <div class="journal-posts">{recent.map(post=><article class="journal-post"><a href={`/writing/${post.id}/`}><div class="journal-post-meta"><time datetime={(post.data.updated??post.data.date).toISOString()}>{post.data.updated?'수정 ':''}{formatDate(post.data.updated??post.data.date)}</time><span>{postTopics(post)[0]}</span></div><h3>{post.data.title}</h3><p>{post.data.description}</p></a></article>)}</div>
+        <p class="archive-note"><a href="/writing/archive/">과거 학습 메모 보관함 →</a></p>
+      </section>
+      <aside class="journal-lab"><a href="/lab/"><strong>실험실 →</strong><p>CSV 오류 수정, 비동기 응답 처리, 문서 검사 Agent 실행 기록</p></a></aside>
+    </div>
+  </div>
 </SiteLayout>
+<style>
+  .portfolio-home { width: min(1050px,calc(100% - 64px)); padding-top: clamp(34px,5vw,70px); }
+  .home-intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: clamp(32px,4vw,54px); }
+  .home-intro h1 { margin: 0 0 7px; font-size: clamp(36px,4.4vw,58px); line-height: 1.1; }
+  .home-intro p { font-size: clamp(16px,2vw,21px); margin: 0; }
+  .home-intro a { font-size: 14px; font-weight: 600; border-bottom: 1px solid var(--ink); white-space: nowrap; }
+  .case-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: clamp(18px,3vw,40px); }
+  .home-case { position: relative; display: flex; flex-direction: column; padding: 21px 0 18px; border-bottom: 1px solid var(--line); min-width: 0; }
+  .home-case h3 { margin: 0 0 8px; font-size: clamp(19px,2.2vw,26px); }
+  .home-case h3 a::after { content: ''; position: absolute; inset: 0; }
+  .home-case h3 span { color: var(--green); font-size: .7em; }
+  .home-case:focus-within { outline: 2px solid var(--accent); outline-offset: 4px; }
+  .home-case:hover h3 { color: var(--green); text-decoration: underline; text-underline-offset: .15em; }
+  .case-summary { color: var(--muted); font-size: 15px; line-height: 1.7; margin: 0 0 16px; }
+  .case-preview { margin: auto 0 0; }
+  .case-preview img { width: 100%; height: auto; aspect-ratio: 43/22; object-fit: contain; background: #ffffff; border: 1px solid var(--line); display: block; }
+  .case-preview figcaption { margin-top: 5px; font-size: 11px; color: var(--muted); }
+  .case-meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 9px 0 0; font-size: 12px; }
+  .reading { max-width: 760px; }
+  @media(max-width:680px) { .portfolio-home { width: calc(100% - 40px); } .case-grid { grid-template-columns: 1fr; gap: 0; } .home-intro { display: block; } .home-intro a { margin-top: 13px; display: inline-block; } .case-meta { font-size: 11px; } }
+</style>

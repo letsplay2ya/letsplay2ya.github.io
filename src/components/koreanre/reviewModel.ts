@@ -1,10 +1,10 @@
-export type Contract = { id: string; product: {code: string; name: string}; period: {from: string; to: string}; territory: {code: string; name: string}; memo: string };
+export type Contract = { id: string; product: {code: string; name: string; division: string}; period: {from: string; to: string}; territory: {code: string; name: string}; memo: string };
 export type CopyKey = 'product' | 'period' | 'territory';
 export const labels: Record<CopyKey,string> = {product:'상품코드·상품명',period:'보험기간',territory:'담보지역'};
-export const reference: Contract = {id:'REF-001',product:{code:'DEMO-GL-02',name:'영업배상 · 샘플'},period:{from:'2026-02-01',to:'2027-01-31'},territory:{code:'KR',name:'대한민국'},memo:'샘플 참고 계약'};
+export const reference: Contract = {id:'REF-001',product:{code:'DEMO-GL-02',name:'영업배상 · 샘플',division:'해외'},period:{from:'2026-02-01',to:'2027-01-31'},territory:{code:'KR',name:'대한민국'},memo:'샘플 참고 계약'};
 export const initialContracts: Contract[] = [
- {id:'A',product:{code:'DEMO-GL-01',name:'시설배상 · 샘플'},period:{from:'2026-01-01',to:'2026-12-31'},territory:{code:'ALL',name:'전 세계 · 샘플'},memo:'계약 A의 검토 메모'},
- {id:'B',product:{code:'DEMO-GL-03',name:'생산물배상 · 샘플'},period:{from:'2026-03-01',to:'2027-02-28'},territory:{code:'KR',name:'대한민국'},memo:'계약 B의 검토 메모'},
+ {id:'A',product:{code:'DEMO-GL-01',name:'시설배상 · 샘플',division:'국내'},period:{from:'2026-01-01',to:'2026-12-31'},territory:{code:'ALL',name:'전 세계 · 샘플'},memo:'계약 A의 검토 메모'},
+ {id:'B',product:{code:'DEMO-GL-03',name:'생산물배상 · 샘플',division:'국내'},period:{from:'2026-03-01',to:'2027-02-28'},territory:{code:'KR',name:'대한민국'},memo:'계약 B의 검토 메모'},
 ];
 export function applySelection(current: Contract, source: Contract, keys: CopyKey[], expectedId: string): Contract {
  if(current.id !== expectedId) throw new Error('복사 대상 계약이 변경되었습니다.');
@@ -18,4 +18,8 @@ export function applySelection(current: Contract, source: Contract, keys: CopyKe
  }
  return next;
 }
-export const showValue=(contract: Contract,key: CopyKey): string => key==='period' ? contract.period.from+' ~ '+contract.period.to : contract[key].code+' / '+contract[key].name;
+export const showValue=(contract: Contract,key: CopyKey): string => {
+ if(key==='period') return contract.period.from+' ~ '+contract.period.to;
+ if(key==='product') return [contract.product.code,contract.product.name,contract.product.division].join(' / ');
+ return contract.territory.code+' / '+contract.territory.name;
+};
