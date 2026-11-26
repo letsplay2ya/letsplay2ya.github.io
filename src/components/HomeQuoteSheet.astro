@@ -1,0 +1,41 @@
+---
+import { buildCandidates, visibleCandidates } from '../../public/examples/quote-save/model.mjs';
+const candidates = buildCandidates();
+const displayed = new Set(visibleCandidates(candidates, 'x').map((row: { id: string }) => row.id));
+---
+<figure class="quote-plate" data-quote-sheet aria-label="가상 견적의 화면 표시와 저장 대상 비교">
+  <div class="quote-stage">
+    <div class="casefile-label"><span>보험료 산정표</span><span>임원배상책임보험</span></div>
+    <div class="quote-back" aria-hidden="true"></div>
+    <div class="quote-paper">
+      <div class="paper-head"><div><span class="paper-label">가상 견적</span><strong data-quote-title>화면에 표시할 후보</strong></div><div class="paper-count" aria-hidden="true"><b data-quote-count>{displayed.size}</b><small>개</small></div></div>
+      <table aria-label="담보와 약관별 보험료 후보"><thead><tr><th scope="col">담보</th><th scope="col">비교 약관</th><th scope="col">예시 보험료</th></tr></thead>
+      <tbody>{candidates.map(row => <tr data-shown={displayed.has(row.id) ? 'yes' : 'no'} hidden={!displayed.has(row.id)}><td>{row.coverage === 'general' ? '일반 담보' : '추가 담보 X'}</td><td>{row.clauseIncluded ? '포함' : '제외'}</td><td>{row.amount}만 원</td></tr>)}</tbody></table>
+      <p class="paper-note" data-quote-note>선택한 한도·부담금에 맞는 행을 표시합니다.</p>
+    </div>
+  </div>
+  <figcaption class="quote-tools"><div role="group" aria-label="후보를 볼 범위"><button type="button" data-quote-view="display" aria-controls="quote-status" aria-pressed="true">화면 표시</button><button type="button" data-quote-view="save" aria-controls="quote-status" aria-pressed="false">저장 대상</button></div><span id="quote-status" aria-live="polite">추가 담보 X · 후보 {displayed.size}개</span></figcaption>
+</figure>
+<script>
+  for (const panel of document.querySelectorAll<HTMLElement>('[data-quote-sheet]')) {
+    const buttons = panel.querySelectorAll<HTMLButtonElement>('[data-quote-view]');
+    const rows = panel.querySelectorAll<HTMLTableRowElement>('tbody tr');
+    const count = panel.querySelector<HTMLElement>('[data-quote-count]')!;
+    const heading = panel.querySelector<HTMLElement>('[data-quote-title]')!;
+    const note = panel.querySelector<HTMLElement>('[data-quote-note]')!;
+    const status = panel.querySelector<HTMLElement>('[aria-live]')!;
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        const saving = button.dataset.quoteView === 'save';
+        for (const row of rows) row.hidden = !saving && row.dataset.shown !== 'yes';
+        const total = Array.from(rows).filter(row => !row.hidden).length;
+        for (const item of buttons) item.setAttribute('aria-pressed', String(item === button));
+        count.textContent = String(total);
+        heading.textContent = saving ? '저장할 후보' : '화면에 표시할 후보';
+        note.textContent = saving ? '같은 목적물에 속한 후보 전체를 보냅니다.' : '선택한 한도·부담금에 맞는 행을 표시합니다.';
+        status.textContent = (saving ? '현재 목적물 전체' : '추가 담보 X') + ' · 후보 ' + total + '개';
+        panel.classList.toggle('show-save', saving);
+      });
+    }
+  }
+</script>

@@ -1,0 +1,193 @@
+---
+import sampleRecords from '../../../public/examples/document-billing/records.json';
+import { billingSize } from './billingSize';
+
+interface SampleDocument {
+  id: string;
+  title: string;
+  files: { name: string; bytes: number }[];
+}
+const records: SampleDocument[] = sampleRecords;
+const initialQuery = '사진';
+const documents = records.map(record => {
+  const matches = record.files.filter(file => file.name.includes(initialQuery));
+  return { ...record, matches, total: record.files.reduce((sum, f) => sum + f.bytes, 0) };
+});
+const found = documents.filter(doc => doc.matches.length);
+const hits = found.flatMap(doc => doc.matches);
+---
+<section id="billing-workbench" class="billing-workbench" aria-labelledby="billing-title">
+  <header class="billing-intro">
+    <span>DocuON <i aria-hidden="true">/</i> 정산 조회</span>
+    <h2 id="billing-title">사진 한 장을 찾았는데 왜 1.25 MiB일까?</h2>
+    <p>운영자가 파일명을 입력하면 문서가 검색됩니다. 아래 목록에서 어떤 파일이 문서를 찾아냈고, 어떤 파일까지 정산에 들어가는지 확인할 수 있습니다.</p>
+  </header>
+  <div class="billing-desk">
+    <div class="billing-search" role="search" aria-label="가상 문서의 첨부 파일명 검색">
+      <div>
+        <label for="billing-query">첨부 파일명</label>
+        <input id="billing-query" type="search" value={initialQuery} placeholder="예: 사진, 점검, 인수" autocomplete="off" />
+      </div>
+      <div class="billing-presets" role="group" aria-label="예시 검색어">
+        <button type="button" data-query="사진" aria-pressed="true">사진</button>
+        <button type="button" data-query="점검" aria-pressed="false">점검</button>
+        <button type="button" data-query="" aria-pressed="false">전체</button>
+      </div>
+    </div>
+    <noscript><p class="billing-noscript">현재 ‘사진’ 검색 결과입니다. 다른 검색어를 적용하려면 JavaScript를 켜 주세요.</p></noscript>
+    <div class="billing-summary">
+      <div class="matched-stat">
+        <span>검색에 일치한 파일</span>
+        <strong id="billing-filtered-size">{billingSize(hits.reduce((sum, f) => sum + f.bytes, 0))}</strong>
+        <small id="billing-file-count">{hits.length}개 파일</small>
+      </div>
+      <div class="settled-stat">
+        <span>선택된 문서의 정산 용량</span>
+        <strong id="billing-total-size">{billingSize(found.reduce((sum, doc) => sum + doc.total, 0))}</strong>
+        <small id="billing-doc-count">{found.length}건의 문서</small>
+      </div>
+    </div>
+    <div class="billing-documents">
+      {documents.map(doc => (
+        <details class="billing-document" open hidden={!doc.matches.length} data-total={doc.total}>
+          <summary>
+            <span class="document-id">{doc.id}</span><strong>{doc.title}</strong>
+            <span class="document-total">{billingSize(doc.total)}</span>
+          </summary>
+          <ul>
+            {doc.files.map(file => (
+              <li data-name={file.name} data-bytes={file.bytes} data-hit={String(file.name.includes(initialQuery))}>
+                <span class="billing-filename">{file.name}</span>
+                <span class="billing-reason">{file.name.includes(initialQuery) ? '검색과 일치' : '같은 문서에 보관'}</span>
+                <b>{billingSize(file.bytes)}</b>
+              </li>
+            ))}
+          </ul>
+        </details>
+      ))}
+      <p class="billing-empty" hidden>일치하는 첨부 파일이 없습니다. 검색어를 지우면 보관한 문서를 모두 볼 수 있습니다.</p>
+    </div>
+    <p class="billing-caption">가상 문서 3건 · 파일명 부분 일치 · 1 MiB = 1,048,576바이트</p>
+    <p class="billing-sr" role="status" id="billing-status" aria-atomic="true"></p>
+  </div>
+  <details class="billing-proof">
+    <summary>SQL로 같은 합계 확인하기</summary>
+    <div><p>관리자 Vue 화면은 파일명을 검색 조건으로 넘깁니다. Oracle용 MyBatis 조회는 일치하는 첨부가 있는 문서를 찾아 문서 단위로 페이지를 나눈 뒤, 그 페이지의 문서에 속한 파일 크기를 모두 합합니다.</p>
+    <p>공개 예제는 이 순서를 SQLite로 옮겼습니다. 압축을 풀고 <code>python verify.py</code>를 실행하면 빈 검색, 중복 일치, 문서 단위 페이지 등 7개 조건을 검사합니다.</p>
+    <div class="billing-downloads"><a href="/examples/document-billing/billing.sql">조회 SQL 보기 ↗</a><a href="/examples/document-billing/document-billing.zip" download>가상 데이터·SQL·테스트 받기 ↓</a></div></div>
+  </details>
+</section>
+
+<script>
+  import { billingSize } from './billingSize';
+  const panel = document.querySelector<HTMLElement>('#billing-workbench');
+  if (panel) {
+    const query = panel.querySelector<HTMLInputElement>('#billing-query')!;
+    const presets = [...panel.querySelectorAll<HTMLButtonElement>('[data-query]')];
+    const documents = [...panel.querySelectorAll<HTMLDetailsElement>('.billing-document')];
+    const filteredSize = panel.querySelector<HTMLElement>('#billing-filtered-size')!;
+    const totalSize = panel.querySelector<HTMLElement>('#billing-total-size')!;
+    const fileCount = panel.querySelector<HTMLElement>('#billing-file-count')!;
+    const docCount = panel.querySelector<HTMLElement>('#billing-doc-count')!;
+    const empty = panel.querySelector<HTMLElement>('.billing-empty')!;
+    const status = panel.querySelector<HTMLElement>('#billing-status')!;
+
+    function displayResults() {
+      const term = query.value.trim();
+      let count = 0;
+      let documentCount = 0;
+      let matchingBytes = 0;
+      let storedBytes = 0;
+      for (const document of documents) {
+        let found = term.length === 0;
+        for (const row of document.querySelectorAll<HTMLElement>('[data-name]')) {
+          const hit = row.dataset.name!.includes(term);
+          row.dataset.hit = String(hit);
+          row.querySelector('.billing-reason')!.textContent = hit ? '검색과 일치' : '같은 문서에 보관';
+          if (hit) {
+            count++;
+            matchingBytes += Number(row.dataset.bytes);
+            found = true;
+          }
+        }
+        document.hidden = !found;
+        if (found) {
+          documentCount++;
+          storedBytes += Number(document.dataset.total);
+        }
+      }
+      filteredSize.textContent = billingSize(matchingBytes);
+      totalSize.textContent = billingSize(storedBytes);
+      fileCount.textContent = count + '개 파일';
+      docCount.textContent = documentCount + '건의 문서';
+      empty.hidden = documentCount > 0;
+      for (const preset of presets) preset.setAttribute('aria-pressed', String(preset.dataset.query === term));
+      status.textContent = '파일 ' + count + '개 일치, 문서 ' + documentCount + '건, 정산 용량 ' + billingSize(storedBytes);
+    }
+    query.addEventListener('input', displayResults);
+    for (const preset of presets) {
+      preset.addEventListener('click', () => {
+        query.value = preset.dataset.query ?? '';
+        displayResults();
+      });
+    }
+    displayResults();
+  }
+</script>
+
+<style>
+  .billing-workbench { --forest: #234c3d; --soft: #f0f3eb; --line: #c6cfc0; color: #1e3027; margin: 2.2rem 0 3rem; scroll-margin-top: 1.5rem; }
+  .billing-intro { max-width: 51rem; margin: 0 0 1.1rem; }
+  .billing-intro > span { font-size: .82rem; color: #4d6454; font-weight: 700; }
+  .billing-intro i { font-style: normal; color: #778774; padding-inline: .18em; }
+  .billing-intro h2 { margin: .4rem 0 .5rem; font-size: clamp(1.55rem,3vw,2.5rem); letter-spacing: -.05em; line-height: 1.18; }
+  .billing-intro p { color: #4b574e; margin: 0; line-height: 1.65; }
+  .billing-desk { background: #fffef8; border: 1px solid #9daa96; border-top: 4px solid var(--forest); border-radius: .3rem; }
+  .billing-search { display:flex; flex-wrap:wrap; align-items:end; gap:.7rem 1rem; padding: clamp(1rem,2.8vw,1.6rem); border-bottom:1px solid var(--line); }
+  .billing-search > div:first-child { flex: 1 1 17rem; max-width: 29rem; min-width: 0; }
+  .billing-search label { display:block; font-size:.84rem; font-weight:700; margin:0 0 .3rem; }
+  .billing-search input, .billing-presets button { font: inherit; }
+  .billing-search input { width:100%; min-height:42px; border:1px solid #819382; border-radius:.25rem; padding:.45rem .75rem; background:#fff; color:#213c30; }
+  .billing-presets { display:flex; flex-wrap:wrap; gap:.35rem; }
+  .billing-presets button { min-height:42px; padding:.45rem .85rem; border:1px solid #9da996; background:transparent; border-radius: .25rem; color: #2b4535; font-size:.88rem; cursor:pointer; }
+  .billing-presets button[aria-pressed="true"] { background:var(--forest); color:white; border-color:var(--forest); }
+  .billing-summary { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .billing-summary > div { display:flex; flex-wrap:wrap; align-items:baseline; gap:.2rem .7rem; padding:clamp(.9rem,2.6vw,1.6rem); }
+  .matched-stat { background:#eef1e9; }
+  .settled-stat { background:var(--forest); color:#f9fcf2; }
+  .billing-summary span { flex-basis:100%; font-size:.86rem; font-weight:650; }
+  .billing-summary strong { font-size:clamp(1.45rem,3.5vw,2.8rem); letter-spacing:-.065em; line-height:1.2; font-variant-numeric:tabular-nums; }
+  .billing-summary small { font-size:.78rem; }
+  .billing-documents { padding:.55rem clamp(.9rem,2.6vw,1.6rem) 0; }
+  .billing-document { border-bottom:1px solid var(--line); }
+  .billing-document > summary { cursor:pointer; display:grid; grid-template-columns: auto minmax(0,1fr) auto auto; gap:.55rem; align-items:baseline; padding:.9rem 0; list-style:none; }
+  .billing-document > summary::-webkit-details-marker { display:none; }
+  .billing-document > summary::after { content:'+'; font-family:monospace; font-size:1.06rem; color:#43583e; width:1em; text-align:center; }
+  .billing-document[open] > summary::after { content:'−'; }
+  .document-id { color:#4c634f; font-size:.72rem; font-family:ui-monospace,Consolas,monospace; }
+  .document-total { font-size:.85rem; font-variant-numeric:tabular-nums; }
+  .billing-document ul { list-style:none; margin:0 0 .6rem; padding:0; }
+  .billing-document li { display:grid; align-items:baseline; grid-template-columns:minmax(0,1fr) auto minmax(5rem,auto); gap:.5rem; padding:.52rem .65rem; background:#f5f6ee; margin:.15rem 0; }
+  .billing-document li[data-hit="true"] { background:#e4edda; box-shadow:inset 3px 0 #4a6946; }
+  .billing-filename { font-size:.88rem; overflow-wrap:anywhere; }
+  .billing-document li b { text-align:right; font-size:.82rem; font-weight:650; font-variant-numeric:tabular-nums; }
+  .billing-reason { font-size:.75rem; color:#4e614e; }
+  .billing-empty,.billing-noscript { margin:.8rem 0; color:#445545; }.billing-noscript{padding-inline:1rem}
+  .billing-caption { margin:.65rem clamp(.9rem,2.6vw,1.6rem) .95rem; color:#57634f; font-size:.75rem; }
+  .billing-proof { border-bottom:1px solid var(--line); }
+  .billing-proof > summary { cursor:pointer; padding:.8rem 0; font-weight:650; font-size:.9rem; }
+  .billing-proof p { margin:.25rem 0 .75rem; max-width:70ch; color:#404f43; line-height:1.65; }
+  .billing-proof code { font-family:ui-monospace,Consolas,monospace; font-size:.88em; }
+  .billing-downloads { display:flex; flex-wrap:wrap; gap:.5rem 1.2rem; margin:.8rem 0 1.2rem; }
+  .billing-downloads a { text-decoration:underline; text-underline-offset:.2em; color:var(--forest); font-size:.87rem; font-weight:650; }
+  .billing-workbench :focus-visible { outline:3px solid #006c8b; outline-offset:3px; }
+  .billing-workbench [hidden] { display:none!important; }
+  .billing-sr { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+  @media(max-width:520px) {
+    .billing-search { align-items:start; }.billing-search > div:first-child { flex-basis:100%; }
+    .billing-summary > div { padding:.85rem .65rem; row-gap:.25rem; }.billing-summary span,.billing-summary small { font-size:.75rem; }
+    .billing-document > summary { grid-template-columns:minmax(0,1fr) auto auto; gap:.2rem .4rem; }.document-id { grid-column:1 / -1; }
+    .billing-document li { grid-template-columns:minmax(0,1fr) auto; gap:.15rem .4rem; }
+    .billing-document li b { grid-column:2; grid-row:1; }.billing-reason { grid-column:1 / -1; grid-row:2; }
+  }
+</style>

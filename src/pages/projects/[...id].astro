@@ -7,6 +7,8 @@ import DocumentIssuance from '../../components/docuon/DocumentIssuance.astro';
 import DocuonTransfer from '../../components/DocuonTransfer.vue';
 import ProjectWorkspace from '../../components/ProjectWorkspace.vue';
 import ReferenceReview from '../../components/koreanre/ReferenceReview';
+import RateWorkbench from '../../components/koreanre/RateWorkbench.astro';
+import BillingWorkbench from '../../components/docuon/BillingWorkbench.astro';
 import DocAgentReplay from '../../components/experiments/DocAgentReplay';
 
 export async function getStaticPaths() {
@@ -28,23 +30,29 @@ const isDocuon = project.id === 'docuon';
       <p>{project.data.description}</p>
       <div class="case-facts"><span>{project.data.role}</span><span>{project.data.tags.slice(0,4).join(' · ')}</span><a href="#implementation">구현 과정 ↓</a></div>
     </header>
-    {isInsurance && <section class="workspace-section case-proof" aria-labelledby="workspace-title">
-      <h2 id="workspace-title">참고 계약에서 상품만 가져오기</h2>
-      <ReferenceReview client:load />
-      <p class="workspace-caption">원본 React의 요약·강조·복사 버튼을 활용한 가상 계약 화면입니다. 적용 전 미리보기와 되돌리기는 시연용 기능입니다. <a href="/writing/notes-reference-copy/">필드별 적용 규칙 →</a></p>
-    </section>}
-    {isDocuon && <DocumentIssuance />}
+    {isInsurance && <RateWorkbench />}
+    {isDocuon && <BillingWorkbench />}
+    {(isInsurance || isDocuon) && <nav class="case-nav" aria-label="프로젝트 사례 바로가기">
+      {isInsurance ? <><a href="#implementation">계산·저장·전송 과정</a><a href="#workspace-title">참고 계약 선택 복사</a><a href="#four-tabs">네 개 탭 구성</a></> :
+        <><a href="#implementation">등록·발급·이관 과정</a><a href="#docuon-issue">원본과 증명서</a><a href="#transfer-demo">이관 심사</a></>}
+    </nav>}
     {project.id === 'doc-check-agent' && <DocAgentReplay client:load />}
     <div id="implementation" class="article-columns">
       <div class="prose project-narrative"><Content /></div>
       <aside class="article-toc" aria-label="본문 목차">
         <span class="eyebrow">이 프로젝트에서</span>
         {headings.filter(h => h.depth === 2).map(h => <a href={`#${h.slug}`}>{h.text}</a>)}
-        {isInsurance && <a href="#workspace-title">참고 계약 비교 화면</a>}
-        {isDocuon && <><a href="#transfer-rows">이관 대상 조회 화면</a><a href="#transfer-demo">이관 신청·심사 화면</a></>}
+        {isInsurance && <><a href="#quote-workbench">견적 조건 바꾸기</a><a href="#workspace-title">참고 계약 비교 화면</a></>}
+        {isDocuon && <><a href="#billing-workbench">파일명으로 정산 조회</a><a href="#transfer-rows">이관 대상 조회 화면</a><a href="#transfer-demo">이관 신청·심사 화면</a></>}
       </aside>
     </div>
-    {isInsurance && <details class="workspace-overview">
+    {isInsurance && <section class="workspace-section case-proof" aria-labelledby="workspace-title">
+      <h2 id="workspace-title">참고 계약에서 상품만 가져오기</h2>
+      <ReferenceReview client:load />
+      <p class="workspace-caption">원본 React의 요약·강조·복사 버튼을 활용한 가상 계약 화면입니다. 적용 전 미리보기와 되돌리기는 시연용 기능입니다. <a href="/writing/notes-reference-copy/">필드별 적용 규칙 →</a></p>
+    </section>}
+    {isDocuon && <DocumentIssuance />}
+    {isInsurance && <details id="four-tabs" class="workspace-overview">
       <summary>네 개 탭 구조 보기</summary>
       <p class="workspace-caption">가상 계약으로 기본정보·상세정보·약관·요율 사이를 이동하는 Vue 재구성 화면입니다.</p>
       <ProjectWorkspace client:load />
@@ -70,4 +78,6 @@ const isDocuon = project.id === 'docuon';
   .case-proof .workspace-caption { margin-block: 6px; font-size: 12px; }
   .project-narrative { min-width: 0; }
   .workspace-overview { margin-block: 30px; }
+  .case-nav {display:flex;align-items:center;gap:8px 22px;flex-wrap:wrap;margin:0 0 32px;padding:13px 0;border-block:1px solid var(--line);font-size:14px;font-weight:600}
+  .case-nav a{text-decoration:underline;text-underline-offset:4px}
 </style>

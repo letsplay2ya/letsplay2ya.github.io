@@ -1,0 +1,26 @@
+[
+  {
+    "id": "DOC-01",
+    "title": "11월 장비 점검 기록",
+    "files": [
+      { "name": "점검표.pdf", "bytes": 1048576 },
+      { "name": "현장 사진.jpg", "bytes": 262144 }
+    ]
+  },
+  {
+    "id": "DOC-02",
+    "title": "안전 점검 보고",
+    "files": [
+      { "name": "안전 점검표.pdf", "bytes": 524288 },
+      { "name": "점검 별지.csv", "bytes": 131072 }
+    ]
+  },
+  {
+    "id": "DOC-03",
+    "title": "보관소 인수인계",
+    "files": [
+      { "name": "인수인계서.pdf", "bytes": 2097152 },
+      { "name": "인수 메모.txt", "bytes": 65536 }
+    ]
+  }
+]

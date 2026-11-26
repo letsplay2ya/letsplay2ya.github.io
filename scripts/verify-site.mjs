@@ -72,7 +72,7 @@ const executable = process.env.BROWSER_PATH || [
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
 ].find(file => existsSync(file));
 assert.ok(executable, 'No installed Edge/Chrome found. Set BROWSER_PATH to an installed Chromium browser.');
-const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.JPG': 'image/jpeg', '.ico': 'image/x-icon' };
+const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.json': 'application/json', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.woff2': 'font/woff2', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.JPG': 'image/jpeg', '.ico': 'image/x-icon' };
 const server = createServer((req, res) => {
   try {
     const file = localFile(new URL(req.url, 'http://local.test'));
@@ -114,6 +114,16 @@ try {
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({ path: path.join(qa, 'home-desktop.png'), fullPage: true });
   assert.equal(await page.locator('.selected-writing article').count(),3,'Three curated representative articles');
+  const displayView = page.locator('button[data-quote-view="display"]');
+  const saveView = page.locator('button[data-quote-view="save"]');
+  const count = page.locator('[data-quote-count]');
+  assert.match(await count.innerText(), /^\s*2(?:\s*(?:건|개|행))?\s*$/);
+  await saveView.press('Enter');
+  assert.match(await count.innerText(), /^\s*4(?:\s*(?:건|개|행))?\s*$/);
+  assert.equal(await saveView.getAttribute('aria-pressed'), 'true');
+  await displayView.click();
+  assert.match(await count.innerText(), /^\s*2(?:\s*(?:건|개|행))?\s*$/);
+  assert.equal(await displayView.getAttribute('aria-pressed'), 'true');
   await page.goto(base + '/writing/archive/');
   assert.equal(await page.locator('.post-row').count(),3,'Consolidated records remain accessible');
   const externalPlotly=[];
@@ -230,8 +240,35 @@ try {
     if (route === '/') await page.screenshot({ path: path.join(qa, 'home-mobile.png'), fullPage: true });
     if (route.includes('koreanre-ai-assistant')) await page.locator('.ref-review').screenshot({ path: path.join(qa, 'workspace-mobile.png'), style: '.site-header{visibility:hidden}' });
   }
+  await page.setViewportSize({ width: 320, height: 760 });
+  for (const target of ['/projects/koreanre-ai-assistant/#quote-workbench', '/projects/docuon/#billing-workbench']) {
+    await page.goto(base + '/');
+    await page.evaluate(() => document.fonts.ready);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), 'Home fits at 320px');
+    await page.locator(`a[href="${target}"]`).first().click();
+    await page.waitForURL(base + target);
+    const workbench = page.locator(':target');
+    assert.equal(await workbench.getAttribute('id'), target.split('#')[1]);
+    assert.ok(await workbench.isVisible(), `Visible workbench at ${target}`);
+    if (target.endsWith('#quote-workbench')) {
+      await workbench.locator('[data-quote-order]').check();
+      await workbench.locator('[data-quote-save]').click();
+      assert.match(await workbench.locator('[data-quote-message]').innerText(), /목적물 B에 0건 · 목적물 A에 4건/);
+      await workbench.locator('[data-quote-scenario]').selectOption('mismatch');
+      assert.ok(await workbench.locator('[data-quote-save]').isDisabled());
+    } else {
+      assert.equal(await workbench.locator('#billing-filtered-size').innerText(), '256 KiB');
+      assert.equal(await workbench.locator('#billing-total-size').innerText(), '1.25 MiB');
+      await workbench.locator('#billing-query').fill('없는파일');
+      assert.ok(await workbench.locator('.billing-empty').isVisible());
+      await workbench.getByRole('button', {name: '점검', exact: true}).click();
+      assert.match(await workbench.locator('#billing-doc-count').innerText(), /2건/);
+    }
+    await page.evaluate(() => document.fonts.ready);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `${target} fits at 320px`);
+  }
   assert.deepEqual(errors, [], 'Browser runtime errors');
-  writeFileSync(path.join(qa, 'verification.json'), JSON.stringify({ verifiedAt: new Date().toISOString(), htmlFiles: htmlFiles.length, localReferences: links, anchors, legacyRoutes: routes.length, checkedRoutes: checked, desktop: '1440x1000', mobile: '390x844', interactions: ['post-search-and-tags', 'contract-snapshot', 'reference-copy', 'clause-deduplication', 'stale-response-guard', 'matching-response', 'request-reset', 'legacy-redirect-with-fragment','selective-copy-confirm-cancel-undo','csv-correction','agent-false-positive-replay'], runtimeErrors: errors }, null, 2) + '\n');
+  writeFileSync(path.join(qa, 'verification.json'), JSON.stringify({ verifiedAt: new Date().toISOString(), htmlFiles: htmlFiles.length, localReferences: links, anchors, legacyRoutes: routes.length, checkedRoutes: checked, desktop: '1440x1000', mobile: '390x844', interactions: ['post-search-and-tags', 'contract-snapshot', 'reference-copy', 'clause-deduplication', 'stale-response-guard', 'matching-response', 'request-reset', 'legacy-redirect-with-fragment','selective-copy-confirm-cancel-undo','csv-correction','agent-false-positive-replay','quote-view-and-save','case-study-deep-links'], runtimeErrors: errors }, null, 2) + '\n');
   console.log('Browser checks passed: search/tags, Vue contract snapshots/copy/clauses, React response guard, legacy redirect, desktop/mobile layout.');
   console.log('Screenshots and verification record: .qa/');
 } finally {

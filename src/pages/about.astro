@@ -38,10 +38,14 @@ import SiteLayout from '../layouts/SiteLayout.astro';
       <h2>관심 분야</h2>
       <p>금융·보험 업무 시스템과 기업용 웹 서비스 개발에 관심이 있습니다. 전환 프로젝트에서 WebSquare와 eXBuilder를 접했고, 개인 실험으로 도구를 호출하는 Agent의 결과를 평가하고 있습니다. <a href="/projects/doc-check-agent/">Agent 실험 기록 ↗</a></p>
     </section>
-    <div class="career-actions profile-actions"><a class="primary-link" href="/files/seongmin-jeon-profile.pdf" download>경력 요약 PDF 다운로드 <span aria-hidden="true">↓</span></a><button type="button" onclick="window.print()">인쇄</button></div>
+    <nav class="career-samples" aria-label="프로젝트 화면으로 이동"><a href="/projects/koreanre-ai-assistant/#quote-workbench">보험료 후보 비교하기 ↗</a><a href="/projects/docuon/#billing-workbench">문서 정산 조회하기 ↗</a></nav>
+    <div class="career-actions profile-actions"><a href="/files/seongmin-jeon-profile.pdf" download>경력 요약 PDF 다운로드 ↓</a><button type="button" onclick="window.print()">인쇄</button></div>
   </article>
 </SiteLayout>
 <style>
+  .career-samples{display:flex;flex-wrap:wrap;gap:9px 24px;margin:18px 0 6px;color:#27445a;font-size:15px;font-weight:650}
+  .career-samples a,.profile-actions a{text-decoration:underline;text-underline-offset:4px}
+  @media print{.career-samples{display:none}}
   .career-sheet { max-width: 850px; padding-block: clamp(35px,6vw,70px); }
   .career-head { display: flex; justify-content: space-between; align-items: end; gap: 15px; padding-bottom: 22px; border-bottom: 2px solid var(--ink); }
   .career-head h1 { margin: 0; font-size: clamp(35px,5vw,54px); }

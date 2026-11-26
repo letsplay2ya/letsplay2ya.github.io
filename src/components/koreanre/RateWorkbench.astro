@@ -1,0 +1,70 @@
+<section id="quote-workbench" class="quote-lab" aria-labelledby="quote-title">
+  <header class="quote-heading">
+    <p class="quote-kicker">코리안리 · 임원배상책임보험</p>
+    <h2 id="quote-title">화면의 두 줄을 저장하면<br /> 나머지 견적은 어디로 갈까?</h2>
+    <p>일반 담보와 추가 담보 X에 대해 약관을 넣은 견적과 뺀 견적을 계산했습니다. 한도를 바꾸고 저장 요청을 만들어 네 후보가 어느 목적물에 연결되는지 확인해 보세요.</p>
+  </header>
+  <div class="quote-desk">
+    <div class="quote-bar"><strong>보험료 산정표</strong><span>가상 견적 · 목적물 A</span></div>
+    <div class="quote-controls">
+      <fieldset><legend>표시할 보상한도</legend><div class="quote-choices">
+        <label><input checked type="radio" name="quote-coverage" value="x" /><span>추가 담보 X</span></label>
+        <label><input type="radio" name="quote-coverage" value="general" /><span>일반 담보</span></label>
+      </div></fieldset>
+      <label class="quote-select">자기부담금 구성<select data-quote-scenario>
+        <option value="matched">일반 + 추가 담보 X</option><option value="empty">부담금 없음</option><option value="mismatch">추가 담보 Y만</option>
+      </select></label>
+    </div>
+    <div class="quote-panes">
+      <section class="quote-view" aria-labelledby="quote-view-title">
+        <div class="quote-subhead"><h3 id="quote-view-title">지금 보이는 견적</h3><span data-quote-visible>2건</span></div>
+        <table class="quote-table"><caption>선택한 담보의 비교 약관별 가상 기준보험료</caption>
+          <thead><tr><th scope="col">담보</th><th scope="col">비교 약관</th><th scope="col">기준보험료</th></tr></thead>
+          <tbody data-quote-rows><tr><th scope="row">추가 X</th><td>제외</td><td>130만 원</td></tr><tr><th scope="row">추가 X</th><td>포함</td><td>142만 원</td></tr></tbody>
+        </table>
+        <p class="quote-caption" data-quote-reason>같은 담보의 한도와 부담금을 짝지은 뒤 약관 포함·제외를 비교합니다.</p>
+      </section>
+      <section class="quote-packet" aria-labelledby="quote-request-title">
+        <div class="quote-subhead"><h3 id="quote-request-title">저장 요청에 담길 후보</h3><span data-quote-count>4건</span></div>
+        <ul class="quote-groups" data-quote-groups><li><span>일반 담보</span><b>제외 · 포함</b></li><li><span>추가 담보 X</span><b>제외 · 포함</b></li></ul>
+        <label class="quote-order"><input type="checkbox" data-quote-order />계약의 목적물 순서 바꾸기 <span>A ↔ B</span></label>
+        <button type="button" class="quote-save" data-quote-save>저장 요청 만들기 <span aria-hidden="true">→</span></button>
+      </section>
+    </div>
+    <div class="quote-result" role="status" aria-live="polite" aria-atomic="true">
+      <strong data-quote-status>요청 대기</strong>
+      <span data-quote-message>버튼을 누르면 목적물별로 묶인 결과가 여기에 나타납니다.</span>
+    </div>
+  </div>
+  <noscript><p>추가 담보 X를 선택하면 두 건이 보이고, 목적물 A의 저장 요청에는 일반 담보까지 네 건이 담깁니다. 조작하려면 자바스크립트를 켜 주세요.</p></noscript>
+  <details class="quote-evidence">
+    <summary>화면에서 Java 저장까지 · 재현 코드</summary>
+    <p>React는 선택한 한도·부담금에 해당하는 행을 보여줍니다. 저장할 때는 편집 중인 셀을 확정하고, 목적물 일련번호로 해당 탭의 전체 산정 결과를 계약에 연결합니다. Java는 각 위험에 도착한 기준보험료·제시보험료 목록을 저장용 행으로 변환합니다.</p>
+    <p>이 브라우저 예제는 목적물 A의 기준보험료 목록을 재구성합니다. 금액은 조건별 고정 샘플이며, 목적물 B에는 산정 내역이 없습니다. 아래 두 파일을 같은 폴더에 받은 뒤 <code>node --test test.mjs</code>로 조합·필터·저장 규칙을 다시 확인할 수 있습니다.</p>
+    <div class="quote-links"><a href="/examples/quote-save/model.mjs" download>재현 코드 ↓</a><a href="/examples/quote-save/test.mjs" download>테스트 ↓</a><a href="/writing/notes-stable-identity-save/">목적물 번호로 저장하는 이유 →</a></div>
+  </details>
+</section>
+<script is:inline type="module" src="/examples/quote-save/workbench.mjs"></script>
+<style is:global>
+  .quote-lab{--q-ink:#102b49;--q-line:#cbd1d3;--q-amber:#f1ae3e;scroll-margin-top:100px;margin:14px 0 clamp(36px,5vw,66px);color:var(--q-ink)}
+  .quote-heading{margin:0 0 20px}.quote-heading .quote-kicker{margin:0 0 8px;font-size:.76rem;font-weight:700;color:#4b6276;letter-spacing:.045em}.quote-heading h2{margin:0;font-weight:740;font-size:clamp(1.72rem,3.2vw,2.65rem);line-height:1.16;letter-spacing:-.052em}.quote-heading h2 br{display:none}.quote-heading h2 br::after{content:" "}
+  .quote-heading>p:last-child{margin:13px 0 0;max-width:70ch;color:#43515c;line-height:1.65;font-size:.97rem}
+  .quote-desk{border:1px solid #8798a6;border-radius:7px;overflow:hidden;background:#fcfcf9;box-shadow:0 3px 0 #102b490e}
+  .quote-bar,.quote-subhead,.quote-result{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .quote-bar{background:var(--q-ink);color:#fff;padding:13px clamp(14px,2.2vw,30px);align-items:center}.quote-bar strong{font-weight:710;letter-spacing:-.025em}.quote-bar span{color:#d3e1e8;font-size:.78rem}
+  .quote-controls{display:flex;gap:12px 26px;align-items:end;padding:15px clamp(14px,2.2vw,30px);border-bottom:1px solid var(--q-line);background:#edf1f2}
+  .quote-controls fieldset{border:0;margin:0;padding:0;min-width:0}.quote-controls legend,.quote-select{color:#42576b;font-size:.76rem;font-weight:660}.quote-controls legend{padding:0;margin:0 0 4px}
+  .quote-choices{display:flex;gap:0}.quote-choices label{display:block;position:relative;cursor:pointer}.quote-choices input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+  .quote-choices span,.quote-select select{display:block;white-space:nowrap;font:650 .86rem/1.35 Pretendard,system-ui,sans-serif;letter-spacing:-.02em;background:white;color:var(--q-ink);border:1px solid #a7b4bd;padding:9px 12px}
+  .quote-choices label+label span{border-left:0}.quote-choices label:first-child span{border-radius:3px 0 0 3px}.quote-choices label:last-child span{border-radius:0 3px 3px 0}
+  .quote-choices input:checked+span{background:var(--q-ink);color:white;border-color:var(--q-ink)}.quote-choices input:focus-visible+span{outline:3px solid #ab6415;outline-offset:2px;position:relative}
+  .quote-select{display:block}.quote-select select{margin-top:4px;max-width:100%;border-radius:3px;min-height:38px}
+  .quote-panes{display:grid;grid-template-columns:1.12fr 1fr}.quote-panes section{min-width:0;padding:clamp(15px,2.2vw,30px)}.quote-view{background:#fff}.quote-packet{background:#faf8f1;border-left:1px solid var(--q-line)}
+  .quote-subhead{margin:0 0 12px}.quote-subhead h3{margin:0;font-size:clamp(1.02rem,1.8vw,1.33rem);font-weight:700}.quote-subhead>span{white-space:nowrap;font-weight:750;font-variant-numeric:tabular-nums}.quote-packet .quote-subhead>span{box-shadow:inset 0 -.42em #f9d69b}
+  .quote-table{width:100%;border-collapse:collapse;text-align:left;font-variant-numeric:tabular-nums;font-size:.87rem;line-height:1.4}.quote-table caption{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.quote-table thead{border-block:1px solid var(--q-line);color:#506273;background:#f4f6f5;font-size:.75rem}.quote-table th,.quote-table td{padding:9px 7px}.quote-table tbody tr{border-bottom:1px solid #e1e5e3}.quote-table tbody th{font-weight:600}.quote-table tr>:last-child{text-align:right}.quote-table .quote-empty{text-align:left;font-weight:550;color:#59646b}
+  .quote-caption{margin:11px 0 0;color:#546570;font-size:.79rem;line-height:1.5}.quote-groups{margin:0;padding:0;list-style:none}.quote-groups li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 0;border-top:1px solid #d7d7ce;font-size:.85rem}.quote-groups b{font-size:.78rem;font-weight:600;color:#625640}
+  .quote-order{display:flex;align-items:center;gap:6px;font-size:.77rem;margin-top:12px;cursor:pointer;line-height:1.4}.quote-order input{accent-color:var(--q-ink);margin:0}.quote-order>span{color:#5c655f;font-size:.74rem;white-space:nowrap}
+  .quote-save{border:1px solid #d09a45;background:#ffe0a6;color:#34240d;font-weight:720;font-size:.88rem;padding:8px 13px;border-radius:3px;margin:12px 0 0;min-height:40px}.quote-save span{margin-left:12px}.quote-save:hover:enabled{background:#ffd285}.quote-save:disabled{cursor:not-allowed;opacity:.55}
+  .quote-result{background:#e8edf0;padding:11px clamp(14px,2.2vw,30px);align-items:start;justify-content:start;font-size:.83rem;line-height:1.5}.quote-result strong{white-space:nowrap}.quote-result span{color:#435261}.quote-evidence{font-size:.87rem;color:#465767;margin:11px 0 0}.quote-evidence summary{cursor:pointer;font-weight:630;color:#28455e;text-decoration:underline;text-underline-offset:3px;width:fit-content}.quote-evidence p{max-width:84ch;margin:10px 0 0;line-height:1.7}.quote-evidence code{font-size:.94em}.quote-links{display:flex;gap:7px 20px;flex-wrap:wrap;margin-top:10px}.quote-links a{text-decoration:underline;text-underline-offset:3px}
+  @media(max-width:660px){.quote-heading h2 br{display:block}.quote-panes{grid-template-columns:1fr}.quote-packet{border-left:0;border-top:1px solid var(--q-line)}.quote-controls{flex-wrap:wrap;gap:9px 16px}.quote-result{display:grid;gap:2px}.quote-bar{flex-wrap:wrap;gap:2px 10px}.quote-result strong{white-space:normal}}
+</style>

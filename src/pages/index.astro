@@ -1,71 +1,48 @@
 ---
 import { getCollection } from 'astro:content';
 import SiteLayout from '../layouts/SiteLayout.astro';
+import HomeQuoteSheet from '../components/HomeQuoteSheet.astro';
 import { postTopics } from '../lib/topics';
-import { casePreviews } from '../data/casePreviews';
-const projects = (await getCollection('projects', p => !p.data.draft && p.data.status === 'case-study'))
-  .sort((a,b) => a.data.order-b.data.order);
-const posts = (await getCollection('posts', p => !p.data.draft && !p.data.archive))
-  .sort((a,b) => +(b.data.updated ?? b.data.date)-+(a.data.updated ?? a.data.date) || +b.data.date-+a.data.date);
-const selected = posts.filter(p => p.data.featured).sort((a,b) => a.data.featuredOrder-b.data.featuredOrder);
-const recent = posts.filter(p => !p.data.featured).slice(0,4);
-const formatDate = (date: Date) => date.toISOString().slice(0,10).replaceAll('-', '.');
+import '../styles/workbook-home.css';
+
+const posts = await getCollection('posts', post => !post.data.draft && !post.data.archive);
+const selected = posts.filter(post => post.data.featured).sort((a, b) => a.data.featuredOrder - b.data.featuredOrder);
+const recent = posts.filter(post => !post.data.featured)
+  .sort((a, b) => +(b.data.updated ?? b.data.date) - +(a.data.updated ?? a.data.date) || +b.data.date - +a.data.date).slice(0, 3);
+const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll('-', '.');
 ---
-<SiteLayout description="전성민의 개발 포트폴리오. 코리안리 계약 비교와 보험료 산정, DocuON 전자문서 발급과 이관을 화면과 Java 서비스로 살펴봅니다.">
-  <div class="journal-home portfolio-home">
-    <header class="home-intro">
-      <div><h1>전성민</h1><p>Java와 React·Vue로 금융·문서 업무 시스템을 개발합니다.</p></div>
-      <a href="/about/">경력 요약 <span aria-hidden="true">↗</span></a>
-    </header>
-    <section id="selected-work" class="journal-section" aria-labelledby="home-projects">
-      <div class="journal-heading"><h2 id="home-projects">업무 프로젝트</h2><a href="/projects/">전체 프로젝트 →</a></div>
-      <div class="case-grid">
-        {projects.map(project => {
-          const preview = casePreviews[project.id];
-          return <article class="home-case">
-            <h3><a href={`/projects/${project.id}/`}>{preview?.title ?? project.data.title}<span aria-hidden="true"> ↗</span></a></h3>
-            <p class="case-summary">{project.data.description}</p>
-            {preview && <figure class="case-preview">
-              <img src={preview.src} alt="" width="860" height="440" loading="eager" />
-              <figcaption>{preview.caption}</figcaption>
-            </figure>}
-            <p class="case-meta">{project.data.role}<span aria-hidden="true">·</span>{project.data.tags.slice(0,4).join(' / ')}</p>
-          </article>;
-        })}
+<SiteLayout title="개발자 포트폴리오" description="전성민의 개발 포트폴리오. 코리안리의 보험료 후보 저장과 DocuON의 문서 단위 정산을 직접 조작하고 화면에서 Java·SQL까지 따라갑니다.">
+  <div class="workbook-home">
+    <section id="selected-work" class="folio-feature" aria-labelledby="lead-title">
+      <div class="feature-words">
+        <p class="folio-kicker"><span class="project-line"></span><a href="/projects/koreanre-ai-assistant/">코리안리</a> <b>/</b> 특종보험 요율산정</p>
+        <h1 id="lead-title">표에는 두 줄.<br/>저장할 후보는 <span class="count-phrase">네 개<i>.</i></span></h1>
+        <p class="feature-deck">두 담보에 약관을 넣고 빼서 보험료 후보 네 개를 계산했습니다. 담당자가 추가 담보 X를 고르면 표에는 두 줄만 보입니다. 여기서 저장을 누르면 나머지 두 개는 어떻게 될까요?</p>
+        <a class="folio-action" href="/projects/koreanre-ai-assistant/#quote-workbench">견적 조건 바꿔 보기 <span aria-hidden="true">↗</span></a>
+        <p class="folio-meta">React · TypeScript · Spring Boot</p>
+      </div>
+      <HomeQuoteSheet />
+    </section>
+    <div class="author-strip"><p><strong>전성민</strong> <span>웹 애플리케이션 개발자</span><span class="author-stack">Java · React · Vue</span></p><a href="/about/">경력 요약 <span aria-hidden="true">↗</span></a></div>
+    <section class="archive-feature" aria-labelledby="archive-title">
+      <figure class="archive-art">
+        <img src="/assets/docuon-archive-study.webp" alt="점검표와 현장 사진이 같은 서류철에 담긴 가상 문서" width="1200" height="800" loading="lazy"/>
+        <figcaption><span>가상 문서 · 첨부 2개</span><strong>장비 점검 기록</strong><div><span>점검표.pdf</span><b>1 MiB</b></div><div><span>현장 사진.jpg</span><b>256 KiB</b></div></figcaption>
+      </figure>
+      <div class="archive-words">
+        <p class="folio-kicker"><span class="project-line"></span><a href="/projects/docuon/">DocuON</a> <b>/</b> 공인전자문서센터</p>
+        <h2 id="archive-title">사진을 찾았는데,<br/>PDF 용량까지 더한다.</h2>
+        <p>‘사진’으로 찾은 파일은 256 KiB입니다. 그런데 운영자의 정산 목록에는 1.25 MiB가 찍힙니다. 검색은 첨부에서 시작하고, 정산은 문서 한 건을 기준으로 하기 때문입니다.</p>
+        <a class="folio-inline" href="/projects/docuon/#billing-workbench">파일명으로 검색해 보기 <span aria-hidden="true">↗</span></a>
+        <p class="folio-meta">Vue · Java · MyBatis</p>
       </div>
     </section>
-    <div class="reading">
-      <section class="journal-section" aria-labelledby="selected-posts">
-        <div class="journal-heading"><h2 id="selected-posts">먼저 읽어볼 글</h2><a href="/writing/">전체 글 →</a></div>
-        <div class="selected-writing">{selected.map(post=><article><h3><a href={`/writing/${post.id}/`}>{post.data.title}</a></h3><p>{post.data.description}</p></article>)}</div>
-      </section>
-      <section class="journal-section" aria-labelledby="recent-posts">
-        <div class="journal-heading"><h2 id="recent-posts">최근 작성·수정한 글</h2><a href="/writing/">글 목록 →</a></div>
-        <div class="journal-posts">{recent.map(post=><article class="journal-post"><a href={`/writing/${post.id}/`}><div class="journal-post-meta"><time datetime={(post.data.updated??post.data.date).toISOString()}>{post.data.updated?'수정 ':''}{formatDate(post.data.updated??post.data.date)}</time><span>{postTopics(post)[0]}</span></div><h3>{post.data.title}</h3><p>{post.data.description}</p></a></article>)}</div>
-        <p class="archive-note"><a href="/writing/archive/">과거 학습 메모 보관함 →</a></p>
-      </section>
-      <aside class="journal-lab"><a href="/lab/"><strong>실험실 →</strong><p>CSV 오류 수정, 비동기 응답 처리, 문서 검사 Agent 실행 기록</p></a></aside>
-    </div>
+    <section class="folio-notes" aria-labelledby="selected-posts">
+      <div class="folio-heading"><h2 id="selected-posts">구현 노트</h2><a href="/writing/">기술 글 전체 →</a></div>
+      <div class="selected-writing">{selected.map(post => <article><span class="note-topic">{postTopics(post)[0]}</span><div><h3><a href={`/writing/${post.id}/`}>{post.data.title} <span aria-hidden="true">↗</span></a></h3><p>{post.data.description}</p></div></article>)}</div>
+    </section>
+    <section class="folio-links" aria-labelledby="recent-posts"><div class="folio-recent"><h2 id="recent-posts">최근 작성·수정한 글</h2>{recent.map(post => <a href={`/writing/${post.id}/`}><time datetime={(post.data.updated ?? post.data.date).toISOString()}>{formatDate(post.data.updated ?? post.data.date)}</time><span>{post.data.title}</span></a>)}</div>
+      <div class="other-work"><h2>더 살펴보기</h2><a href="/projects/">전체 프로젝트 <span>↗</span></a><a href="/lab/">개발 실험실 <span>↗</span></a><a href="/writing/archive/">학습 메모 보관함 <span>↗</span></a></div>
+    </section>
   </div>
 </SiteLayout>
-<style>
-  .portfolio-home { width: min(1050px,calc(100% - 64px)); padding-top: clamp(34px,5vw,70px); }
-  .home-intro { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: clamp(32px,4vw,54px); }
-  .home-intro h1 { margin: 0 0 7px; font-size: clamp(36px,4.4vw,58px); line-height: 1.1; }
-  .home-intro p { font-size: clamp(16px,2vw,21px); margin: 0; }
-  .home-intro a { font-size: 14px; font-weight: 600; border-bottom: 1px solid var(--ink); white-space: nowrap; }
-  .case-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: clamp(18px,3vw,40px); }
-  .home-case { position: relative; display: flex; flex-direction: column; padding: 21px 0 18px; border-bottom: 1px solid var(--line); min-width: 0; }
-  .home-case h3 { margin: 0 0 8px; font-size: clamp(19px,2.2vw,26px); }
-  .home-case h3 a::after { content: ''; position: absolute; inset: 0; }
-  .home-case h3 span { color: var(--green); font-size: .7em; }
-  .home-case:focus-within { outline: 2px solid var(--accent); outline-offset: 4px; }
-  .home-case:hover h3 { color: var(--green); text-decoration: underline; text-underline-offset: .15em; }
-  .case-summary { color: var(--muted); font-size: 15px; line-height: 1.7; margin: 0 0 16px; }
-  .case-preview { margin: auto 0 0; }
-  .case-preview img { width: 100%; height: auto; aspect-ratio: 43/22; object-fit: contain; background: #ffffff; border: 1px solid var(--line); display: block; }
-  .case-preview figcaption { margin-top: 5px; font-size: 11px; color: var(--muted); }
-  .case-meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 9px 0 0; font-size: 12px; }
-  .reading { max-width: 760px; }
-  @media(max-width:680px) { .portfolio-home { width: calc(100% - 40px); } .case-grid { grid-template-columns: 1fr; gap: 0; } .home-intro { display: block; } .home-intro a { margin-top: 13px; display: inline-block; } .case-meta { font-size: 11px; } }
-</style>
