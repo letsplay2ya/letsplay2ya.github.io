@@ -20,7 +20,8 @@ for (const dependency of dependencies) {
   assert.equal(createHash('sha256').update(readFileSync(file)).digest('hex'), dependency.sha256, dependency.file + ' SHA-256');
   jars.push(file);
 }
-execFileSync('javac', ['-encoding', 'UTF-8', '--release', '17', '-cp', jars.join(path.delimiter), '-d', classes, 'public/examples/transaction-boundary/TransactionBoundary.java'], { stdio: 'pipe', windowsHide: true });
+const sources = ['TransactionBoundary.java', 'WithdrawalHistoryCheck.java'].map(name => path.join('public/examples/transaction-boundary', name));
+execFileSync('javac', ['-encoding', 'UTF-8', '--release', '17', '-cp', jars.join(path.delimiter), '-d', classes, ...sources], { stdio: 'pipe', windowsHide: true });
 const output = execFileSync('java', ['-cp', [classes, ...jars].join(path.delimiter), 'TransactionBoundary'], { encoding: 'utf8', windowsHide: true });
 const results = JSON.parse(output.trim());
 assert.equal(results.length, 8);
@@ -28,3 +29,4 @@ const saved = 'public/examples/transaction-boundary/results.json';
 if (process.argv.includes('--record')) writeFileSync(saved, JSON.stringify(results, null, 2) + '\n');
 else assert.deepEqual(results, JSON.parse(readFileSync(saved, 'utf8')));
 console.log('Spring/H2 experiment: 8 real transaction scenarios passed; row count and active transaction checked after each call.');
+execFileSync('java', ['-cp', [classes, ...jars].join(path.delimiter), 'WithdrawalHistoryCheck'], { stdio: 'inherit', windowsHide: true });
